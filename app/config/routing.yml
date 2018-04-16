@@ -1,0 +1,13 @@
+role:
+    resource: "@RoleBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+utilisateur:
+    resource: "@UtilisateurBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation

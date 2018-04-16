@@ -1,0 +1,4 @@
+services:
+#    role.example:
+#        class: RoleBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
