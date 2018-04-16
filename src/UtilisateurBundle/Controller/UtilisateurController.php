@@ -41,6 +41,62 @@ class UtilisateurController extends Controller
         ));
     }
 
+        /**
+     * A form to login an user.
+     * 
+     *
+     * 
+     * @Route("/login", name="utilisateur_login")
+     * 
+     * @Method({"GET", "POST"})
+     * 
+     */
+    public function loginAction(Request $request)
+    {
+           
+        $utilisateur = new Utilisateur;
+
+        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $utilisateur);
+
+        $formBuilder
+            ->add('pseudo',     TextType::class)
+
+            ->add('mdp',        TextType::class)
+
+            ->add('Valider',    SubmitType::class);
+
+        $form = $formBuilder->getForm();
+
+        if ($request->isMethod('POST')) {
+
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+
+                // On enregistre notre objet $utilisateur dans la base de données, par exemple
+
+                $em = $this->getDoctrine()->getManager();
+
+            
+                $em->persist($utilisateur);
+
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Inscription reussie');
+
+            }
+
+        }
+
+
+        return $this->render('utilisateur/login.html.twig', array(
+
+        'form' => $form->createView(),
+
+    ));
+    }
+
+
     /**
      * Creates a new utilisateur entity.
      *
@@ -133,6 +189,7 @@ class UtilisateurController extends Controller
         return $this->redirectToRoute('utilisateur_index');
     }
 
+
     /**
      * Creates a form to delete a utilisateur entity.
      *
@@ -149,62 +206,7 @@ class UtilisateurController extends Controller
         ;
     }
 
-    /**
-     * A form to login an user.
-     * 
-     * @param Utilisateur $utilisateur The utilisateur entity
-     * 
-     * @Route("/login", name="utilisateur_login")
-     * 
-     * @Method({"GET", "POST"})
-     * 
-     */
-    public function loginAction(Request $request)
-    {
-           
-        $utilisateur = new Utilisateur;
 
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $utilisateur);
-
-        $formBuilder
-            ->add('pseudo',     TextType::class)
-
-            ->add('mdp',        TextType::class)
-
-            ->add('Valider',    SubmitType::class);
-
-        $form = $formBuilder->getForm();
-
-        if ($request->isMethod('POST')) {
-
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
-
-                // On enregistre notre objet $utilisateur dans la base de données, par exemple
-
-                $em = $this->getDoctrine()->getManager();
-
-            
-                $em->persist($utilisateur);
-
-                $em->flush();
-
-                $request->getSession()->getFlashBag()->add('notice', 'Inscription reussie');
-
-            }
-
-        }
-
-
-        return $this->render('utilisateur/login.html.twig', array(
-
-        'form' => $form->createView(),
-
-    ));
-
-
-    }
 
 
     
