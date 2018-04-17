@@ -1,3 +1,7 @@
+ville_ville:
+    resource: "@VilleBundle/Controller/VilleController.php"
+    type:     annotation
+
 partie_partie:
     resource: "@PartieBundle/Controller/PartieController.php"
     type:     annotation

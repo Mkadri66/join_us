@@ -15,8 +15,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use VilleBundle\Entity\Ville;
 
 use RoleBundle\Form\RoleType;
+use VilleBundle\Form\VilleType;
 
 class UtilisateurType extends AbstractType
 {
@@ -38,7 +41,7 @@ class UtilisateurType extends AbstractType
 
             ->add('mdp',        TextType::class)
 
-            ->add('ville',      ChoiceType::class)
+            ->add('ville',      EntityType::class, array('label' => 'ville','class'=> Ville::class, 'choice_label'=> 'libelle'))
 
             ->add('avatar',     FileType::class)
 
