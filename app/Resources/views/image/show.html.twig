@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Image</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ image.id }}</td>
+            </tr>
+            <tr>
+                <th>Url</th>
+                <td>{{ image.url }}</td>
+            </tr>
+            <tr>
+                <th>Alt</th>
+                <td>{{ image.alt }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('image_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

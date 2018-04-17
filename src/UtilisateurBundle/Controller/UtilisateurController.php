@@ -4,6 +4,7 @@ namespace UtilisateurBundle\Controller;
 
 use UtilisateurBundle\Entity\Utilisateur;
 use RoleBundle\Entity\Role;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -41,7 +42,7 @@ class UtilisateurController extends Controller
         ));
     }
 
-        /**
+    /**
      * A form to login an user.
      * 
      *

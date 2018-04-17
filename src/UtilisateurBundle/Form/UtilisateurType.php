@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 use RoleBundle\Form\RoleType;
 
 class UtilisateurType extends AbstractType
@@ -36,11 +38,13 @@ class UtilisateurType extends AbstractType
 
             ->add('mdp',        TextType::class)
 
-            ->add('ville',      TextType::class)
+            ->add('ville',      ChoiceType::class)
 
             ->add('avatar',     FileType::class)
 
-            ->add('role',       RoleType::class);
+            ->add('role',       RoleType::class)
+
+            ->add('valider',    SubmitType::class);
     }
     
     /**

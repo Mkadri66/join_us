@@ -1,3 +1,32 @@
+partie_partie:
+    resource: "@PartieBundle/Controller/PartieController.php"
+    type:     annotation
+
+ville:
+    resource: "@VilleBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+sport:
+    resource: "@SportBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+message:
+    resource: "@MessageBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+partie:
+    resource: "@PartieBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+image:
+    resource: "@ImageBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 role:
     resource: "@RoleBundle/Controller/"
     type:     annotation

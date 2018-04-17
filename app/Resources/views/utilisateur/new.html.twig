@@ -1,16 +1,80 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Utilisateur creation</h1>
+    <h1>Creer un compte</h1>
+    <div class="well col-md-6 offset-md-4">
+        {{ form_start(form ,{'attr': {'class': 'form-horizontal col-lg-10'}}) }}
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+        <div class="form-group">
 
-    <ul>
+            {# Génération du label. #}
+            {{ form_label(form.nom, "Nom", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            {{ form_errors(form.nom) }}
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(form.prenom, "Prenom", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            {{ form_errors(form.prenom) }}
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+
+            {# Génération du label. #}
+            {{ form_label(form.mail, "Mail", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            {{ form_errors(form.mail) }}
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(form.mail, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(form.pseudo, "Pseudo", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            {{ form_errors(form.pseudo) }}
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(form.pseudo, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(form.mdp, "Mot de passe", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            {{ form_errors(form.mdp) }}
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(form.mdp, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(form.ville, "Ville", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            {{ form_errors(form.ville) }}
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+
+           {# {{ form_rest(form) }} #}
+        </div>
+        {{ form_widget(form.valider, {'attr': {'class': 'btn btn-primary'}}) }}
+
+        {{ form_widget(form.role, { 'attr': {'class': 'hidden-row'} }) }}
+
+        {{ form_end(form) }}
+    </div>
+    <br>
+    {# <ul>
         <li>
             <a href="{{ path('utilisateur_index') }}">Back to the list</a>
         </li>
-    </ul>
+    </ul> #}
 {% endblock %}

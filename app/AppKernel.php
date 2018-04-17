@@ -18,6 +18,11 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new UtilisateurBundle\UtilisateurBundle(),
             new RoleBundle\RoleBundle(),
+            new ImageBundle\ImageBundle(),
+            new PartieBundle\PartieBundle(),
+            new MessageBundle\MessageBundle(),
+            new SportBundle\SportBundle(),
+            new VilleBundle\VilleBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

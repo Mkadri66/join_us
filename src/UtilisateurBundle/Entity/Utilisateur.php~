@@ -57,13 +57,13 @@ class Utilisateur
     private $mdp;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="ville", type="string", length=255)
-     */
+    * @ORM\ManyToOne(targetEntity="VilleBundle\Entity\Ville")
+    * @ORM\JoinColumn(nullable=false)
+    */
     private $ville;
 
-    /**
+
+     /**
      * @var string
      *
      * @ORM\Column(name="avatar", type="string", length=255)
@@ -76,6 +76,38 @@ class Utilisateur
     * @ORM\JoinColumn(nullable=false)
     */
     private $role;
+
+
+
+    /**
+    * @ORM\ManyToMany(targetEntity="PartieBundle\Entity\Partie", inversedBy="parties")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $parties;
+
+
+    public function __construct()
+    {
+
+        // $this->parties = new ArrayCollection();
+    }
+
+
+    public function ajouterJoueur(Partie $partie)
+    {
+        $this->parties[] = $partie;
+    }
+
+
+    public function retirerJoueur(Partie $partie)
+    {
+        $this->parties->removeElement($partie);
+    }
+
+    public function getParties()
+    {
+        return $this->parties;
+    }
 
 
 
@@ -233,29 +265,6 @@ class Utilisateur
         return $this->ville;
     }
 
-    /**
-     * Set avatar
-     *
-     * @param string $avatar
-     *
-     * @return Utilisateur
-     */
-    public function setAvatar($avatar)
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    /**
-     * Get avatar
-     *
-     * @return string
-     */
-    public function getAvatar()
-    {
-        return $this->avatar;
-    }
 
     /**
      * Set role
@@ -279,5 +288,77 @@ class Utilisateur
     public function getRole()
     {
         return $this->role;
+    }
+
+    /**
+     * Set avatar
+     *
+     * @param \ImageBundle\Entity\Image $avatar
+     *
+     * @return Utilisateur
+     */
+    public function setAvatar(\ImageBundle\Entity\Image $avatar)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get avatar
+     *
+     * @return \ImageBundle\Entity\Image
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * Add party
+     *
+     * @param \PartieBundle\Entity\Partie $party
+     *
+     * @return Utilisateur
+     */
+    public function addParty(\PartieBundle\Entity\Partie $party)
+    {
+        $this->parties[] = $party;
+
+        return $this;
+    }
+
+    /**
+     * Remove party
+     *
+     * @param \PartieBundle\Entity\Partie $party
+     */
+    public function removeParty(\PartieBundle\Entity\Partie $party)
+    {
+        $this->parties->removeElement($party);
+    }
+
+    /**
+     * Add avatar
+     *
+     * @param \ImageBundle\Entity\Image $avatar
+     *
+     * @return Utilisateur
+     */
+    public function addAvatar(\ImageBundle\Entity\Image $avatar)
+    {
+        $this->avatar[] = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Remove avatar
+     *
+     * @param \ImageBundle\Entity\Image $avatar
+     */
+    public function removeAvatar(\ImageBundle\Entity\Image $avatar)
+    {
+        $this->avatar->removeElement($avatar);
     }
 }

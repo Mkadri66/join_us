@@ -14,7 +14,7 @@ class RoleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('libelle',       HiddenType::class, array('data'=> 'utilisateur'));
+        $builder->add('libelle',HiddenType::class, array('data'=> 'utilisateur'));
     }
     
     /**
