@@ -1,7 +1,52 @@
 {% extends "base.html.twig" %}
 {% block body %}
     <h2> Se connecter </h2>
-    {{ form_start(form) }}
+    {# {{ form_start(form) }}
         {{ form_widget(form) }}
-    {{ form_end(form) }}
+    {{ form_end(form) }} #}
+
+    {% for utilisateur in user %}
+        <li><a href="user/{{ user.id }}" title="{{ user.nom }}">{{ user.nom }}</a></li>
+    {% endfor %}
+
+
+
+
+
+
+    <div class="well col-md-6 offset-md-4">
+        {{ form_start(form ,{'attr': {'class': 'form-horizontal col-lg-10'}}) }}
+
+        <div class="form-group">
+
+            {# Génération du label. #}
+            {{ form_label(form.pseudo, "Pseudo", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(form.pseudo, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.pseudo) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(form.mdp, "Mot de passe", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+            {# Génération de l'erreur  #}
+           
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(form.mdp, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.mdp) }}
+            </div>
+
+
+           {# {{ form_rest(form) }} #}
+        </div>
+        {{ form_widget(form.valider, {'attr': {'class': 'btn btn-primary'}}) }}
+
+
+        {{ form_end(form) }}
+    </div>
+
+
 {% endblock %}

@@ -4,6 +4,9 @@ namespace UtilisateurBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Utilisateur
  *
@@ -25,6 +28,7 @@ class Utilisateur
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $nom;
 
@@ -32,6 +36,7 @@ class Utilisateur
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $prenom;
 
@@ -39,6 +44,7 @@ class Utilisateur
      * @var string
      *
      * @ORM\Column(name="pseudo", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $pseudo;
 
@@ -46,27 +52,34 @@ class Utilisateur
      * @var string
      *
      * @ORM\Column(name="mail", type="string", length=255)
+     *     /**
+     * @Assert\Email(
+     *     message = "L'email '{{ value }}' n'est pas au bon format .")
      */
+    
     private $mail;
 
     /**
      * @var string
      *
      * @ORM\Column(name="mdp", type="string", length=255)
+     * @Assert\NotBlank()
+     * 
      */
     private $mdp;
 
     /**
     * @ORM\ManyToOne(targetEntity="VilleBundle\Entity\Ville")
     * @ORM\JoinColumn(nullable=false)
+    * @Assert\Valid()
     */
     private $ville;
 
 
      /**
-     * @var string
-     *
-     * @ORM\Column(name="avatar", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="ImageBundle\Entity\Image", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      */
     private $avatar;
 
@@ -74,6 +87,7 @@ class Utilisateur
     /**
     * @ORM\ManyToOne(targetEntity="RoleBundle\Entity\Role")
     * @ORM\JoinColumn(nullable=false)
+    * @Assert\Valid()
     */
     private $role;
 
@@ -82,6 +96,7 @@ class Utilisateur
     /**
     * @ORM\ManyToMany(targetEntity="PartieBundle\Entity\Partie", inversedBy="parties")
     * @ORM\JoinColumn(nullable=false)
+    * @Assert\Valid()
     */
     private $parties;
 

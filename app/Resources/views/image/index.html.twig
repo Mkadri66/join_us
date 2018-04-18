@@ -23,6 +23,9 @@
                         <li>
                             <a href="{{ path('image_show', { 'id': image.id }) }}">show</a>
                         </li>
+                        <li>
+                            <a href="{{ path('image_edit', { 'id': image.id }) }}">edit</a>
+                        </li>
                     </ul>
                 </td>
             </tr>
@@ -30,5 +33,9 @@
         </tbody>
     </table>
 
-    
+    <ul>
+        <li>
+            <a href="{{ path('image_new') }}">Create a new image</a>
+        </li>
+    </ul>
 {% endblock %}

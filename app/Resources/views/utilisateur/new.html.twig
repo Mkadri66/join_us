@@ -10,56 +10,72 @@
             {# Génération du label. #}
             {{ form_label(form.nom, "Nom", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
             {# Génération de l'erreur  #}
-            {{ form_errors(form.nom) }}
+            
             <div class="col-sm-12">
                 {# Génération de l'input. #}
                 {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.nom) }}
             </div>
 
             {# Génération du label. #}
             {{ form_label(form.prenom, "Prenom", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
             {# Génération de l'erreur  #}
-            {{ form_errors(form.prenom) }}
+            
             <div class="col-sm-12">
                 {# Génération de l'input. #}
                 {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.prenom) }}
             </div>
 
 
             {# Génération du label. #}
             {{ form_label(form.mail, "Mail", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
             {# Génération de l'erreur  #}
-            {{ form_errors(form.mail) }}
-            <div class="col-sm-12">
+            
+            <div class="col-sm-12">        
                 {# Génération de l'input. #}
                 {{ form_widget(form.mail, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.mail) }}
             </div>
 
             {# Génération du label. #}
             {{ form_label(form.pseudo, "Pseudo", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
             {# Génération de l'erreur  #}
-            {{ form_errors(form.pseudo) }}
+            
             <div class="col-sm-12">
                 {# Génération de l'input. #}
                 {{ form_widget(form.pseudo, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.pseudo) }}
             </div>
 
             {# Génération du label. #}
             {{ form_label(form.mdp, "Mot de passe", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
             {# Génération de l'erreur  #}
-            {{ form_errors(form.mdp) }}
+           
             <div class="col-sm-12">
                 {# Génération de l'input. #}
                 {{ form_widget(form.mdp, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.mdp) }}
             </div>
 
             {# Génération du label. #}
             {{ form_label(form.ville, "Ville", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
             {# Génération de l'erreur  #}
-            {{ form_errors(form.ville) }}
+            
             <div class="col-sm-12">
                 {# Génération de l'input. #}
                 {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.ville) }}
+            </div>
+
+
+            {# Génération du label. #}
+            {# {{ form_label(form.avatar, "Avatar", {'label_attr': {'class': 'col-sm-2 control-label'}}) }} #}
+            {# Génération de l'erreur  #}
+            {{ form_errors(form.avatar) }}
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(form.avatar) }}
             </div>
 
 

@@ -62,5 +62,11 @@ class Ville
     {
         return $this->libelle;
     }
+
+
+     public function __toString() 
+     {
+        return (string) $this->libelle; 
+    }
 }
 

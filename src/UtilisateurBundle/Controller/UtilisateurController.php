@@ -4,11 +4,13 @@ namespace UtilisateurBundle\Controller;
 
 use UtilisateurBundle\Entity\Utilisateur;
 use RoleBundle\Entity\Role;
+use ImageBundle\Entity\Image;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -60,41 +62,51 @@ class UtilisateurController extends Controller
         $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $utilisateur);
 
         $formBuilder
+
             ->add('pseudo',     TextType::class)
 
             ->add('mdp',        TextType::class)
 
-            ->add('Valider',    SubmitType::class);
+            ->add('valider',    SubmitType::class);
 
         $form = $formBuilder->getForm();
 
-        if ($request->isMethod('POST')) {
+        $form->handleRequest($request);
 
-            $form->handleRequest($request);
+        $data = $request->request->get('form'); 
 
-            if ($form->isValid()) {
 
-                // On enregistre notre objet $utilisateur dans la base de données, par exemple
 
-                $em = $this->getDoctrine()->getManager();
+        $user = $this->getDoctrine()->getRepository( Utilisateur::class )->findBy(
+            array(
+                'pseudo'=> $data['pseudo'],
+                'mdp'=> $data['mdp']
+            )
+        );
 
-            
-                $em->persist($utilisateur);
 
-                $em->flush();
+        if( !empty( $user )) {
+            $session = new Session();
+            $session = $request->getSession();
+            $session->start();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Inscription reussie');
+            // var_dump($user->getId());
+            $request->getSession()->getFlashBag()->add('notice', 'Inscription reussie');
 
+            foreach ($session->getFlashBag()->get('notice', array()) as $message) {
+                echo '<div class="flash-notice">'.$message.'</div>';
             }
+            // return $this->redirectToRoute('utilisateur_dashboard');
 
         }
-
-
+        
         return $this->render('utilisateur/login.html.twig', array(
 
-        'form' => $form->createView(),
-
-    ));
+            'form' => $form->createView(),
+            
+            'user' => $user
+ 
+        ));
     }
 
 
@@ -106,18 +118,25 @@ class UtilisateurController extends Controller
      */
     public function newAction(Request $request)
     {
+        // on definit le role par defaut à utilisateur ( role 1 : admin)
         $role = $this->getDoctrine()->getRepository(Role::class)->find(2);
+
         $utilisateur = new Utilisateur();
+
         $form = $this->createForm('UtilisateurBundle\Form\UtilisateurType', $utilisateur);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $utilisateur->setRole($role);
+
             $em = $this->getDoctrine()->getManager();
+
             $em->persist($utilisateur);
+
             $em->flush();
 
-            return $this->redirectToRoute('utilisateur_show', array('id' => $utilisateur->getId()));
+            return $this->redirectToRoute('utilisateur_login');
         }
 
 
@@ -127,6 +146,19 @@ class UtilisateurController extends Controller
             'form' => $form->createView(),
             'role' => $role
         ));
+    }
+
+
+    /**
+     * Dashboard for the user.
+     *
+     * @Route("/dashboard", name="utilisateur_dashboard")
+     * @Method({"GET", "POST"})
+     */
+    public function dashboardAction(Request $request)
+    {
+    
+        return $this->render('utilisateur/dashboard.html.twig');
     }
 
     /**

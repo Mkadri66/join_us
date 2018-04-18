@@ -64,9 +64,8 @@ class Utilisateur
 
 
      /**
-     * @var string
-     *
-     * @ORM\Column(name="avatar", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="ImageBundle\Entity\Image", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $avatar;
 

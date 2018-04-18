@@ -4,6 +4,7 @@ namespace UtilisateurBundle\Form;
 
 
 use Symfony\Component\Form\AbstractType;
+
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -18,7 +19,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use VilleBundle\Entity\Ville;
 
+
 use RoleBundle\Form\RoleType;
+use ImageBundle\Form\ImageType;
 use VilleBundle\Form\VilleType;
 
 class UtilisateurType extends AbstractType
@@ -43,7 +46,7 @@ class UtilisateurType extends AbstractType
 
             ->add('ville',      EntityType::class, array('label' => 'ville','class'=> Ville::class, 'choice_label'=> 'libelle'))
 
-            ->add('avatar',     FileType::class)
+            ->add('avatar',     ImageType::class)
 
             ->add('role',       RoleType::class)
 
