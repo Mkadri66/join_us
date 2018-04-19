@@ -49,9 +49,7 @@ class UtilisateurController extends Controller
             return $this->render('utilisateur/index.html.twig', array(
                 'utilisateurs' => $utilisateurs,
             ));
-        } 
-        else 
-        {
+        } else {
             return $this->redirectToRoute('utilisateur_login');
         }
 
@@ -69,67 +67,78 @@ class UtilisateurController extends Controller
      */
     public function loginAction(Request $request)
     {
-           
-        $utilisateur = new Utilisateur;
+        $session = new Session();
+        $session = $request->getSession();
 
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $utilisateur);
+        $id_user = $session->get('id');
 
-        $formBuilder
+        if( !$id_user ) { 
 
-            ->add('pseudo',     TextType::class)
+            $utilisateur = new Utilisateur;
 
-            ->add('mdp',        TextType::class)
+            $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $utilisateur);
 
-            ->add('valider',    SubmitType::class);
+            $formBuilder
 
-        $form = $formBuilder->getForm();
+                ->add('pseudo',     TextType::class)
 
-        $form->handleRequest($request);
+                ->add('mdp',        TextType::class)
 
-        $data = $request->request->get('form'); 
+                ->add('valider',    SubmitType::class);
 
+            $form = $formBuilder->getForm();
 
+            $form->handleRequest($request);
 
-        $user = $this->getDoctrine()->getRepository( Utilisateur::class )->findOneBy(
-            array(
-                'pseudo'=> $data['pseudo'],
-                'mdp'=> $data['mdp']
-            )
-        );
+            $data = $request->request->get('form'); 
 
 
-        if( !empty( $user )) {
-            $session = new Session();
-            $session = $request->getSession();
-            $session->start();
 
-            $session->set('id', $user->getId());
+            $user = $this->getDoctrine()->getRepository( Utilisateur::class )->findOneBy(
+                array(
+                    'pseudo'=> $data['pseudo'],
+                    'mdp'=> $data['mdp']
+                )
+            );
 
-            $id_user = $session->get('id');
 
-            $user_connect = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
+            if( !empty( $user )) {
+                $session = new Session();
+                $session = $request->getSession();
+                $session->start();
 
-            $request->getSession()->getFlashBag()->add('notice', 'Inscription reussie');
+                $session->set('id', $user->getId());
 
-            foreach ($session->getFlashBag()->get('notice', array()) as $message) {
-                echo '<div class="flash-notice">'.$message.'</div>';
+                $id_user = $session->get('id');
+
+                $user_connect = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
+
+                $request->getSession()->getFlashBag()->add('notice', 'Inscription reussie');
+
+                foreach ($session->getFlashBag()->get('notice', array()) as $message) {
+                    echo '<div class="flash-notice">'.$message.'</div>';
+
+                }
+
+                            
+                // return $this->render('utilisateur/dashboard.html.twig', array(
+                //       'user' => $user_connect
+                // ));
+
+                return $this->redirectToRoute('utilisateur_dashboard', array(
+                    'user_connect' => $user_connect
+                ));
 
             }
-
-                        
-            // return $this->render('utilisateur/dashboard.html.twig', array(
-            //       'user' => $user_connect
-            // ));
-
-            return $this->redirectToRoute('utilisateur_dashboard', array(
-                  'user_connect' => $user_connect
+            
+            return $this->render('utilisateur/login.html.twig', array(
+                'form' => $form->createView(),
             ));
 
+        } else {
+            return $this->redirectToRoute('utilisateur_dashboard');            
         }
-        
-        return $this->render('utilisateur/login.html.twig', array(
-            'form' => $form->createView(),
-        ));
+
     }
 
     /**
@@ -155,34 +164,44 @@ class UtilisateurController extends Controller
      */
     public function newAction(Request $request)
     {
-        // on definit le role par defaut à utilisateur ( role 1 : admin)
-        $role = $this->getDoctrine()->getRepository(Role::class)->find(2);
 
-        $utilisateur = new Utilisateur();
+        $session = new Session();
+        $session = $request->getSession();
 
-        $form = $this->createForm('UtilisateurBundle\Form\UtilisateurType', $utilisateur);
+        $id_user = $session->get('id');
 
-        $form->handleRequest($request);
+        if( $id_user ) {
+            // on definit le role par defaut à utilisateur ( role 1 : admin)
+            $role = $this->getDoctrine()->getRepository(Role::class)->find(2);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateur->setRole($role);
+            $utilisateur = new Utilisateur();
 
-            $em = $this->getDoctrine()->getManager();
+            $form = $this->createForm('UtilisateurBundle\Form\UtilisateurType', $utilisateur);
 
-            $em->persist($utilisateur);
+            $form->handleRequest($request);
 
-            $em->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $utilisateur->setRole($role);
 
-            return $this->redirectToRoute('utilisateur_login');
+                $em = $this->getDoctrine()->getManager();
+
+                $em->persist($utilisateur);
+
+                $em->flush();
+
+                return $this->redirectToRoute('utilisateur_login');
+            }
+
+
+
+            return $this->render('utilisateur/new.html.twig', array(
+                'utilisateur' => $utilisateur,
+                'form' => $form->createView(),
+                'role' => $role
+            ));
+        } else {
+             return $this->redirectToRoute('utilisateur_login');
         }
-
-
-
-        return $this->render('utilisateur/new.html.twig', array(
-            'utilisateur' => $utilisateur,
-            'form' => $form->createView(),
-            'role' => $role
-        ));
     }
 
 
@@ -194,7 +213,7 @@ class UtilisateurController extends Controller
      */
     public function dashboardAction(Request $request)
     {
-    
+        
         return $this->render('utilisateur/dashboard.html.twig');
     }
 
