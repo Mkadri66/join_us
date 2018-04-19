@@ -6,12 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Utilisateur
  *
  * @ORM\Table(name="utilisateur")
  * @ORM\Entity(repositoryClass="UtilisateurBundle\Repository\UtilisateurRepository")
+ * @UniqueEntity(
+ *  fields="pseudo")
  */
 class Utilisateur
 {
@@ -43,18 +47,17 @@ class Utilisateur
     /**
      * @var string
      *
-     * @ORM\Column(name="pseudo", type="string", length=255)
-     * @Assert\NotBlank()
+     * @ORM\Column(name="pseudo", type="string", length=255, unique=true)
      */
     private $pseudo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mail", type="string", length=255)
-     *     /**
+     * @ORM\Column(name="mail", type="string", length=255, unique=true)
      * @Assert\Email(
-     *     message = "L'email '{{ value }}' n'est pas au bon format .")
+     *     message = "L'email '{{ value }}' n'est pas au bon format ."
+     * )
      */
     
     private $mail;
@@ -104,7 +107,7 @@ class Utilisateur
     public function __construct()
     {
 
-        // $this->parties = new ArrayCollection();
+        $this->parties = new ArrayCollection();
     }
 
 

@@ -33,15 +33,28 @@ class UtilisateurController extends Controller
      * @Route("/", name="utilisateur_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        
+        $session = new Session();
+        $session = $request->getSession();
 
-        $utilisateurs = $em->getRepository('UtilisateurBundle:Utilisateur')->findAll();
+        $id_user = $session->get('id');
 
-        return $this->render('utilisateur/index.html.twig', array(
-            'utilisateurs' => $utilisateurs,
-        ));
+        if( $id_user ) {
+            $em = $this->getDoctrine()->getManager();
+
+            $utilisateurs = $em->getRepository('UtilisateurBundle:Utilisateur')->findAll();
+
+            return $this->render('utilisateur/index.html.twig', array(
+                'utilisateurs' => $utilisateurs,
+            ));
+        } 
+        else 
+        {
+            return $this->redirectToRoute('utilisateur_login');
+        }
+
     }
 
     /**
@@ -77,7 +90,7 @@ class UtilisateurController extends Controller
 
 
 
-        $user = $this->getDoctrine()->getRepository( Utilisateur::class )->findBy(
+        $user = $this->getDoctrine()->getRepository( Utilisateur::class )->findOneBy(
             array(
                 'pseudo'=> $data['pseudo'],
                 'mdp'=> $data['mdp']
@@ -90,25 +103,49 @@ class UtilisateurController extends Controller
             $session = $request->getSession();
             $session->start();
 
-            // var_dump($user->getId());
+            $session->set('id', $user->getId());
+
+            $id_user = $session->get('id');
+
+            $user_connect = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
+
             $request->getSession()->getFlashBag()->add('notice', 'Inscription reussie');
 
             foreach ($session->getFlashBag()->get('notice', array()) as $message) {
                 echo '<div class="flash-notice">'.$message.'</div>';
+
             }
-            // return $this->redirectToRoute('utilisateur_dashboard');
+
+                        
+            // return $this->render('utilisateur/dashboard.html.twig', array(
+            //       'user' => $user_connect
+            // ));
+
+            return $this->redirectToRoute('utilisateur_dashboard', array(
+                  'user_connect' => $user_connect
+            ));
 
         }
         
         return $this->render('utilisateur/login.html.twig', array(
-
             'form' => $form->createView(),
-            
-            'user' => $user
- 
         ));
     }
 
+    /**
+     * Logout an user.
+     * @Route("/logout", name="utilisateur_logout")
+     * 
+     * @Method({"GET", "POST"})
+     * 
+     */
+    public function logoutAction(Request $request)
+    {
+        $session = new Session();
+        $session = $request->getSession();
+        $session->clear();
+        return $this->redirectToRoute('utilisateur_login');
+    }
 
     /**
      * Creates a new utilisateur entity.

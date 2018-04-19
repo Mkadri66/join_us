@@ -87,9 +87,8 @@ class Partie
     public function __construct()
     {
 
-        // $this->utilisateurs = new ArrayCollection();
-        $this->sport = new ArrayCollection();
-     
+        $this->utilisateurs = new ArrayCollection();
+   
     }
 
 
