@@ -5,15 +5,7 @@
         {{ form_widget(form) }}
     {{ form_end(form) }} #}
 
-    {% for utilisateur in user %}
-        <li><a href="user/{{ user.id }}" title="{{ user.nom }}">{{ user.nom }}</a></li>
-    {% endfor %}
-
-
-
-
-
-
+    
     <div class="well col-md-6 offset-md-4">
         {{ form_start(form ,{'attr': {'class': 'form-horizontal col-lg-10'}}) }}
 

@@ -6,6 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+<<<<<<< HEAD
+=======
+use Doctrine\Common\Collections\ArrayCollection;
+>>>>>>> e28859f0d6c966be9f7f2f61c045a3339b369792
 
 /**
  * Utilisateur
@@ -43,7 +47,11 @@ class Utilisateur
     /**
      * @var string
      *
+<<<<<<< HEAD
      * @ORM\Column(name="pseudo", type="string", length=255)
+=======
+     * @ORM\Column(name="pseudo", type="string", length=255, unique=true)
+>>>>>>> e28859f0d6c966be9f7f2f61c045a3339b369792
      * @Assert\NotBlank()
      */
     private $pseudo;
@@ -104,7 +112,7 @@ class Utilisateur
     public function __construct()
     {
 
-        // $this->parties = new ArrayCollection();
+        $this->parties = new ArrayCollection();
     }
 
 
