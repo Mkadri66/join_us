@@ -4,14 +4,12 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Join Us !{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ asset( 'build/app.css' ) }}"/>
+        
     </head>
     <body>
-        <div class="container">
-
-            {% block body %}{% endblock %}
-
-        </div>
+        {% block body %}{% endblock %}
+        
         {% block javascripts %}{% endblock %}
     </body>
 </html>

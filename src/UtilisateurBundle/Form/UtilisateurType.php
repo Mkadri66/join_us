@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use VilleBundle\Entity\Ville;
 
@@ -42,7 +43,7 @@ class UtilisateurType extends AbstractType
 
             ->add('pseudo',     TextType::class)
 
-            ->add('mdp',        TextType::class)
+            ->add('mdp',        PasswordType::class)
 
             ->add('ville',      EntityType::class, array('label' => 'ville','class'=> Ville::class, 'choice_label'=> 'libelle'))
 

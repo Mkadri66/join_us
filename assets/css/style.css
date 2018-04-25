@@ -1,0 +1,12 @@
+@import '../../node_modules/bootstrap/dist/css/bootstrap.css';
+
+
+nav {
+    background-color: #74b9ff;
+}
+
+nav > a {
+    color: white;
+}
+
+

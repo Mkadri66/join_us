@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 /**
  * Utilisateur controller.
@@ -81,9 +82,7 @@ class UtilisateurController extends Controller
             $formBuilder
 
                 ->add('pseudo',     TextType::class)
-
-                ->add('mdp',        TextType::class)
-
+                ->add('mdp',        PasswordType::class)
                 ->add('valider',    SubmitType::class);
 
             $form = $formBuilder->getForm();
@@ -91,8 +90,6 @@ class UtilisateurController extends Controller
             $form->handleRequest($request);
 
             $data = $request->request->get('form'); 
-
-
 
             $user = $this->getDoctrine()->getRepository( Utilisateur::class )->findOneBy(
                 array(
@@ -102,7 +99,8 @@ class UtilisateurController extends Controller
             );
 
 
-            if( !empty( $user )) {
+            if( $form->isSubmitted()  && !empty( $user )) {
+                
                 $session = new Session();
                 $session = $request->getSession();
                 $session->start();
@@ -113,26 +111,23 @@ class UtilisateurController extends Controller
 
                 $user_connect = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
 
-                $request->getSession()->getFlashBag()->add('notice', 'Inscription reussie');
+                $request->getSession()->getFlashBag()->add('notice', 'Connexion reussie');
 
                 foreach ($session->getFlashBag()->get('notice', array()) as $message) {
                     echo '<div class="flash-notice">'.$message.'</div>';
-
                 }
 
-                            
-                // return $this->render('utilisateur/dashboard.html.twig', array(
-                //       'user' => $user_connect
-                // ));
 
-                return $this->redirectToRoute('utilisateur_dashboard', array(
-                    'user_connect' => $user_connect
-                ));
+                return $this->redirectToRoute('utilisateur_dashboard');
+            } else {
 
+                 $message = 'Mauvaise combinaison pseudo/mot de passe';
             }
-            
+
+           
             return $this->render('utilisateur/login.html.twig', array(
                 'form' => $form->createView(),
+                'message'=> $message
             ));
 
         } else {
@@ -170,9 +165,11 @@ class UtilisateurController extends Controller
 
         $id_user = $session->get('id');
 
-        if( $id_user ) {
+        if( !$id_user ) { 
+
             // on definit le role par defaut à utilisateur ( role 1 : admin)
             $role = $this->getDoctrine()->getRepository(Role::class)->find(2);
+
 
             $utilisateur = new Utilisateur();
 
@@ -180,8 +177,12 @@ class UtilisateurController extends Controller
 
             $form->handleRequest($request);
 
+            $utilisateur->setRole($role);
+
             if ($form->isSubmitted() && $form->isValid()) {
+
                 $utilisateur->setRole($role);
+
 
                 $em = $this->getDoctrine()->getManager();
 
@@ -200,8 +201,9 @@ class UtilisateurController extends Controller
                 'role' => $role
             ));
         } else {
-             return $this->redirectToRoute('utilisateur_login');
+            return $this->redirectToRoute('utilisateur_dashboard');
         }
+        
     }
 
 
@@ -213,8 +215,29 @@ class UtilisateurController extends Controller
      */
     public function dashboardAction(Request $request)
     {
-        
-        return $this->render('utilisateur/dashboard.html.twig');
+        $session = new Session();
+        $session = $request->getSession();
+        $session->start();
+
+        $id_user = $session->get('id');
+
+
+        if( $id_user ) {
+
+            $user_connect = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
+
+            $role = $user_connect->getId();
+
+            $session->set('role', $role);
+
+            return $this->render('utilisateur/dashboard.html.twig', array(
+                'user_connect' => $user_connect,
+            ));
+        } else {
+            return $this->redirectToRoute('utilisateur_login');
+        }
+
+
     }
 
     /**

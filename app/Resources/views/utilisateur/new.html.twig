@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Creer un compte</h1>
+    <h1 class="text-center">Creer un compte</h1>
     <div class="well col-md-6 offset-md-4">
         {{ form_start(form ,{'attr': {'class': 'form-horizontal col-lg-10'}}) }}
 
@@ -87,10 +87,5 @@
 
         {{ form_end(form) }}
     </div>
-    <br>
-    {# <ul>
-        <li>
-            <a href="{{ path('utilisateur_index') }}">Back to the list</a>
-        </li>
-    </ul> #}
+        <p class="col-lg-12 text-center"><a href="{{ path('utilisateur_login') }}">Se connecter</a> </p>
 {% endblock %}
