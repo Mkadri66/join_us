@@ -1,21 +1,104 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Utilisateur edit</h1>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+<div class="container"> 
+     <h2 class="text-center"> Modifier votre compte </h2>
+    <div class="well col-md-6 offset-md-4">
+        {{ form_start(edit_form ,{'attr': {'class': 'form-horizontal col-lg-10'}}) }}
 
-    <ul>
+        <div class="form-group">
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.nom, "Nom", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.nom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.nom) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.prenom, "Prenom", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.prenom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.prenom) }}
+            </div>
+
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.mail, "Mail", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            
+            <div class="col-sm-12">        
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.mail, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.mail) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.pseudo, "Pseudo", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.pseudo, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.pseudo) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.mdp, "Mot de passe", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+            {# Génération de l'erreur  #}
+           
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.mdp, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.mdp) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.ville, "Ville", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.ville, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.ville) }}
+            </div>
+
+
+            {# Génération du label. #}
+            {# {{ form_label(form.avatar, "Avatar", {'label_attr': {'class': 'col-sm-2 control-label'}}) }} #}
+            {# Génération de l'erreur  #}
+            {{ form_errors(edit_form.avatar) }}
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.avatar) }}
+            </div>
+
+
+           {# {{ form_rest(form) }} #}
+        </div>
+        {{ form_widget(edit_form.valider, {'attr': {'class': 'btn btn-primary'}}) }}
+
+        {{ form_widget(edit_form.role, { 'attr': {'class': 'hidden-row'} }) }}
+
+        {{ form_end(edit_form) }}
+    </div>
+
+
+</div>
+
+
+    {# <ul>
         <li>
-            <a href="{{ path('utilisateur_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
+            {{ edit_form_start(delete_form) }}
                 <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
-    </ul>
+    </ul> #}
 {% endblock %}

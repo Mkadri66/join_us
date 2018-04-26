@@ -1,4 +1,9 @@
-Symfony
+Mise en place d'une plateforme pour les personnes souhaitant faire du sport ensemble
 =======
 
-A Symfony project created on April 16, 2018, 12:27 pm.
+- Gestion des utilisateurs ( login, admin )
+- Creation d'une partie ( date, lieu, sport, nombre de joueurs )
+- Liste des parties disponibles ( filtrer par sport et par ville )
+- Rejoindre une partie ( inscription à une partie )
+- Supprimer une partie
+
