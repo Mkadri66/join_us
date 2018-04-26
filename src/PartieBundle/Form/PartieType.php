@@ -29,7 +29,7 @@ class PartieType extends AbstractType
         $builder
         ->add('adresse',        TextType::class)
         ->add('date',           DateType::class)
-        ->add('termine'    )
+        ->add('termine'  )
         ->add('joueursActif')
         ->add('totalJoueurs')
         ->add('organisateur',   UtilisateurType:class)

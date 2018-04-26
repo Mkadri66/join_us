@@ -42,7 +42,10 @@ class UtilisateurController extends Controller
 
         $id_user = $session->get('id');
 
-        if( $id_user ) {
+        $id_role = $session->get('role');
+        
+        if( $id_role === 1 ) {
+
             $em = $this->getDoctrine()->getManager();
 
             $utilisateurs = $em->getRepository('UtilisateurBundle:Utilisateur')->findAll();
@@ -112,16 +115,11 @@ class UtilisateurController extends Controller
                 $user_connect = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
 
                 $request->getSession()->getFlashBag()->add('notice', 'Connexion reussie');
-
-                foreach ($session->getFlashBag()->get('notice', array()) as $message) {
-                    echo '<div class="flash-notice">'.$message.'</div>';
-                }
-
-
                 return $this->redirectToRoute('utilisateur_dashboard');
+                
             } else {
 
-                 $message = 'Mauvaise combinaison pseudo/mot de passe';
+                $message = 'Mauvaise combinaison pseudo/mot de passe';
             }
 
            
@@ -208,7 +206,7 @@ class UtilisateurController extends Controller
 
 
     /**
-     * Dashboard for the user.
+     * Dashboard for the connect user.
      *
      * @Route("/dashboard", name="utilisateur_dashboard")
      * @Method({"GET", "POST"})
@@ -221,7 +219,6 @@ class UtilisateurController extends Controller
 
         $id_user = $session->get('id');
 
-
         if( $id_user ) {
 
             $user_connect = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
@@ -230,8 +227,11 @@ class UtilisateurController extends Controller
 
             $session->set('role', $role);
 
+            $id_role = $session->get('role');
+
             return $this->render('utilisateur/dashboard.html.twig', array(
                 'user_connect' => $user_connect,
+                'role' => $id_role
             ));
         } else {
             return $this->redirectToRoute('utilisateur_login');
@@ -269,9 +269,19 @@ class UtilisateurController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('utilisateur_edit', array('id' => $utilisateur->getId()));
+            $session = $request->getSession();
+
+
+            $session->getFlashBag()->add('info', 'Votre profil à bien était mis à jour :D ');
+
+            // foreach ($session->getFlashBag()->get('notice', array()) as $message) {
+            //     echo '<div class="flash-notice">'.$message.'</div>';
+            // }
+
+            return $this->redirectToRoute('utilisateur_dashboard');
         }
 
         return $this->render('utilisateur/edit.html.twig', array(
