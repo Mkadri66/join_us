@@ -10,9 +10,9 @@ Encore
   // will create web/build/app.js and web/build/app.css
   .addEntry("app", "./assets/css/style.css")
 
-
   // allow sass/scss files to be processed
   .enableSassLoader()
+
 
   // allow legacy applications to use $/jQuery as a global variable
   .autoProvidejQuery()

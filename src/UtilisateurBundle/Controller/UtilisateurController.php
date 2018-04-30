@@ -29,7 +29,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 class UtilisateurController extends Controller
 {
     /**
-     * Lists all utilisateur entities.
+     * Lists all utilisateur entities for the admin.
      *
      * @Route("/", name="utilisateur_index")
      * @Method("GET")

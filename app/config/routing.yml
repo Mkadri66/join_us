@@ -1,3 +1,7 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
 image:
     resource: "@ImageBundle/Controller/"
     type:     annotation
@@ -41,6 +45,3 @@ utilisateur:
     type:     annotation
     prefix:   /
 
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation

@@ -1,16 +1,77 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Partie creation</h1>
+    <div class="well col-md-6 offset-md-4">
+        <h2 class="text-center"> Creer une partie </h2>
+        <div class="form-group">
+            {{ form_start(form ,{'attr': {'class': 'form-horizontal col-lg-10'}}) }}
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+                {# Génération du label. #}
+                {{ form_label(form.adresse, "Lieu de la partie (adresse) ", {'label_attr': {'class': 'col-sm-6 control-label'}}) }}
+                {# Génération de l'erreur  #}
+                
+                <div class="col-sm-12">
+                    {# Génération de l'input. #}
+                    {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.adresse) }}
+                </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('partie_index') }}">Back to the list</a>
-        </li>
-    </ul>
+                {# Génération du label. #}
+                {{ form_label(form.date, "Date", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                {# Génération de l'erreur  #}
+                
+                <div class="col-sm-12">
+                    {# Génération de l'input. #}
+                    {{ form_widget(form.date, {'attr': {'class': 'form-control', 'type': 'date' }}) }}
+                    {{ form_errors(form.date) }}
+                </div>
+
+                {# Génération du label. #}
+                {{ form_label(form.joueursActif , "Joueur(s) disponible(s)", {'label_attr': {'class': 'col-sm-6 control-label'}}) }}
+                {# Génération de l'erreur  #}
+                
+                <div class="col-sm-12">
+                    {# Génération de l'input. #}
+                    {{ form_widget(form.joueursActif, {'attr': {'class': 'form-control' }}) }}
+                    {{ form_errors(form.joueursActif ) }}
+                </div>
+
+                {# Génération du label. #}
+                {{ form_label(form.totalJoueurs , "Nombre de joueurs voulu pour finaliser la partie", {'label_attr': {'class': 'col-sm-10 control-label'}}) }}
+                {# Génération de l'erreur  #}
+                
+                <div class="col-sm-12">
+                    {# Génération de l'input. #}
+                    {{ form_widget(form.totalJoueurs, {'attr': {'class': 'form-control' }}) }}
+                    {{ form_errors(form.totalJoueurs ) }}
+                </div>
+
+                {# Génération du label. #}
+                {{ form_label(form.sport , "Sport", {'label_attr': {'class': 'col-sm-10 control-label'}}) }}
+                {# Génération de l'erreur  #}
+                
+                <div class="col-sm-12">
+                    {# Génération de l'input. #}
+                    {{ form_widget(form.sport, {'attr': {'class': 'form-control' }}) }}
+                    {{ form_errors(form.sport ) }}
+                </div>
+
+                {# Génération du label. #}
+                {{ form_label(form.ville , "Ville", {'label_attr': {'class': 'col-sm-10 control-label'}}) }}
+                {# Génération de l'erreur  #}
+                
+                <div class="col-sm-12">
+                    {# Génération de l'input. #}
+                    {{ form_widget(form.ville, {'attr': {'class': 'form-control' }}) }}
+                    {{ form_errors(form.ville ) }}
+                </div>
+        </div>
+                <div class="col-sm-12 text-center">
+                    {{ form_widget(form.valider, {'attr': {'class': 'btn btn-primary'}}) }}
+                </div>
+
+            {{ form_end(form) }}
+
+        </div>
+    </div>
 {% endblock %}
