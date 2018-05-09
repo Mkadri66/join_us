@@ -4,6 +4,7 @@ namespace PartieBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use UtilisateurBundle\Entity\Utilisateur;
 
 /**
  * Partie
@@ -64,12 +65,6 @@ class Partie
      */
     private $totalJoueurs;
 
-    /**
-    * @ORM\ManyToMany(targetEntity="UtilisateurBundle\Entity\Utilisateur", mappedBy="utilisateurs")
-    * @ORM\JoinColumn(nullable=false)
-    */
-    private $utilisateurs; 
-
 
     /**
     * @ORM\ManyToOne(targetEntity="SportBundle\Entity\Sport")
@@ -83,30 +78,22 @@ class Partie
     */
     private $ville;
 
+    /**
+    * @ORM\ManyToMany(targetEntity="UtilisateurBundle\Entity\Utilisateur", mappedBy="parties")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $utilisateurs; 
+
+
 
     public function __construct()
     {
 
         $this->utilisateurs = new ArrayCollection();
+         
    
     }
-
-
-    public function ajouterJoueur(Utilisateur $utilisateur)
-    {
-        $this->utilisateurs[] = $utilisateur;
-    }
-
-
-    public function retirerJoueur(Utilisateur $utilisateur)
-    {
-        $this->utilisateurs->removeElement($utilisateur);
-    }
-    public function getUtilisateurs()
-    {
-        return $this->utilisateurs;
-    }
-
+     
     /**
      * Get id
      *
@@ -245,9 +232,12 @@ class Partie
      *
      * @return Partie
      */
-    public function addUtilisateur(\Utilisateur\Entity\Utilisateur $utilisateur)
+    public function addUtilisateur(\UtilisateurBundle\Entity\Utilisateur $utilisateur)
     {
         $this->utilisateurs[] = $utilisateur;
+
+        $utilisateur->addParty($this);
+
 
         return $this;
     }
@@ -257,7 +247,7 @@ class Partie
      *
      * @param \Utilisateur\Entity\Utilisateur $utilisateur
      */
-    public function removeUtilisateur(\Utilisateur\Entity\Utilisateur $utilisateur)
+    public function removeUtilisateur(\UtilisateurBundle\Entity\Utilisateur $utilisateur)
     {
         $this->utilisateurs->removeElement($utilisateur);
     }
@@ -269,7 +259,7 @@ class Partie
      *
      * @return Partie
      */
-    public function setOrganisateur(\UtilsateurBundle\Entity\Utilisateur $organisateur)
+    public function setOrganisateur(\UtilisateurBundle\Entity\Utilisateur $organisateur)
     {
         $this->organisateur = $organisateur;
 
@@ -279,7 +269,7 @@ class Partie
     /**
      * Get organisateur
      *
-     * @return \UtilsateurBundle\Entity\Utilisateur
+     * @return \UtilisateurBundle\Entity\Utilisateur
      */
     public function getOrganisateur()
     {
@@ -332,5 +322,15 @@ class Partie
     public function getVille()
     {
         return $this->ville;
+    }
+
+    /**
+     * Get utilisateurs.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUtilisateurs()
+    {
+        return $this->utilisateurs;
     }
 }

@@ -97,8 +97,9 @@ class Utilisateur
 
 
     /**
-    * @ORM\ManyToMany(targetEntity="PartieBundle\Entity\Partie", inversedBy="parties")
+    * @ORM\ManyToMany(targetEntity="PartieBundle\Entity\Partie", inversedBy="utilisateurs")
     * @ORM\JoinColumn(nullable=false)
+    * @ORM\JoinTable(name="partie_utilisateur")
     * @Assert\Valid()
     */
     private $parties;
@@ -111,16 +112,6 @@ class Utilisateur
     }
 
 
-    public function ajouterJoueur(Partie $partie)
-    {
-        $this->parties[] = $partie;
-    }
-
-
-    public function retirerJoueur(Partie $partie)
-    {
-        $this->parties->removeElement($partie);
-    }
 
     public function getParties()
     {

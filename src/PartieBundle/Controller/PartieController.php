@@ -3,7 +3,9 @@
 namespace PartieBundle\Controller;
 
 use PartieBundle\Entity\Partie;
+use UtilisateurBundle\Entity\Utilisateur;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -42,22 +44,54 @@ class PartieController extends Controller
      */
     public function newAction(Request $request)
     {
+
+
         $partie = new Partie();
         $form = $this->createForm('PartieBundle\Form\PartieType', $partie);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($partie);
-            $em->flush();
+        $session = new Session();
+        $session = $request->getSession();
+        $session->start();
 
-            return $this->redirectToRoute('partie_show', array('id' => $partie->getId()));
+
+
+        if( $session->get('id') ) {
+            // On recupere l'id de l'utilisateur connecté 
+            $id_user = $session->get('id');
+
+            // On va le cherche en base de données
+            $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
+
+            // Par défaut une partie n'est pas terminé
+            $partie->setTermine( 0 );
+            
+            // On set l'utilisateur grace à son id stocké en session
+            $partie->setOrganisateur($utilisateur);
+
+            $user = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
+
+            $partie->addUtilisateur( $user);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($partie);
+                $em->flush();
+
+                return $this->redirectToRoute('partie_show', array('id' => $partie->getId()));
+            }
+
+            return $this->render('partie/new.html.twig', array(
+                'partie' => $partie,
+                'form' => $form->createView(),
+                'utilisateur' => $utilisateur
+            ));
+        } else {
+            return $this->redirectToRoute('utilisateur_login');
         }
 
-        return $this->render('partie/new.html.twig', array(
-            'partie' => $partie,
-            'form' => $form->createView(),
-        ));
+
     }
 
     /**

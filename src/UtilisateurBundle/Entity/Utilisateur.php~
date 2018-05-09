@@ -6,16 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-<<<<<<< HEAD
-=======
 use Doctrine\Common\Collections\ArrayCollection;
->>>>>>> e28859f0d6c966be9f7f2f61c045a3339b369792
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Utilisateur
  *
  * @ORM\Table(name="utilisateur")
  * @ORM\Entity(repositoryClass="UtilisateurBundle\Repository\UtilisateurRepository")
+ * @UniqueEntity(
+ *  fields="pseudo")
  */
 class Utilisateur
 {
@@ -47,22 +47,17 @@ class Utilisateur
     /**
      * @var string
      *
-<<<<<<< HEAD
-     * @ORM\Column(name="pseudo", type="string", length=255)
-=======
      * @ORM\Column(name="pseudo", type="string", length=255, unique=true)
->>>>>>> e28859f0d6c966be9f7f2f61c045a3339b369792
-     * @Assert\NotBlank()
      */
     private $pseudo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mail", type="string", length=255)
-     *     /**
+     * @ORM\Column(name="mail", type="string", length=255, unique=true)
      * @Assert\Email(
-     *     message = "L'email '{{ value }}' n'est pas au bon format .")
+     *     message = "L'email '{{ value }}' n'est pas au bon format ."
+     * )
      */
     
     private $mail;
@@ -102,8 +97,9 @@ class Utilisateur
 
 
     /**
-    * @ORM\ManyToMany(targetEntity="PartieBundle\Entity\Partie", inversedBy="parties")
+    * @ORM\ManyToMany(targetEntity="PartieBundle\Entity\Partie", inversedBy="utilisateurs")
     * @ORM\JoinColumn(nullable=false)
+    * @ORM\JoinTable(name="partie_utilisateur")
     * @Assert\Valid()
     */
     private $parties;
@@ -116,16 +112,6 @@ class Utilisateur
     }
 
 
-    public function ajouterJoueur(Partie $partie)
-    {
-        $this->parties[] = $partie;
-    }
-
-
-    public function retirerJoueur(Partie $partie)
-    {
-        $this->parties->removeElement($partie);
-    }
 
     public function getParties()
     {

@@ -35,7 +35,7 @@ class PartieType extends AbstractType
         // ->add('termine',        ChoiceType::class)
         ->add('joueursActif',   IntegerType::class)
         ->add('totalJoueurs',   IntegerType::class)
-        // ->add('organisateur',   UtilisateurType::class)
+        // ->add('organisateur',   EntityType::class)
         ->add('sport',          EntityType::class, array('label' => 'sport','class'=> Sport::class, 'choice_label'=> 'libelle'))
         ->add('ville',          EntityType::class, array('label' => 'ville','class'=> Ville::class, 'choice_label'=> 'libelle'))
         ->add('valider',        SubmitType::class);

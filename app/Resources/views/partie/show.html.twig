@@ -1,48 +1,63 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Partie</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ partie.id }}</td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ partie.adresse }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{% if partie.date %}{{ partie.date|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Termine</th>
-                <td>{% if partie.termine %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Joueursactif</th>
-                <td>{{ partie.joueursActif }}</td>
-            </tr>
-            <tr>
-                <th>Totaljoueurs</th>
-                <td>{{ partie.totalJoueurs }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {# {{ dump( partie ) }} #}
+{# 
+    {{ partie.utilisateurs }} #}
 
-    <ul>
-        <li>
-            <a href="{{ path('partie_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('partie_edit', { 'id': partie.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    {# {% for user in utilisateurs %}
+        <li>{{ user.username }}</li>
+    {% endfor %} #}
+    <h2 class="text-center">Partie</h2>
+    <div class='container'> 
+        <table class="table table-bordered">
+            <tbody>
+                {# <tr>
+                    <th>Id</th>
+                    <td>{{ partie.id }}</td>
+                </tr> #}
+                <tr>
+                    <th> Lieu de la partie</th>
+                    <td>{{ partie.adresse }}</td>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <td>{% if partie.date %}{{ partie.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                </tr>
+                {# <tr>
+                    <th>Termine</th>
+                    <td>{% if partie.termine %}Yes{% else %}No{% endif %}</td>
+                </tr> #}
+                <tr>
+                    <th>Joueursactif</th>
+                    <td>{{ partie.joueursActif }}</td>
+                </tr>
+                <tr>
+                    <th>Totaljoueurs</th>
+                    <td>{{ partie.totalJoueurs }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form>
+            <input type="submit" value="Rejoindre la partie" class="btn btn-primary"> 
+        </form>
+
+
+        {# <ul>
+            <li>
+                <a href="{{ path('partie_index') }}">Back to the list</a>
+            </li>
+            <li>
+                <a href="{{ path('partie_edit', { 'id': partie.id }) }}">Edit</a>
+            </li>
+            <li>
+                {{ form_start(delete_form) }}
+                    <input type="submit" value="Delete">
+                {{ form_end(delete_form) }}
+            </li>
+        </ul> #}
+
+    </div>
 {% endblock %}
