@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    {# {{ dump( partie ) }} #}
+{# 
+    {{ dump( partie ) }} #}
 {# 
     {{ partie.utilisateurs }} #}
 
@@ -23,7 +23,11 @@
                 </tr>
                 <tr>
                     <th>Date</th>
-                    <td>{% if partie.date %}{{ partie.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{% if partie.date %}{{ partie.date|date('d/m/y') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Horaire</th>
+                    <td>{% if partie.horaire %}{{ partie.horaire.date|date('H:i') }}{% endif %}</td>
                 </tr>
                 {# <tr>
                     <th>Termine</th>

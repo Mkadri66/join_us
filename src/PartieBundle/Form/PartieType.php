@@ -5,7 +5,8 @@ namespace PartieBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -31,7 +32,9 @@ class PartieType extends AbstractType
     {
         $builder
         ->add('adresse',        TextType::class)
-        ->add('date',           DateTimeType::class)
+        ->add('date',           DateType::class, 
+                ['widget' => 'single_text'])
+        ->add('horaire',        TimeType::class) 
         // ->add('termine',        ChoiceType::class)
         ->add('joueursActif',   IntegerType::class)
         ->add('totalJoueurs',   IntegerType::class)

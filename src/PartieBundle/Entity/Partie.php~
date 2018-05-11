@@ -38,11 +38,20 @@ class Partie
     private $adresse;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date", type="date")
      */
     private $date;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="horaire", type="time")
+     */
+    private $horaire;
+
+
 
     /**
      * @var bool
@@ -236,6 +245,9 @@ class Partie
     {
         $this->utilisateurs[] = $utilisateur;
 
+        $utilisateur->addParty($this);
+
+
         return $this;
     }
 
@@ -329,5 +341,29 @@ class Partie
     public function getUtilisateurs()
     {
         return $this->utilisateurs;
+    }
+
+    /**
+     * Set horaire.
+     *
+     * @param \DateTime $horaire
+     *
+     * @return Partie
+     */
+    public function setHoraire($horaire)
+    {
+        $this->horaire = $horaire;
+
+        return $this;
+    }
+
+    /**
+     * Get horaire.
+     *
+     * @return \DateTime
+     */
+    public function getHoraire()
+    {
+        return $this->horaire;
     }
 }

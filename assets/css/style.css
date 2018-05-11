@@ -5,11 +5,9 @@ body {
     background: #F1F3FA;
 }
 
-
-
-
-
-
+.error_message {
+    color: red;
+}
  /*  ------------------- DASHBOARD ---------------------- */
 
 /* Profile container */

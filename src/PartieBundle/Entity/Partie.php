@@ -5,6 +5,7 @@ namespace PartieBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use UtilisateurBundle\Entity\Utilisateur;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Partie
@@ -34,15 +35,27 @@ class Partie
      * @var string
      *
      * @ORM\Column(name="adresse", type="string", length=255)
+     * @Assert\NotBlank(message="Vous devez indiquer une adresse.")
      */
     private $adresse;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date", type="date")
+     * @Assert\NotBlank(message="Ce champ est obligatoire.")
      */
     private $date;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="horaire", type="time")
+     * @Assert\NotBlank(message="Ce champ est obligatoire.")
+     */
+    private $horaire;
+
+
 
     /**
      * @var bool
@@ -55,7 +68,15 @@ class Partie
      * @var int
      *
      * @ORM\Column(name="joueurs_actif", type="integer")
+     * 
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 22,
+     *      minMessage = "Vous devez avoir au minimum : {{ limit }} joueur pour créer une partie.",
+     *      maxMessage = "Vous pouvez inscrir au maximum : {{ limit }} joueurs."
+     * )
      */
+    
     private $joueursActif;
 
     /**
@@ -332,5 +353,29 @@ class Partie
     public function getUtilisateurs()
     {
         return $this->utilisateurs;
+    }
+
+    /**
+     * Set horaire.
+     *
+     * @param \DateTime $horaire
+     *
+     * @return Partie
+     */
+    public function setHoraire($horaire)
+    {
+        $this->horaire = $horaire;
+
+        return $this;
+    }
+
+    /**
+     * Get horaire.
+     *
+     * @return \DateTime
+     */
+    public function getHoraire()
+    {
+        return $this->horaire;
     }
 }

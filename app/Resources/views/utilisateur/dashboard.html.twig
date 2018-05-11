@@ -53,9 +53,11 @@
 			    {% for partie in user_connect.parties %}
         			{# <li>{{ partie.id}}</li> #}
 					{# {{ dump(partie)}} #}
+					
 					<li> <a href="{{ path('partie_show', { 'id': partie.id }) }}"> Partie n° {{ partie.id }} </a>
 					<p> Adresse : {{ partie.adresse }} </p>
 					<p> Date de la partie : {{ partie.date.date|date("d/m/Y") }} </p>
+					<p> Horaire de la partie : {{ partie.horaire.date|date("H:i") }} </p>
 					<p> Sport : {{ partie.sport.libelle }} </p>
 					<p> Ville : {{ partie.ville }} </p>
 					
