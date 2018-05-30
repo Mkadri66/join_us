@@ -101,28 +101,28 @@ class UtilisateurController extends Controller
                 )
             );
 
+            $message = "";
 
-            if( $form->isSubmitted()  && !empty( $user )) {
-                
-                $session = new Session();
-                $session = $request->getSession();
-                $session->start();
+            if( $form->isSubmitted()) {
+                if ( !empty( $user )) {
+                    $session = new Session();
+                    $session = $request->getSession();
+                    $session->start();
 
-                $session->set('id', $user->getId());
+                    $session->set('id', $user->getId());
 
-                $id_user = $session->get('id');
+                    $id_user = $session->get('id');
 
-                $user_connect = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
+                    $user_connect = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
 
-                $request->getSession()->getFlashBag()->add('notice', 'Connexion reussie');
-                return $this->redirectToRoute('utilisateur_dashboard');
-                
-            } else {
+                    $request->getSession()->getFlashBag()->add('notice', 'Connexion reussie');
+                    return $this->redirectToRoute('utilisateur_dashboard');
+                } else {
+                    $message = "Mauvaise combinaison pseudo/mot de passe";
+                }
+            
+            } 
 
-                $message = 'Mauvaise combinaison pseudo/mot de passe';
-            }
-
-           
             return $this->render('utilisateur/login.html.twig', array(
                 'form' => $form->createView(),
                 'message'=> $message
@@ -146,7 +146,7 @@ class UtilisateurController extends Controller
         $session = new Session();
         $session = $request->getSession();
         $session->clear();
-        return $this->redirectToRoute('utilisateur_login');
+        return $this->redirectToRoute('homepage');
     }
 
     /**
@@ -276,10 +276,6 @@ class UtilisateurController extends Controller
 
 
             $session->getFlashBag()->add('info', 'Votre profil à bien était mis à jour :D ');
-
-            // foreach ($session->getFlashBag()->get('notice', array()) as $message) {
-            //     echo '<div class="flash-notice">'.$message.'</div>';
-            // }
 
             return $this->redirectToRoute('utilisateur_dashboard');
         }

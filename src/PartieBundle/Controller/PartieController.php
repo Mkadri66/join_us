@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 /**
@@ -54,8 +55,6 @@ class PartieController extends Controller
         $session = $request->getSession();
         $session->start();
 
-
-
         if( $session->get('id') ) {
             // On recupere l'id de l'utilisateur connecté 
             $id_user = $session->get('id');
@@ -98,16 +97,53 @@ class PartieController extends Controller
      * Finds and displays a partie entity.
      *
      * @Route("/{id}", name="partie_show")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function showAction(Partie $partie)
+    public function showAction(Partie $partie, Request $request)
     {
+
+        $session = new Session();
+        $session = $request->getSession();
+        $session->start();
+
+        $id_user = $session->get('id');
+
+        // On va le cherche en base de données
+        $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
+
+
         $deleteForm = $this->createDeleteForm($partie);
+
+       
+
+        $form = $this->createFormBuilder()
+                    ->add('join', SubmitType::class,array('label' => 'Rejoindre la partie'))
+                    ->getForm();
+
+        $form->handleRequest($request);
+
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+   
+            $partie->addUtilisateur($utilisateur);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($partie);
+            $em->flush();
+        
+        }
+
+        
 
         return $this->render('partie/show.html.twig', array(
             'partie' => $partie,
+            'utilisateur' => $utilisateur,
             'delete_form' => $deleteForm->createView(),
+            'form' => $form->createView()
         ));
+
+
+
     }
 
     /**

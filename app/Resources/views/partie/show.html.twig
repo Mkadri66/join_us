@@ -1,25 +1,32 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+    {{ dump( partie ) }}
+
+    {# {{ partie.utilisateurs }} #}
 {# 
-    {{ dump( partie ) }} #}
+    {{ dump( utilisateur )}} #} 
+
+
 {# 
     {{ partie.utilisateurs }} #}
+     
+    {% for user in partie.utilisateurs %}
+        <li>{{ user.pseudo}}</li>
+    {% endfor %}
 
-    {# {% for user in utilisateurs %}
-        <li>{{ user.username }}</li>
-    {% endfor %} #}
     <h2 class="text-center">Partie</h2>
     <div class='container'> 
         <table class="table table-bordered">
             <tbody>
-                {# <tr>
-                    <th>Id</th>
-                    <td>{{ partie.id }}</td>
-                </tr> #}
+                <tr>
+                    <th> Organisateur </th>
+                    <td>{{ partie.organisateur.prenom }}</td>
+                </tr>
                 <tr>
                     <th> Lieu de la partie</th>
-                    <td>{{ partie.adresse }}</td>
+                    <td>{{ partie.adresse }} - {{ partie.ville }}</td>
                 </tr>
                 <tr>
                     <th>Date</th>
@@ -29,10 +36,6 @@
                     <th>Horaire</th>
                     <td>{% if partie.horaire %}{{ partie.horaire.date|date('H:i') }}{% endif %}</td>
                 </tr>
-                {# <tr>
-                    <th>Termine</th>
-                    <td>{% if partie.termine %}Yes{% else %}No{% endif %}</td>
-                </tr> #}
                 <tr>
                     <th>Joueursactif</th>
                     <td>{{ partie.joueursActif }}</td>
@@ -44,9 +47,16 @@
             </tbody>
         </table>
 
-        <form>
+        {# {% if partie.organisateur.id != utilisateur.id %}
             <input type="submit" value="Rejoindre la partie" class="btn btn-primary"> 
-        </form>
+        {% endif %} #}
+        {% if partie.organisateur.id != utilisateur.id %}
+            {{ form_start(form) }}
+            {# {{ form_label(form.ville , "Ville", {'label_attr': {'class': 'col-sm-10 control-label'}}) }} #}
+            {{ form_widget(form.join, {'attr': {'class': 'btn btn-primary'}}) }}
+        
+            {{ form_end(form) }}
+        {% endif %}
 
 
         {# <ul>
