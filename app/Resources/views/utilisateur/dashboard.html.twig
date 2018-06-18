@@ -55,6 +55,7 @@
 					{# {{ dump(partie)}} #}
 					
 					<li> <a href="{{ path('partie_show', { 'id': partie.id }) }}"> Partie n° {{ partie.id }} </a>
+					<p> Organisateur : {{ partie.organisateur.pseudo }} </p>
 					<p> Adresse : {{ partie.adresse }} </p>
 					<p> Date de la partie : {{ partie.date.date|date("d/m/Y") }} </p>
 					<p> Horaire de la partie : {{ partie.horaire.date|date("H:i") }} </p>

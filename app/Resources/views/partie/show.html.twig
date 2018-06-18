@@ -2,19 +2,22 @@
 
 {% block body %}
 
-    {{ dump( partie ) }}
+    {# {{ dump( partie.utilisateurs ) }} #}
+
+    {# {{ dump(message) }} #}
 
     {# {{ partie.utilisateurs }} #}
-{# 
-    {{ dump( utilisateur )}} #} 
+ 
+    {# {{ dump( utilisateur )}}  #}
 
 
-{# 
-    {{ partie.utilisateurs }} #}
+
+    {# {{ dump( utilisateurs ) }} #}
      
-    {% for user in partie.utilisateurs %}
-        <li>{{ user.pseudo}}</li>
-    {% endfor %}
+     {# {% for utilisateur in utilisateurs %}
+        <p> {{ utilisateur.nom }} </p>
+    {% endfor %}  #}
+
 
     <h2 class="text-center">Partie</h2>
     <div class='container'> 
@@ -44,18 +47,34 @@
                     <th>Totaljoueurs</th>
                     <td>{{ partie.totalJoueurs }}</td>
                 </tr>
+                <tr>
+                    <th> Liste des participants </th>
+                    <td>
+                        <ul>
+                            {% for user in partie.utilisateurs %}
+                                 <li>
+                                <img class="avatar_partie" src="{{ asset('uploads/img/' ~ user.avatar.id  ~ '.' ~ user.avatar.url ) }}" class="mx-auto d-block" alt="">
+                                  {{ user.pseudo}}</li>
+                            {% endfor %}
+                        </ul>                 
+                    </td>
+                </tr>
+
+                
+
+
+
             </tbody>
         </table>
 
-        {# {% if partie.organisateur.id != utilisateur.id %}
-            <input type="submit" value="Rejoindre la partie" class="btn btn-primary"> 
-        {% endif %} #}
-        {% if partie.organisateur.id != utilisateur.id %}
-            {{ form_start(form) }}
-            {# {{ form_label(form.ville , "Ville", {'label_attr': {'class': 'col-sm-10 control-label'}}) }} #}
-            {{ form_widget(form.join, {'attr': {'class': 'btn btn-primary'}}) }}
-        
-            {{ form_end(form) }}
+        {% if  message  %}
+            {{ form_start(formJoinParty , {'attr': {'id': 'joinParty'}}) }}
+                {{ form_widget(formJoinParty.join, {'attr': {'class': 'join btn btn-primary' }}) }} 
+            {{ form_end(formJoinParty) }}
+        {% else %}
+            {{ form_start(formQuitParty, {'attr': {'id': 'quitParty'}}) }}
+                {{ form_widget(formQuitParty.quit, {'attr': {'class': 'quit btn btn-danger'}}) }}        
+            {{ form_end(formQuitParty) }}
         {% endif %}
 
 

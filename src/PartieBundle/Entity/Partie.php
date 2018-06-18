@@ -271,6 +271,8 @@ class Partie
     public function removeUtilisateur(\UtilisateurBundle\Entity\Utilisateur $utilisateur)
     {
         $this->utilisateurs->removeElement($utilisateur);
+
+        $utilisateur->removeParty($this);
     }
 
     /**

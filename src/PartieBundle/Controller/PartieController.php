@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
@@ -55,6 +58,8 @@ class PartieController extends Controller
         $session = $request->getSession();
         $session->start();
 
+
+
         if( $session->get('id') ) {
             // On recupere l'id de l'utilisateur connecté 
             $id_user = $session->get('id');
@@ -70,10 +75,10 @@ class PartieController extends Controller
 
             $user = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
 
-            $partie->addUtilisateur( $user);
+           
 
             if ($form->isSubmitted() && $form->isValid()) {
-                
+                $partie->addUtilisateur( $user);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($partie);
                 $em->flush();
@@ -101,6 +106,21 @@ class PartieController extends Controller
      */
     public function showAction(Partie $partie, Request $request)
     {
+        if( $request->isXmlHttpRequest()) {
+
+            // On va le cherche en base de données
+            $partie = new Partie();
+            $partieId = $request->get('id');
+            $partiebdd = $this->getDoctrine()->getRepository(Partie::class)->find($partieId);
+            $partie = $this->get('serializer')->serialize($partiebdd, 'json');
+           
+            $response = new Response($partie);
+            $response->headers->set('Content-Type', 'application/json');
+            // $response->headers->set('Content-Type','application/json');
+
+            return $response;
+        }
+
 
         $session = new Session();
         $session = $request->getSession();
@@ -114,32 +134,59 @@ class PartieController extends Controller
 
         $deleteForm = $this->createDeleteForm($partie);
 
-       
 
-        $form = $this->createFormBuilder()
+
+       
+        // Creation du formulaire pour rejoindre la partie
+        $formJoinParty = $this->createFormBuilder()
                     ->add('join', SubmitType::class,array('label' => 'Rejoindre la partie'))
                     ->getForm();
 
-        $form->handleRequest($request);
+        $formJoinParty->handleRequest($request);
+        
+        // Creation du formulaire pour quitter la partie
+        $formQuitParty = $this->createFormBuilder()
+                    ->add('quit', SubmitType::class,array('label' => 'Quitter la partie'))
+                    ->getForm();
+        $formQuitParty->handleRequest($request);
 
 
+        
+        $message = true ;
 
-        if ($form->isSubmitted() && $form->isValid()) {
-   
+        // Utilisateur inscrits dans la partie
+        $utilisateurs = $partie->getUtilisateurs()->toArray();
+
+        foreach ( $utilisateurs as $joueur ) {
+            if( $joueur->getId() === $utilisateur->getId() ){
+                $message = false;
+            } 
+        }
+
+
+        if ($formJoinParty->isSubmitted() && $formJoinParty->isValid()) {
             $partie->addUtilisateur($utilisateur);
             $em = $this->getDoctrine()->getManager();
             $em->persist($partie);
             $em->flush();
-        
         }
 
-        
+        if ($formQuitParty->isSubmitted() && $formQuitParty->isValid()) {
+            $partie->removeUtilisateur($utilisateur);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($partie);
+            $em->flush();
+        }
+
 
         return $this->render('partie/show.html.twig', array(
             'partie' => $partie,
             'utilisateur' => $utilisateur,
             'delete_form' => $deleteForm->createView(),
-            'form' => $form->createView()
+            'formJoinParty' => $formJoinParty->createView(),
+            'formQuitParty' => $formQuitParty->createView(),
+            'message' => $message, 
+            'utilisateurs' => $utilisateurs
         ));
 
 
