@@ -4,19 +4,91 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Join Us !{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
-        <link rel="stylesheet" href="{{ asset( 'build/app.css' ) }}"/>
         <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet"> 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset( 'build/app.css' ) }}"/>
+
         
     </head>
     <body>
+        <div class="page">
+            <!-- Navigation -->
+            <header class="site-header">
+                <nav class="navbar navbar-light bg-light static-top">
+                    <div class="container">
+                        <a class="navbar-brand col-md-8" href="{{ path('homepage') }}"><h2>Join US ! </h2></a>
+                        {% if app.user %}
+                            {% if app.request.uri != 'utilisateur_dashboard' %}
+                                <a class="btn btn-outline-secondary" href="{{ path('utilisateur_dashboard') }}"> Retour au dashboard </a>
+                            {% endif %}
+                            <a class="btn btn-primary" href="{{ path('logout') }}"> Se deconnecter </a>
+                        {% else %}
+                            <a class="btn btn-outline-secondary" href="{{ path('login') }}">Se Connecter</a>
+                            <a class="btn btn-primary" href="{{ path('utilisateur_new') }}"> Creer un compte</a>
+                        {% endif %}
+                    </div>
+                </nav>
+            </header>
 
-        {% block body %}{% endblock %}
-        
+            <main class="site-main site-footer">
+                {% block body %} {% endblock %}
+            </main>
+            
+
+            <!-- Footer -->
+            <footer class=" footer bg-light container-fluid">
+                <div class="container-fluid">
+                    <div class="row">
+                    <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                        <ul class="list-inline mb-2">
+                        <li class="list-inline-item">
+                            <a href="#">About</a>
+                        </li>
+                        <li class="list-inline-item">&sdot;</li>
+                        <li class="list-inline-item">
+                            <a href="#">Contact</a>
+                        </li>
+                        <li class="list-inline-item">&sdot;</li>
+                        <li class="list-inline-item">
+                            <a href="#">Terms of Use</a>
+                        </li>
+                        <li class="list-inline-item">&sdot;</li>
+                        <li class="list-inline-item">
+                            <a href="#">Privacy Policy</a>
+                        </li>
+                        </ul>
+                        <p class="text-muted small mb-4 mb-lg-0">&copy; Join Us 2018. All Rights Reserved.</p>
+                    </div>
+                    <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+                        <ul class="list-inline mb-0">
+                        <li class="list-inline-item mr-3">
+                            <a href="#">
+                            <i class="fa fa-facebook fa-2x fa-fw"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item mr-3">
+                            <a href="#">
+                            <i class="fa fa-twitter fa-2x fa-fw"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#">
+                            <i class="fa fa-instagram fa-2x fa-fw"></i>
+                            </a>
+                        </li>
+                        </ul>
+                    </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
         {% block javascripts %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src ="{{ asset( 'build/build.js' ) }}"></script>
-        
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            <script src ="{{ asset( 'build/build.js' ) }}"></script>
+            
         {% endblock %}
     </body>
 </html>
+

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <h1 class="text-center"> Parties de basketball</h1>
+    <br><br>
+    {% if parties %}
+    <div class="container">
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th> Organisateur</th>
+                    <th>Adresse</th>
+                    <th>Date</th>
+                    <th>Horaire</th>
+                    <th>Ville</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            {% for partie in parties %}
+                <tr>
+                    <td> {{ partie.organisateur.username }} </td>
+                    <td> {{ partie.adresse }} </td>
+                    <td> {{ partie.date.date|date("d/m/Y") }} </td>
+                    <td> {{ partie.horaire.date|date("H:i") }}</td>
+                    <td> {{ partie.ville }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('partie_show', { 'id': partie.id }) }}"> Voir la partie</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <h3 class="text-center"> Aucune partie n'a été encore créée pour ce sport ! </h3>
+            <p class="text-center"> <a href="{{ path('partie_new') }}"> Voulez-vous créer une partie ? </a> </p>
+        {% endif %} 
+        
+    </div>
+
+{% endblock %}

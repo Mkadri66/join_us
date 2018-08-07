@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // Récuperation de l'id de la page 
+    // Récuperation de l id de la page 
     page = document.location.href;
 
     $("#joinParty").submit(function (event) {
@@ -47,4 +47,7 @@ $(document).ready(function () {
 
         event.preventDefault();
     });
+
+
+
 }); 

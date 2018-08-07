@@ -16,7 +16,7 @@
             <div class="col-sm-12">
                 {# Génération de l'input. #}
                 {{ form_widget(edit_form.nom, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.nom) }}
+                {{ form_errors(edit_form.nom, {'attr': {'class': 'form_error'}}) }}
             </div>
 
             {# Génération du label. #}
@@ -26,7 +26,7 @@
             <div class="col-sm-12">
                 {# Génération de l'input. #}
                 {{ form_widget(edit_form.prenom, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.prenom) }}
+                {{ form_errors(edit_form.prenom, {'attr': {'class': 'form_error'}}) }}
             </div>
 
 
@@ -37,7 +37,7 @@
             <div class="col-sm-12">        
                 {# Génération de l'input. #}
                 {{ form_widget(edit_form.mail, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.mail) }}
+                {{ form_errors(edit_form.mail, {'attr': {'class': 'form_error'}}) }}
             </div>
 
             {# Génération du label. #}
@@ -47,18 +47,9 @@
             <div class="col-sm-12">
                 {# Génération de l'input. #}
                 {{ form_widget(edit_form.pseudo, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.pseudo) }}
+                {{ form_errors(edit_form.pseudo, {'attr': {'class': 'form_error'}}) }}
             </div>
 
-            {# Génération du label. #}
-            {{ form_label(edit_form.mdp, "Mot de passe", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
-            {# Génération de l'erreur  #}
-           
-            <div class="col-sm-12">
-                {# Génération de l'input. #}
-                {{ form_widget(edit_form.mdp, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.mdp) }}
-            </div>
 
             {# Génération du label. #}
             {{ form_label(edit_form.ville, "Ville", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
@@ -67,7 +58,7 @@
             <div class="col-sm-12">
                 {# Génération de l'input. #}
                 {{ form_widget(edit_form.ville, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.ville) }}
+                {{ form_errors(edit_form.ville, {'attr': {'class': 'form_error'}}) }}
             </div>
 
 
@@ -85,20 +76,11 @@
         </div>
         {{ form_widget(edit_form.valider, {'attr': {'class': 'btn btn-primary'}}) }}
 
-        {{ form_widget(edit_form.role, { 'attr': {'class': 'hidden-row'} }) }}
-
         {{ form_end(edit_form) }}
     </div>
 
 
 </div>
 
-
-    {# <ul>
-        <li>
-            {{ edit_form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul> #}
+ <p class="col-lg-12 text-center"><a href="{{ path('utilisateur_new') }}"> Retour au dashboard  </a> </p>
 {% endblock %}

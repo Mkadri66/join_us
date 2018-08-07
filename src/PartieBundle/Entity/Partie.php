@@ -44,6 +44,7 @@ class Partie
      *
      * @ORM\Column(name="date", type="date")
      * @Assert\NotBlank(message="Ce champ est obligatoire.")
+     * @Assert\GreaterThan("today")ù
      */
     private $date;
 

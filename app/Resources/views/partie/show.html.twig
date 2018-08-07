@@ -28,6 +28,10 @@
                     <td>{{ partie.organisateur.prenom }}</td>
                 </tr>
                 <tr>
+                    <th> Sport </th>
+                    <td>{{ partie.sport.libelle}}</td>
+                </tr>
+                <tr>
                     <th> Lieu de la partie</th>
                     <td>{{ partie.adresse }} - {{ partie.ville }}</td>
                 </tr>
@@ -54,7 +58,7 @@
                             {% for user in partie.utilisateurs %}
                                  <li>
                                 <img class="avatar_partie" src="{{ asset('uploads/img/' ~ user.avatar.id  ~ '.' ~ user.avatar.url ) }}" class="mx-auto d-block" alt="">
-                                  {{ user.pseudo}}</li>
+                                  {{ user.username}}</li>
                             {% endfor %}
                         </ul>                 
                     </td>
@@ -66,15 +70,20 @@
 
             </tbody>
         </table>
-
-        {% if  message  %}
-            {{ form_start(formJoinParty , {'attr': {'id': 'joinParty'}}) }}
-                {{ form_widget(formJoinParty.join, {'attr': {'class': 'join btn btn-primary' }}) }} 
-            {{ form_end(formJoinParty) }}
+        {% if  organisateur %}
+                {{ form_start(deleteForm) }}
+                    <input type="submit" value="Supprimer la partie" class="btn btn-danger">
+                {{ form_end(deleteForm) }}
         {% else %}
-            {{ form_start(formQuitParty, {'attr': {'id': 'quitParty'}}) }}
-                {{ form_widget(formQuitParty.quit, {'attr': {'class': 'quit btn btn-danger'}}) }}        
-            {{ form_end(formQuitParty) }}
+              {% if  isOnParty %}
+                {{ form_start(formJoinParty , {'attr': {'id': 'joinParty'}}) }}
+                    {{ form_widget(formJoinParty.join, {'attr': {'class': 'join btn btn-primary' }}) }} 
+                {{ form_end(formJoinParty) }}
+            {% else %}
+                {{ form_start(formQuitParty, {'attr': {'id': 'quitParty'}}) }}
+                    {{ form_widget(formQuitParty.quit, {'attr': {'class': 'quit btn btn-danger'}}) }}        
+                {{ form_end(formQuitParty) }}
+            {% endif %}
         {% endif %}
 
 

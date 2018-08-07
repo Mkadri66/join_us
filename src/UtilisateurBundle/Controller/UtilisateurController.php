@@ -2,24 +2,33 @@
 
 namespace UtilisateurBundle\Controller;
 
-use UtilisateurBundle\Entity\Utilisateur;
 use RoleBundle\Entity\Role;
 use ImageBundle\Entity\Image;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SportBundle\Entity\Sport;
+use VilleBundle\Entity\Ville;
+use ImageBundle\Form\ImageType;
+use UtilisateurBundle\Entity\Utilisateur;
+use UtilisateurBundle\Form\UtilisateurType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Utilisateur controller.
@@ -32,121 +41,69 @@ class UtilisateurController extends Controller
      * Lists all utilisateur entities for the admin.
      *
      * @Route("/", name="utilisateur_index")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      */
     public function indexAction(Request $request)
     {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $utilisateurs = $em->getRepository('UtilisateurBundle:Utilisateur')->findAll();
+
         
-        $session = new Session();
-        $session = $request->getSession();
 
-        $id_user = $session->get('id');
-
-        $id_role = $session->get('role');
-        
-        if( $id_role === 1 ) {
-
-            $em = $this->getDoctrine()->getManager();
-
-            $utilisateurs = $em->getRepository('UtilisateurBundle:Utilisateur')->findAll();
-
-            return $this->render('utilisateur/index.html.twig', array(
-                'utilisateurs' => $utilisateurs,
-            ));
-        } else {
-            return $this->redirectToRoute('utilisateur_login');
-        }
+        return $this->render('utilisateur/index.html.twig', array(
+            'utilisateurs' => $utilisateurs
+        ));
 
     }
 
     /**
      * A form to login an user.
      * 
-     *
-     * 
-     * @Route("/login", name="utilisateur_login")
+     * @Route("/login", name="login")
      * 
      * @Method({"GET", "POST"})
      * 
      */
     public function loginAction(Request $request)
     {
-        $session = new Session();
-        $session = $request->getSession();
-
-        $id_user = $session->get('id');
-
-        if( !$id_user ) { 
-
-            $utilisateur = new Utilisateur;
-
-            $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $utilisateur);
-
-            $formBuilder
-
-                ->add('pseudo',     TextType::class)
-                ->add('mdp',        PasswordType::class)
-                ->add('valider',    SubmitType::class);
-
-            $form = $formBuilder->getForm();
-
-            $form->handleRequest($request);
-
-            $data = $request->request->get('form'); 
-
-            $user = $this->getDoctrine()->getRepository( Utilisateur::class )->findOneBy(
-                array(
-                    'pseudo'=> $data['pseudo'],
-                    'mdp'=> $data['mdp']
-                )
-            );
-
-            $message = "";
-
-            if( $form->isSubmitted()) {
-                if ( !empty( $user )) {
-                    $session = new Session();
-                    $session = $request->getSession();
-                    $session->start();
-
-                    $session->set('id', $user->getId());
-
-                    $id_user = $session->get('id');
-
-                    $user_connect = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
-
-                    $request->getSession()->getFlashBag()->add('notice', 'Connexion reussie');
-                    return $this->redirectToRoute('utilisateur_dashboard');
-                } else {
-                    $message = "Mauvaise combinaison pseudo/mot de passe";
-                }
-            
-            } 
-
-            return $this->render('utilisateur/login.html.twig', array(
-                'form' => $form->createView(),
-                'message'=> $message
-            ));
-
+        // Si le visiteur est déjà identifié, on le redirige vers l'accueil
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('utilisateur_dashboard');
         } else {
-            return $this->redirectToRoute('utilisateur_dashboard');            
+            
+            $authenticationUtils = $this->get('security.authentication_utils');
+            return $this->render('utilisateur/login.html.twig', array(
+                'last_username' => $authenticationUtils->getLastUsername(),
+                'error'         => $authenticationUtils->getLastAuthenticationError(),
+            ));
         }
-
     }
 
     /**
-     * Logout an user.
-     * @Route("/logout", name="utilisateur_logout")
+     * Login check .
+     * @Route("/login_check", name="login_check")
      * 
      * @Method({"GET", "POST"})
      * 
      */
+    public function logincheckAction(Request $request)
+    {
+      
+    }
+
+    /**
+     * Logout an user.
+     * @Route("/logout", name="logout")
+     * 
+     * 
+     * 
+     */
     public function logoutAction(Request $request)
     {
-        $session = new Session();
-        $session = $request->getSession();
-        $session->clear();
-        return $this->redirectToRoute('homepage');
+        
     }
 
     /**
@@ -155,52 +112,31 @@ class UtilisateurController extends Controller
      * @Route("/new", name="utilisateur_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, UserPasswordEncoderInterface $encoder = null)
     {
 
-        $session = new Session();
-        $session = $request->getSession();
 
-        $id_user = $session->get('id');
+        $passwordEncoder = $this->get('security.password_encoder');
+        $utilisateur = new Utilisateur();
+        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form->handleRequest($request);
 
-        if( !$id_user ) { 
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            // on definit le role par defaut à utilisateur ( role 1 : admin)
-            $role = $this->getDoctrine()->getRepository(Role::class)->find(2);
-
-
-            $utilisateur = new Utilisateur();
-
-            $form = $this->createForm('UtilisateurBundle\Form\UtilisateurType', $utilisateur);
-
-            $form->handleRequest($request);
-
-            $utilisateur->setRole($role);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-
-                $utilisateur->setRole($role);
-
-
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($utilisateur);
-
-                $em->flush();
-
-                return $this->redirectToRoute('utilisateur_login');
-            }
-
-
-
-            return $this->render('utilisateur/new.html.twig', array(
-                'utilisateur' => $utilisateur,
-                'form' => $form->createView(),
-                'role' => $role
-            ));
-        } else {
-            return $this->redirectToRoute('utilisateur_dashboard');
+            $utilisateur = $form->getData();
+            // $utilisateur->setRoles(array('ROLE_USER'));
+            $password = $passwordEncoder->encodePassword($utilisateur, $utilisateur->getPassword());
+            $utilisateur->setPassword($password);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($utilisateur);
+            $em->flush();
+            return $this->redirectToRoute('login');
         }
+        return $this->render('utilisateur/new.html.twig', array(
+            'utilisateur' => $utilisateur,
+            'form' => $form->createView(),
+        ));
+        
         
     }
 
@@ -213,30 +149,20 @@ class UtilisateurController extends Controller
      */
     public function dashboardAction(Request $request)
     {
-        $session = new Session();
-        $session = $request->getSession();
-        $session->start();
 
-        $id_user = $session->get('id');
-
-        if( $id_user ) {
-
-            $user_connect = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id_user);
-
-            $role = $user_connect->getId();
-
-            $session->set('role', $role);
-
-            $id_role = $session->get('role');
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            // Si l'utilisateur est connecté on peut le recuperer
+            $user = $this->getUser();
+            $em = $this->getDoctrine()->getManager();
+            $sports = $em->getRepository('SportBundle:Sport')->findAll();
 
             return $this->render('utilisateur/dashboard.html.twig', array(
-                'user_connect' => $user_connect,
-                'role' => $id_role
+                'user' => $user,
+                'sports' => $sports
             ));
         } else {
-            return $this->redirectToRoute('utilisateur_login');
+            return $this->redirectToRoute('login');
         }
-
 
     }
 
@@ -264,13 +190,58 @@ class UtilisateurController extends Controller
      */
     public function editAction(Request $request, Utilisateur $utilisateur)
     {
-        $deleteForm = $this->createDeleteForm($utilisateur);
-        $editForm = $this->createForm('UtilisateurBundle\Form\UtilisateurType', $utilisateur);
+        // $deleteForm = $this->createDeleteForm($utilisateur);
+        // $editForm = $this->createForm('UtilisateurBundle\Form\UtilisateurType', $utilisateur);
+        // $editForm->handleRequest($request);
+
+        // if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+        //     $this->getDoctrine()->getManager()->flush();
+
+        //     $session = $request->getSession();
+
+
+        //     $session->getFlashBag()->add('info', 'Votre profil à bien était mis à jour :D ');
+
+        //     return $this->redirectToRoute('utilisateur_dashboard');
+        // }
+
+        // return $this->render('utilisateur/edit.html.twig', array(
+        //     'utilisateur' => $utilisateur,
+        //     'edit_form' => $editForm->createView(),
+        //     'delete_form' => $deleteForm->createView(),
+        // ));
+
+
+            
+  
+
+        $editForm = $this->createFormBuilder($utilisateur)
+            
+            ->add('nom',        TextType::class)
+
+            ->add('prenom',     TextType::class)
+
+            ->add('mail',       TextType::class)
+
+            ->add('pseudo',     TextType::class)
+
+            ->add('ville',      EntityType::class, array('label' => 'ville','class'=> Ville::class, 'choice_label'=> 'libelle'))
+
+            ->add('avatar',     ImageType::class)
+
+            ->add('valider',    SubmitType::class)
+
+            ->getForm();
+
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 
             $this->getDoctrine()->getManager()->flush();
+            $session = new Session();
+            $session = $request->getSession();
+            $session->start();
 
             $session = $request->getSession();
 
@@ -283,7 +254,6 @@ class UtilisateurController extends Controller
         return $this->render('utilisateur/edit.html.twig', array(
             'utilisateur' => $utilisateur,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 

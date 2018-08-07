@@ -44,7 +44,7 @@
                 
                 <div class="col-sm-12">
                     {# Génération de l'input. #}
-                    {{ form_widget(form.joueursActif, {'attr': {'class': 'form-control' }}) }}
+                    {{ form_widget(form.joueursActif, {'attr': {'class': 'form-control', 'min': 1 }}) }}
                     
                     <div class="error_message"> {{ form_errors(form.joueursActif) }} </div>
                 </div>
@@ -55,7 +55,7 @@
                 
                 <div class="col-sm-12">
                     {# Génération de l'input. #}
-                    {{ form_widget(form.totalJoueurs, {'attr': {'class': 'form-control' }}) }}
+                    {{ form_widget(form.totalJoueurs, {'attr': {'class': 'form-control','min': 1 }}) }}
                     <div class="error_message"> {{ form_errors(form.totalJoueurs) }} </div>
                 </div>
 
@@ -86,6 +86,7 @@
             {{ form_end(form) }}
 
         </div>
+        
     </div>
 {% endblock %}
 

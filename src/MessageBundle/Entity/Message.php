@@ -40,7 +40,7 @@ class Message
     * @ORM\ManyToOne(targetEntity="UtilisateurBundle\Entity\Utilisateur")
     * @ORM\JoinColumn(nullable=false)
     */
-    private $auteur;
+    private $auteur; 
 
     /**
     * @ORM\ManyToOne(targetEntity="PartieBundle\Entity\Partie")

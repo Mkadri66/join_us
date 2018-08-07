@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use VilleBundle\Entity\Ville;
 
 
-use RoleBundle\Form\RoleType;
+
 use ImageBundle\Form\ImageType;
 use VilleBundle\Form\VilleType;
 
@@ -41,15 +41,13 @@ class UtilisateurType extends AbstractType
 
             ->add('mail',       TextType::class)
 
-            ->add('pseudo',     TextType::class)
+            ->add('username',     TextType::class)
 
-            ->add('mdp',        PasswordType::class)
+            ->add('password',        PasswordType::class)
 
             ->add('ville',      EntityType::class, array('label' => 'ville','class'=> Ville::class, 'choice_label'=> 'libelle'))
 
             ->add('avatar',     ImageType::class)
-
-            ->add('role',       RoleType::class)
 
             ->add('valider',    SubmitType::class);
     }

@@ -2,47 +2,47 @@
 
 
 {% block body %}
-
-
 <div class="container">
-	
-	{#  Message confirmant la connexion au site  #}
-    {% for notice  in app.session.flashbag.get('notice') %}   
-		<div class="alert alert-success" role="alert">
-			{{ notice }}
-		</div>
-    {% endfor %}
 
     <div class="row profile">
 		<div class="col-md-3">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
-					<img src="{{ asset('uploads/img/' ~ user_connect.avatar.id  ~ '.' ~ user_connect.avatar.url ) }}" class="mx-auto d-block" alt="">
+					<img src="{{ asset('uploads/img/' ~ app.user.avatar.id  ~ '.' ~ app.user.avatar.url ) }}" class="mx-auto d-block" alt="">
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
 				<div class="profile-usertitle">
 					<div class="profile-usertitle-name">
-						<p> Bienvenue {{ user_connect.prenom | capitalize }}  !</p>
+						<p> Bienvenue {{ app.user.prenom | capitalize }}  !</p>
 					</div>
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				{# Lien vers la liste des utilisateurs seulement pour les admins #}
 				<div class="profile-userbuttons">
-					{% if  role  == 1  %}
+					{# {% if  role  == 1  %}
     					<a href="{{ path('utilisateur_index') }}"> Liste des utilisateurs  </a> <br>
-					{% endif %}
+					{% endif %} #}
 					<a href="{{ path('partie_new') }}"> Creer une partie </a> </br>
-					<a href="{{ path('utilisateur_edit', { 'id':user_connect.id } ) }}" > Editer mon compte</a> <br>
-					<a href="{{ path('utilisateur_logout') }}"> Se deconnecter</a> <br>
+					<a href="{{ path('utilisateur_edit', { 'id':app.user.id } ) }}" > Editer mon compte</a> <br>
+					<a href="{{ path('logout') }}"> Se deconnecter</a> <br>
 					
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 			</div>
 		</div>
-		<div class="col-md-9">
+		<div class="col-md-9 dashboard">
+			<div class="sports">
+				<h2 class="text-center"> Sports </h2>
+				<p> Choisissez un sport pour voir les parties disponibles :  </p>
+					<div class="row">							
+						{% for sport in sports %}
+							<a href="{{path('partie_' ~ sport.libelle ~ '')}}" class="col-md-2 sports_dashboard sports_libelle">  {{ sport.libelle|capitalize}}</a>
+						{% endfor %}
+					</div>
+            </div>
             <div class="profile-content">
 				<div class="row">
 					<div class='col-md-12 text-center'> 
@@ -50,18 +50,15 @@
 					</div> 
 
 				</div>
-			    {% for partie in user_connect.parties %}
-        			{# <li>{{ partie.id}}</li> #}
-					{# {{ dump(partie)}} #}
-					
-					<li> <a href="{{ path('partie_show', { 'id': partie.id }) }}"> Partie n° {{ partie.id }} </a>
-					<p> Organisateur : {{ partie.organisateur.pseudo }} </p>
+			    {% for partie in app.user.parties %}
+					<hr>
+					<li><h4> <a href="{{ path('partie_show', { 'id': partie.id }) }}"> Partie n° {{ partie.id }} </a> </h4>
+					<p> Organisateur : {{ partie.organisateur.username }} </p>
 					<p> Adresse : {{ partie.adresse }} </p>
 					<p> Date de la partie : {{ partie.date.date|date("d/m/Y") }} </p>
 					<p> Horaire de la partie : {{ partie.horaire.date|date("H:i") }} </p>
 					<p> Sport : {{ partie.sport.libelle }} </p>
-					<p> Ville : {{ partie.ville }} </p>
-					
+					<p> Ville : {{ partie.ville }} </p>				
 					<hr>
 				{% endfor %}
 
@@ -70,19 +67,7 @@
             </div>
 		</div>
 	</div> 
-
-	<p>
-
-      {# On affiche tous les messages flash dont le nom est « info » #}
-
-      {% for message in app.session.flashbag.get('info') %}
-
-        <p> {{ message }}</p>
-
-      {% endfor %}
-
-    </p>
-
+</div>
 {% endblock %}
 
 

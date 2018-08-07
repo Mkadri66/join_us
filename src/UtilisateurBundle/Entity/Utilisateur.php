@@ -5,8 +5,10 @@ namespace UtilisateurBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -15,9 +17,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="utilisateur")
  * @ORM\Entity(repositoryClass="UtilisateurBundle\Repository\UtilisateurRepository")
  * @UniqueEntity(
- *  fields="pseudo")
+ *  fields = {"mail"},
+ *  message = "L'email que vous avez entré est deja utilisé !"
+ * )
  */
-class Utilisateur
+class Utilisateur implements UserInterface, \Serializable,EquatableInterface
 {
     /**
      * @var int
@@ -47,14 +51,14 @@ class Utilisateur
     /**
      * @var string
      *
-     * @ORM\Column(name="pseudo", type="string", length=255, unique=true)
+     * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
-    private $pseudo;
+    private $username;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mail", type="string", length=255, unique=true)
+     * @ORM\Column(name="mail", type="string", length=255)
      * @Assert\Email(
      *     message = "L'email '{{ value }}' n'est pas au bon format ."
      * )
@@ -65,11 +69,22 @@ class Utilisateur
     /**
      * @var string
      *
-     * @ORM\Column(name="mdp", type="string", length=255)
+     * @ORM\Column(name="password", type="string", length=255)
      * @Assert\NotBlank()
      * 
      */
-    private $mdp;
+    private $password;
+
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+
+    /**
+    * @ORM\Column(name="salt", type="string", length=255)
+    */
+
+    private $salt;
 
     /**
     * @ORM\ManyToOne(targetEntity="VilleBundle\Entity\Ville")
@@ -88,12 +103,8 @@ class Utilisateur
 
 
     /**
-    * @ORM\ManyToOne(targetEntity="RoleBundle\Entity\Role")
-    * @ORM\JoinColumn(nullable=false)
-    * @Assert\Valid()
     */
-    private $role;
-
+    private $roles = array();
 
 
     /**
@@ -109,6 +120,10 @@ class Utilisateur
     {
 
         $this->parties = new ArrayCollection();
+        $this->isActive = true;
+        $this->salt = md5(uniqid(null, true));
+        $this->roles = array('ROLE_USER');
+
     }
 
 
@@ -128,6 +143,53 @@ class Utilisateur
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+
+        // allows for chaining
+        return $this;
+    }
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
     }
 
     /**
@@ -179,27 +241,27 @@ class Utilisateur
     }
 
     /**
-     * Set pseudo
+     * Set username
      *
-     * @param string $pseudo
+     * @param string $username
      *
      * @return Utilisateur
      */
-    public function setPseudo($pseudo)
+    public function setUsername($username)
     {
-        $this->pseudo = $pseudo;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * Get pseudo
+     * Get username
      *
      * @return string
      */
-    public function getPseudo()
+    public function getUsername()
     {
-        return $this->pseudo;
+        return $this->username;
     }
 
     /**
@@ -233,9 +295,9 @@ class Utilisateur
      *
      * @return Utilisateur
      */
-    public function setMdp($mdp)
+    public function setPassword($password)
     {
-        $this->mdp = $mdp;
+        $this->password = $password;
 
         return $this;
     }
@@ -245,9 +307,9 @@ class Utilisateur
      *
      * @return string
      */
-    public function getMdp()
+    public function getPassword()
     {
-        return $this->mdp;
+        return $this->password;
     }
 
     /**
@@ -275,29 +337,8 @@ class Utilisateur
     }
 
 
-    /**
-     * Set role
-     *
-     * @param \RoleBundle\Entity\Role $role
-     *
-     * @return Utilisateur
-     */
-    public function setRole(\RoleBundle\Entity\Role $role)
-    {
-        $this->role = $role;
 
-        return $this;
-    }
 
-    /**
-     * Get role
-     *
-     * @return \RoleBundle\Entity\Role
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
 
     /**
      * Set avatar
@@ -369,5 +410,34 @@ class Utilisateur
     public function removeAvatar(\ImageBundle\Entity\Image $avatar)
     {
         $this->avatar->removeElement($avatar);
+    }
+
+    /**
+     * Set isActive.
+     *
+     * @param bool $isActive
+     *
+     * @return Utilisateur
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive.
+     *
+     * @return bool
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    public function isEqualTo(UserInterface $user)
+    {
+        return $this->id === $user->getId();
     }
 }
