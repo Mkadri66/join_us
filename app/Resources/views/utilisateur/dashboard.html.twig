@@ -2,6 +2,7 @@
 
 
 {% block body %}
+
 <div class="container">
 
     <div class="row profile">
@@ -25,6 +26,10 @@
 					{# {% if  role  == 1  %}
     					<a href="{{ path('utilisateur_index') }}"> Liste des utilisateurs  </a> <br>
 					{% endif %} #}
+					{% if is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('utilisateur_index') }}"> Liste des utilisateurs  </a> </br>
+					{% endif %}	
+
 					<a href="{{ path('partie_new') }}"> Creer une partie </a> </br>
 					<a href="{{ path('utilisateur_edit', { 'id':app.user.id } ) }}" > Editer mon compte</a> <br>
 					<a href="{{ path('logout') }}"> Se deconnecter</a> <br>

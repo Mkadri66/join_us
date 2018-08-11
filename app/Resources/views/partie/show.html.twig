@@ -44,21 +44,18 @@
                     <td>{% if partie.horaire %}{{ partie.horaire.date|date('H:i') }}{% endif %}</td>
                 </tr>
                 <tr>
-                    <th>Joueursactif</th>
-                    <td>{{ partie.joueursActif }}</td>
-                </tr>
-                <tr>
-                    <th>Totaljoueurs</th>
+                    <th>Total joueurs</th>
                     <td>{{ partie.totalJoueurs }}</td>
                 </tr>
                 <tr>
                     <th> Liste des participants </th>
                     <td>
-                        <ul>
+                        <ul class="users">
                             {% for user in partie.utilisateurs %}
-                                 <li>
-                                <img class="avatar_partie" src="{{ asset('uploads/img/' ~ user.avatar.id  ~ '.' ~ user.avatar.url ) }}" class="mx-auto d-block" alt="">
-                                  {{ user.username}}</li>
+                                 <li class="user">
+                                        <img class="avatar_partie" src="{{ asset('uploads/img/' ~ user.avatar.id  ~ '.' ~ user.avatar.url ) }}" class="mx-auto d-block" alt="">
+                                        {{ user.username}}
+                                </li>
                             {% endfor %}
                         </ul>                 
                     </td>

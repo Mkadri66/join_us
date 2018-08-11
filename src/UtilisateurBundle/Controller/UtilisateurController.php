@@ -46,13 +46,9 @@ class UtilisateurController extends Controller
      */
     public function indexAction(Request $request)
     {
-
-        $em = $this->getDoctrine()->getManager();
-
-        $utilisateurs = $em->getRepository('UtilisateurBundle:Utilisateur')->findAll();
-
         
-
+        $em = $this->getDoctrine()->getManager();
+        $utilisateurs = $em->getRepository('UtilisateurBundle:Utilisateur')->findAll();     
         return $this->render('utilisateur/index.html.twig', array(
             'utilisateurs' => $utilisateurs
         ));
@@ -114,28 +110,33 @@ class UtilisateurController extends Controller
      */
     public function newAction(Request $request, UserPasswordEncoderInterface $encoder = null)
     {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('utilisateur_dashboard');
+        } else {        
+            $passwordEncoder = $this->get('security.password_encoder');
+            $utilisateur = new Utilisateur();
+            $form = $this->createForm(UtilisateurType::class, $utilisateur);
+            $form->handleRequest($request);
 
+            if ($form->isSubmitted() && $form->isValid()) {
 
-        $passwordEncoder = $this->get('security.password_encoder');
-        $utilisateur = new Utilisateur();
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
-        $form->handleRequest($request);
+                $utilisateur = $form->getData();
+                // $utilisateur->setRoles(array('ROLE_USER'));
+                $password = $passwordEncoder->encodePassword($utilisateur, $utilisateur->getPassword());
+                $utilisateur->setPassword($password);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($utilisateur);
+                $em->flush();
+                return $this->redirectToRoute('login');
+            }
+            return $this->render('utilisateur/new.html.twig', array(
+                'utilisateur' => $utilisateur,
+                'form' => $form->createView(),
+            ));
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $utilisateur = $form->getData();
-            // $utilisateur->setRoles(array('ROLE_USER'));
-            $password = $passwordEncoder->encodePassword($utilisateur, $utilisateur->getPassword());
-            $utilisateur->setPassword($password);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($utilisateur);
-            $em->flush();
-            return $this->redirectToRoute('login');
         }
-        return $this->render('utilisateur/new.html.twig', array(
-            'utilisateur' => $utilisateur,
-            'form' => $form->createView(),
-        ));
+
+
         
         
     }
@@ -150,7 +151,7 @@ class UtilisateurController extends Controller
     public function dashboardAction(Request $request)
     {
 
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
             // Si l'utilisateur est connecté on peut le recuperer
             $user = $this->getUser();
             $em = $this->getDoctrine()->getManager();
@@ -190,71 +191,45 @@ class UtilisateurController extends Controller
      */
     public function editAction(Request $request, Utilisateur $utilisateur)
     {
-        // $deleteForm = $this->createDeleteForm($utilisateur);
-        // $editForm = $this->createForm('UtilisateurBundle\Form\UtilisateurType', $utilisateur);
-        // $editForm->handleRequest($request);
 
-        // if ($editForm->isSubmitted() && $editForm->isValid()) {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) { 
+            $user_connect = $this->getUser();
+            if( $user_connect->getId() === $utilisateur->getId() ) {
+                $editForm = $this->createFormBuilder($utilisateur)
+                    
+                    ->add('nom',        TextType::class)
+                    ->add('prenom',     TextType::class)
+                    ->add('mail',       TextType::class)
+                    ->add('username',     TextType::class)
+                    ->add('ville',      EntityType::class, array('label' => 'ville','class'=> Ville::class, 'choice_label'=> 'libelle'))
+                    ->add('avatar',     ImageType::class)
+                    ->add('valider',    SubmitType::class)
+                    ->getForm();
 
-        //     $this->getDoctrine()->getManager()->flush();
+                $editForm->handleRequest($request);
 
-        //     $session = $request->getSession();
+                if ($editForm->isSubmitted() && $editForm->isValid()) {
 
+                    $this->getDoctrine()->getManager()->flush();
+                    $session = new Session();
+                    $session = $request->getSession();
+                    $session->start();
+                    $session = $request->getSession();
+                    $session->getFlashBag()->add('info', 'Votre profil à bien était mis à jour :D ');
+                    return $this->redirectToRoute('utilisateur_dashboard');
+                }
 
-        //     $session->getFlashBag()->add('info', 'Votre profil à bien était mis à jour :D ');
+                return $this->render('utilisateur/edit.html.twig', array(
+                    'utilisateur' => $utilisateur,
+                    'edit_form' => $editForm->createView(),
+                ));
+            } else {
+                return $this->redirectToRoute('utilisateur_dashboard');
+            } 
 
-        //     return $this->redirectToRoute('utilisateur_dashboard');
-        // }
-
-        // return $this->render('utilisateur/edit.html.twig', array(
-        //     'utilisateur' => $utilisateur,
-        //     'edit_form' => $editForm->createView(),
-        //     'delete_form' => $deleteForm->createView(),
-        // ));
-
-
-            
-  
-
-        $editForm = $this->createFormBuilder($utilisateur)
-            
-            ->add('nom',        TextType::class)
-
-            ->add('prenom',     TextType::class)
-
-            ->add('mail',       TextType::class)
-
-            ->add('pseudo',     TextType::class)
-
-            ->add('ville',      EntityType::class, array('label' => 'ville','class'=> Ville::class, 'choice_label'=> 'libelle'))
-
-            ->add('avatar',     ImageType::class)
-
-            ->add('valider',    SubmitType::class)
-
-            ->getForm();
-
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-
-            $this->getDoctrine()->getManager()->flush();
-            $session = new Session();
-            $session = $request->getSession();
-            $session->start();
-
-            $session = $request->getSession();
-
-
-            $session->getFlashBag()->add('info', 'Votre profil à bien était mis à jour :D ');
-
-            return $this->redirectToRoute('utilisateur_dashboard');
+        } else {
+            return $this->redirectToRoute('login');
         }
-
-        return $this->render('utilisateur/edit.html.twig', array(
-            'utilisateur' => $utilisateur,
-            'edit_form' => $editForm->createView(),
-        ));
     }
 
     /**

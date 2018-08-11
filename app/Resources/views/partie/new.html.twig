@@ -4,90 +4,87 @@
 
 {% block body %}
 
-    {# {{ dump( utilisateur ) }} #}
-    <div class="well col-md-6 offset-md-4">
-        <h2 class="text-center"> Creer une partie </h2>
-        <div class="form-group">
+
+<div class="row">
+    <div class="col-sm-8 offset-sm-2 new">
+        <h1 class="text-center">Creer une partie</h1>
+        <div class="well col-md-12">
             {{ form_start(form ,{'attr': {'class': 'form-horizontal col-lg-10'}}) }}
 
+            <div class="form-group">
+
                 {# Génération du label. #}
-                {{ form_label(form.adresse, "Lieu de la partie (adresse) ", {'label_attr': {'class': 'col-sm-6 control-label'}}) }}
+                {{ form_label(form.adresse, "Lieu de la partie", {'label_attr': {'class': 'col-sm-6 control-label'}}) }}
                 {# Génération de l'erreur  #}
                 
                 <div class="col-sm-12">
                     {# Génération de l'input. #}
                     {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
-                    <div class="error_message"> {{ form_errors(form.adresse) }} </div>
+                    {{ form_errors(form.adresse, {'attr': {'class': 'form_error'}}) }}
                 </div>
+
+                {# Génération du label. #}
+                {{ form_label(form.ville, "Ville", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                {# Génération de l'erreur  #}
+                
+                <div class="col-sm-12">
+                    {# Génération de l'input. #}
+                    {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.ville, {'attr': {'class': 'form_error'}}) }}
+                </div>
+
 
                 {# Génération du label. #}
                 {{ form_label(form.date, "Date", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
                 {# Génération de l'erreur  #}
                 
-                <div class="col-sm-12">
+                <div class="col-sm-12">        
                     {# Génération de l'input. #}
-                    {{ form_widget(form.date) }}
-                    {{ form_errors(form.date) }}
+                    {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.date, {'attr': {'class': 'form_error'}}) }}
                 </div>
+
                 {# Génération du label. #}
                 {{ form_label(form.horaire, "Horaire", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
                 {# Génération de l'erreur  #}
+                
                 <div class="col-sm-12">
                     {# Génération de l'input. #}
-                    {{ form_widget(form.horaire ) }}
-                    {{ form_errors(form.horaire ) }}
+                    {{ form_widget(form.horaire, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.horaire, {'attr': {'class': 'form_error'}}) }}
                 </div>
 
                 {# Génération du label. #}
-                {{ form_label(form.joueursActif , "Joueur(s) disponible(s)", {'label_attr': {'class': 'col-sm-6 control-label'}}) }}
+                {{ form_label(form.totalJoueurs, "Total joueurs", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+                {# Génération de l'erreur  #}
+            
+                <div class="col-sm-12">
+                    {# Génération de l'input. #}
+                    {{ form_widget(form.totalJoueurs, {'attr': {'class': 'form-control', 'min': 2}}) }}
+                    {{ form_errors(form.totalJoueurs, {'attr': {'class': 'form_error'}}) }}
+                </div>
+
+                {# Génération du label. #}
+                {{ form_label(form.sport, "Sport", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
                 {# Génération de l'erreur  #}
                 
                 <div class="col-sm-12">
                     {# Génération de l'input. #}
-                    {{ form_widget(form.joueursActif, {'attr': {'class': 'form-control', 'min': 1 }}) }}
-                    
-                    <div class="error_message"> {{ form_errors(form.joueursActif) }} </div>
+                    {{ form_widget(form.sport, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.sport, {'attr': {'class': 'form_error'}}) }}
                 </div>
 
-                {# Génération du label. #}
-                {{ form_label(form.totalJoueurs , "Nombre de joueur total", {'label_attr': {'class': 'col-sm-10 control-label'}}) }}
-                {# Génération de l'erreur  #}
-                
-                <div class="col-sm-12">
-                    {# Génération de l'input. #}
-                    {{ form_widget(form.totalJoueurs, {'attr': {'class': 'form-control','min': 1 }}) }}
-                    <div class="error_message"> {{ form_errors(form.totalJoueurs) }} </div>
-                </div>
-
-                {# Génération du label. #}
-                {{ form_label(form.sport , "Sport", {'label_attr': {'class': 'col-sm-10 control-label'}}) }}
-                {# Génération de l'erreur  #}
-                
-                <div class="col-sm-12">
-                    {# Génération de l'input. #}
-                    {{ form_widget(form.sport, {'attr': {'class': 'form-control' }}) }}
-                    <div class="error_message"> {{ form_errors(form.sport ) }} </div>
-                </div>
-
-                {# Génération du label. #}
-                {{ form_label(form.ville , "Ville", {'label_attr': {'class': 'col-sm-10 control-label'}}) }}
-                {# Génération de l'erreur  #}
-                
-                <div class="col-sm-12">
-                    {# Génération de l'input. #}
-                    {{ form_widget(form.ville, {'attr': {'class': 'form-control' }}) }}
-                    <div class="error_message"> {{ form_errors(form.ville ) }} </div>
-                </div>
-        </div>
-                <div class="col-sm-12 text-center">
-                    {{ form_widget(form.valider, {'attr': {'class': 'btn btn-primary'}}) }}
-                </div>
+            {# {{ form_rest(form) }} #}
+            </div>
+            {{ form_widget(form.valider, {'attr': {'class': 'btn btn-primary'}}) }}
 
             {{ form_end(form) }}
-
         </div>
         
     </div>
+</div>
+
+   
 {% endblock %}
 
 {% block stylesheets %}

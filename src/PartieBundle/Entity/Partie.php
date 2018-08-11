@@ -56,8 +56,6 @@ class Partie
      */
     private $horaire;
 
-
-
     /**
      * @var bool
      *
@@ -68,7 +66,7 @@ class Partie
     /**
      * @var int
      *
-     * @ORM\Column(name="joueurs_actif", type="integer")
+     * @ORM\Column(name="total_joueurs", type="integer")
      * 
      * @Assert\Range(
      *      min = 1,
@@ -76,15 +74,7 @@ class Partie
      *      minMessage = "Vous devez avoir au minimum : {{ limit }} joueur pour créer une partie.",
      *      maxMessage = "Vous pouvez inscrir au maximum : {{ limit }} joueurs."
      * )
-     */
-    
-    private $joueursActif;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="total_joueurs",type="integer")
-     */
+     */ 
     private $totalJoueurs;
 
 
@@ -199,29 +189,6 @@ class Partie
         return $this->termine;
     }
 
-    /**
-     * Set joueursActif
-     *
-     * @param integer $joueursActif
-     *
-     * @return Partie
-     */
-    public function setJoueursActif($joueursActif)
-    {
-        $this->joueursActif = $joueursActif;
-
-        return $this;
-    }
-
-    /**
-     * Get joueursActif
-     *
-     * @return int
-     */
-    public function getJoueursActif()
-    {
-        return $this->joueursActif;
-    }
 
     /**
      * Set totalJoueurs

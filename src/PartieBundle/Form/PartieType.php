@@ -36,7 +36,6 @@ class PartieType extends AbstractType
                 ['widget' => 'single_text'])
         ->add('horaire',        TimeType::class) 
         // ->add('termine',        ChoiceType::class)
-        ->add('joueursActif',   IntegerType::class)
         ->add('totalJoueurs',   IntegerType::class)
         // ->add('organisateur',   EntityType::class)
         ->add('sport',          EntityType::class, array('label' => 'sport','class'=> Sport::class, 'choice_label'=> 'libelle'))

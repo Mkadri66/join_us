@@ -35,11 +35,6 @@ partie:
     type:     annotation
     prefix:   /
 
-role:
-    resource: "@RoleBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 utilisateur:
     resource: "@UtilisateurBundle/Controller/"
     type:     annotation

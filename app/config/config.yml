@@ -3,7 +3,6 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: "@UtilisateurBundle/Resources/config/services.yml" }
-    - { resource: "@RoleBundle/Resources/config/services.yml" }
     - { resource: "@PartieBundle/Resources/config/services.yml" }
     - { resource: "@MessageBundle/Resources/config/services.yml" }
     - { resource: "@SportBundle/Resources/config/services.yml" }

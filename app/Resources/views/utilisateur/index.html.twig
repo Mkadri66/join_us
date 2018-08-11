@@ -28,8 +28,8 @@
                     <td>{{ utilisateur.prenom }}</td>
                     <td>{{ utilisateur.username }}</td>
                     <td>{{ utilisateur.mail }}</td>
-                    <td>{{ utilisateur.ville.id }}</td>
-                    <td>{{ utilisateur.avatar.id }}</td>
+                    <td>{{ utilisateur.ville.libelle }}</td>
+                    <td><img class="avatar_partie" src="{{ asset('uploads/img/' ~ utilisateur.avatar.id  ~ '.' ~ utilisateur.avatar.url ) }}" class="mx-auto d-block" alt=""></td>
                     <td>
                         <ul>
                             <li>
@@ -45,10 +45,5 @@
             </tbody>
         </table>
 
-        <ul>
-            <li>
-                <a href="{{ path('utilisateur_dashboard') }}">Aller vers le dashboard</a>
-            </li>            
-        </ul>
     </div>
 {% endblock %}

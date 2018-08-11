@@ -122,7 +122,7 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
         $this->parties = new ArrayCollection();
         $this->isActive = true;
         $this->salt = md5(uniqid(null, true));
-        $this->roles = array('ROLE_USER');
+        $this->roles = array('ROLE_USER', 'ROLE_ADMIN');
 
     }
 

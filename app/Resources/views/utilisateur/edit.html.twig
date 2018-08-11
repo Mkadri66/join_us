@@ -41,13 +41,13 @@
             </div>
 
             {# Génération du label. #}
-            {{ form_label(edit_form.pseudo, "Pseudo", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {{ form_label(edit_form.username, "Pseudo", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
             {# Génération de l'erreur  #}
             
             <div class="col-sm-12">
                 {# Génération de l'input. #}
-                {{ form_widget(edit_form.pseudo, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.pseudo, {'attr': {'class': 'form_error'}}) }}
+                {{ form_widget(edit_form.username, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.username, {'attr': {'class': 'form_error'}}) }}
             </div>
 
 

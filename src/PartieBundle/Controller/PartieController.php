@@ -11,11 +11,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Serializer\SerializerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 
 /**
@@ -43,7 +47,7 @@ class PartieController extends Controller
     }
     
     /**
-     * 
+     * Show all football parties
      *
      * @Route("/foot", name="partie_football")
      * @Method({"GET"})
@@ -66,7 +70,7 @@ class PartieController extends Controller
     }
 
     /**
-     * 
+     * Show all basketball parties
      *
      * @Route("/basketball", name="partie_basketball")
      * @Method({"GET"})
@@ -88,7 +92,7 @@ class PartieController extends Controller
     }
 
     /**
-     * 
+     * Show all tennis parties
      *
      * @Route("/tennis", name="partie_tennis")
      * @Method({"GET"})
@@ -110,7 +114,7 @@ class PartieController extends Controller
     }
 
     /**
-     * 
+     * Show all padel parties
      *
      * @Route("/padel", name="partie_padel")
      * @Method({"GET"})
@@ -132,7 +136,7 @@ class PartieController extends Controller
     }
 
     /**
-     * 
+     * Show all handball parties
      *
      * @Route("/handball", name="partie_handball")
      * @Method({"GET"})
@@ -205,20 +209,43 @@ class PartieController extends Controller
      * @Route("/{id}", name="partie_show")
      * @Method({"GET", "POST"})
      */
-    public function showAction(Partie $partie, Request $request, $id)
+    public function showAction(Partie $partie, Request $request)
     {
         if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {        
             if( $request->isXmlHttpRequest()) {
+                $utilisateur = $this->getUser();
+                $formJoinParty = $this->createFormBuilder()
+                        ->add('join', SubmitType::class,array('label' => 'Rejoindre la partie'))
+                        ->getForm();
 
-                // On va le cherche en base de données
-                $partie = new Partie();
-                $partieId = $request->get('id');
-                $partiebdd = $this->getDoctrine()->getRepository(Partie::class)->find($partieId);
-                $partie = $this->get('serializer')->serialize($partiebdd, 'json');
-            
-                $response = new Response($partie);
+                $formJoinParty->handleRequest($request);
+                    $partie->addUtilisateur($utilisateur);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($partie);
+                    $em->flush();
+
+
+                $id = $request->get('id');
+                $partie = $this->getDoctrine()->getRepository(Partie::class)->find($id);
+                $utilisateurs = $partie->getUtilisateurs();
+
+                $encoder = new JsonEncoder();
+                $normalizer = new ObjectNormalizer();
+
+                $normalizer->setCircularReferenceHandler(function ($object) {
+                    return $object->getId();
+                });
+
+                $serializer = new Serializer(array($normalizer), array($encoder));
+
+
+                $data =  $serializer->serialize($utilisateurs, 'json');
+
+
+                $response = new Response($data);
+
                 $response->headers->set('Content-Type', 'application/json');
-                // $response->headers->set('Content-Type','application/json');
+
 
                 return $response;
             }
@@ -261,12 +288,7 @@ class PartieController extends Controller
             }
 
 
-            if ($formJoinParty->isSubmitted() && $formJoinParty->isValid()) {
-                $partie->addUtilisateur($utilisateur);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($partie);
-                $em->flush();
-            }
+
 
             if ($formQuitParty->isSubmitted() && $formQuitParty->isValid()) {
                 $partie->removeUtilisateur($utilisateur);

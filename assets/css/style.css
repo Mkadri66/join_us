@@ -12,14 +12,18 @@ body {
     display: table;
     width: 100%;
     height: 100%;
+
 }
 
 .site-header,
-.site-content,
+.site-main,
 .site-footer {
     display: table-row
 }
 
+.row {
+    padding-bottom: 50px;
+}
 
 /**
  * Footer Styles
@@ -28,6 +32,7 @@ body {
 .footer {
     width: 100%;
     padding: 1rem;
+
     background-color: #efefef;
     text-align: center;
 }
@@ -58,7 +63,7 @@ ul {
 }
 
 body {
-    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', Arial, sans-serif;
 }
 
 h1,
@@ -67,7 +72,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans' , Arial, sans-serif;
     font-weight: 700;
 }
 
@@ -147,7 +152,7 @@ header.masthead h1 {
 .testimonials {
     padding-top: 7rem;
     padding-bottom: 7rem;
-    background-color: #00a8ff;
+    background-color: #234d62;
     color : white;
     
 }
@@ -158,7 +163,7 @@ header.masthead h1 {
 
 .testimonials .testimonial-item img {
     max-width: 12rem;
-    box-shadow: 0px 5px 5px 0px #adb5bd;
+    box-shadow: 0px 3px 3px 0px #adb5bd;
 }
 
 .call-to-action {

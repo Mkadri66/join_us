@@ -17,7 +17,6 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
             new UtilisateurBundle\UtilisateurBundle(),
-            new RoleBundle\RoleBundle(),
             new PartieBundle\PartieBundle(),
             new MessageBundle\MessageBundle(),
             new SportBundle\SportBundle(),

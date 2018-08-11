@@ -12,16 +12,30 @@ $(document).ready(function () {
             
             dataType: 'json',            
 
-            data:'partie',
+            data:'data',
 
             success: function (data) {
-                
+
+                $(".user").remove();
+
                 console.log(data);
+
+                var data_length = data.length;
+                for (var i = 0; i < data_length; i++) {
+                    console.log(data[i]["id"] + " " + data[i]["username"]);
+                    id = data[i]["id"];
+                    username = data[i]["username"];
+                    $(".users").css({ 'display': "block" });
+                    $(".users").append(`<li> <img class="avatar_partie" src="../../../../uploads/img/${id}.png"  class="mx-auto d-block"> ${username}`)
+                }
+
+
+
             },
 
             error: function () {
 
-                  console.log('la requete a echouée');
+                console.log('la requete a echouée');
             }
 
         });
