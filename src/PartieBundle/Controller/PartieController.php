@@ -359,7 +359,7 @@ class PartieController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('partie_index');
+        return $this->redirectToRoute('utilisateur_dashboard');
     }
 
     /**

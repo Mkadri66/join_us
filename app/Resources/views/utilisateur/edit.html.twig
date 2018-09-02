@@ -62,25 +62,18 @@
             </div>
 
 
-            {# Génération du label. #}
-            {# {{ form_label(form.avatar, "Avatar", {'label_attr': {'class': 'col-sm-2 control-label'}}) }} #}
-            {# Génération de l'erreur  #}
-            {{ form_errors(edit_form.avatar) }}
-            <div class="col-sm-12">
-                {# Génération de l'input. #}
-                {{ form_widget(edit_form.avatar) }}
-            </div>
+
 
 
            {# {{ form_rest(form) }} #}
         </div>
-        {{ form_widget(edit_form.valider, {'attr': {'class': 'btn btn-primary'}}) }}
+        <div class="text-center">
+            {{ form_widget(edit_form.valider, {'attr': {'class': 'btn btn-primary'}}) }}             
+         </div>
+
 
         {{ form_end(edit_form) }}
     </div>
-
-
 </div>
 
- <p class="col-lg-12 text-center"><a href="{{ path('utilisateur_new') }}"> Retour au dashboard  </a> </p>
 {% endblock %}

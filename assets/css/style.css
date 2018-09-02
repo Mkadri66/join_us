@@ -21,6 +21,10 @@ body {
     display: table-row
 }
 
+.site-main{ 
+    min-height: 100vh;
+}
+
 .row {
     padding-bottom: 50px;
 }

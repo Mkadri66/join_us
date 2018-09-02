@@ -22,7 +22,6 @@
                 <td>{{ partie.adresse }}</td>
                 <td>{% if partie.date %}{{ partie.date|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if partie.termine %}Yes{% else %}No{% endif %}</td>
-                <td>{{ partie.joueursActif }}</td>
                 <td>{{ partie.totalJoueurs }}</td>
                 <td>
                     <ul>

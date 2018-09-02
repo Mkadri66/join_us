@@ -16,7 +16,7 @@ $(document).ready(function () {
 
             success: function (data) {
 
-                $(".user").remove();
+                $(".user").remove().hide().fadeOut(1000);
 
                 console.log(data);
 
@@ -26,7 +26,10 @@ $(document).ready(function () {
                     id = data[i]["id"];
                     username = data[i]["username"];
                     $(".users").css({ 'display': "block" });
-                    $(".users").append(`<li> <img class="avatar_partie" src="../../../../uploads/img/${id}.png"  class="mx-auto d-block"> ${username}`)
+                    $(`<li> <img class="avatar_partie" src="../../../../uploads/img/${id}.png"  class="mx-auto d-block"> ${username} </li>`)
+                    .appendTo(".users")
+                    .hide()
+                    .fadeIn(2000)
                 }
 
 

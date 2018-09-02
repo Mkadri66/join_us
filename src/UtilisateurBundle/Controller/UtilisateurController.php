@@ -202,7 +202,6 @@ class UtilisateurController extends Controller
                     ->add('mail',       TextType::class)
                     ->add('username',     TextType::class)
                     ->add('ville',      EntityType::class, array('label' => 'ville','class'=> Ville::class, 'choice_label'=> 'libelle'))
-                    ->add('avatar',     ImageType::class)
                     ->add('valider',    SubmitType::class)
                     ->getForm();
 
@@ -222,6 +221,49 @@ class UtilisateurController extends Controller
                 return $this->render('utilisateur/edit.html.twig', array(
                     'utilisateur' => $utilisateur,
                     'edit_form' => $editForm->createView(),
+                ));
+            } else {
+                return $this->redirectToRoute('utilisateur_dashboard');
+            } 
+
+        } else {
+            return $this->redirectToRoute('login');
+        }
+    }
+
+    /**
+     * 
+     *
+     * @Route("/{id}/edit_avatar", name="edit_avatar")
+     * @Method({"GET", "POST"})
+     */
+    public function editAvatarAction(Request $request, Utilisateur $utilisateur)
+    {
+
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) { 
+            $user_connect = $this->getUser();
+            if( $user_connect->getId() === $utilisateur->getId() ) {
+                $editAvatar = $this->createFormBuilder($utilisateur)
+                    ->add('avatar',     ImageType::class)
+                    ->add('valider',    SubmitType::class)
+                    ->getForm();
+
+                $editAvatar->handleRequest($request);
+
+                if ($editAvatar->isSubmitted() && $editAvatar->isValid()) {
+
+                    $this->getDoctrine()->getManager()->flush();
+                    $session = new Session();
+                    $session = $request->getSession();
+                    $session->start();
+                    $session = $request->getSession();
+                    $session->getFlashBag()->add('info', 'Votre profil à bien était mis à jour :D ');
+                    return $this->redirectToRoute('utilisateur_dashboard');
+                }
+
+                return $this->render('utilisateur/edit_avatar.html.twig', array(
+                    'utilisateur' => $utilisateur,
+                    'edit_avatar' => $editAvatar->createView(),
                 ));
             } else {
                 return $this->redirectToRoute('utilisateur_dashboard');

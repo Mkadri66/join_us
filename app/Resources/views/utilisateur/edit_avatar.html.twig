@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container"> 
+     <h2 class="text-center"> Changer votre avatar </h2>
+    <div class="well col-md-6 offset-md-4">
+        {{ form_start(edit_avatar,{'attr': {'class': 'form-horizontal col-lg-10'}}) }}
+
+        <div class="form-group">
+
+            {# Génération du label. #}
+            {{ form_label(edit_avatar.avatar, "Avatar", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            {{ form_errors(edit_avatar.avatar) }}
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_avatar.avatar) }}
+            </div>
+
+
+           {# {{ form_rest(form) }} #}
+        </div>
+        {{ form_widget(edit_avatar.valider, {'attr': {'class': 'btn btn-primary'}}) }}
+
+        {{ form_end(edit_avatar) }}
+    </div>
+
+
+</div>
+
+{% endblock %}
