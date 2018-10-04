@@ -3,14 +3,14 @@
 
 {% block body %}
 
-<div class="container">
+<div class="container dashboard">
 
     <div class="row profile">
-		<div class="col-md-3">
+		<div class="col-12 col-md-3 ">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
-					<img src="{{ asset('uploads/img/' ~ app.user.avatar.id  ~ '.' ~ app.user.avatar.url ) }}" class="mx-auto d-block" alt="">
+					<img src="{{ asset('uploads/img/' ~ app.user.avatar.id  ~ '.' ~ app.user.avatar.url ) }}" class="img-fluid profile_pic" alt="">
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
@@ -39,15 +39,17 @@
 				<!-- END SIDEBAR BUTTONS -->
 			</div>
 		</div>
-		<div class="col-md-9 dashboard">
+		<div class="col-md-9 col-12">
 			<div class="sports">
 				<h2 class="text-center"> Sports </h2>
 				<p> Choisissez un sport pour voir les parties disponibles :  </p>
-					<div class="row">							
+					<ul class="row sports_cat col-md-12">							
 						{% for sport in sports %}
-							<a href="{{path('partie_' ~ sport.libelle ~ '')}}" class="col-md-2 sports_dashboard sports_libelle">  {{ sport.libelle|capitalize}}</a>
+							<li class="col-9 offset-1 col-md-2  sports_dashboard text-center">
+								<a href="{{path('partie_' ~ sport.libelle ~ '')}}" class="sports_libelle r">  {{ sport.libelle|capitalize}}</a>
+							</li>
 						{% endfor %}
-					</div>
+					</ul>
             </div>
             <div class="profile-content">
 				<div class="row">

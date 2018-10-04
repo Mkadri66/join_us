@@ -72,6 +72,7 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
      * @ORM\Column(name="password", type="string", length=255)
      * @Assert\NotBlank()
      * 
+     * 
      */
     private $password;
 

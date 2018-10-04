@@ -4,45 +4,56 @@
         <meta charset="UTF-8" />
         <title>{% block title %} Join Us !{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet"> 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ asset( 'build/app.css' ) }}"/>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         
     </head>
-    <body>
-        <div class="page">
+    <body class="container-fluid">
             <!-- Navigation -->
-            <header class="site-header container-fluid">
-                <nav class="navbar navbar-light bg-light static-top">
-                    <div class="container">
-                        <a class="navbar-brand col-sm-8" href="{{ path('homepage') }}"><h2>Join US ! </h2></a>
-                        {% if app.user %}
-                            {% if app.request.uri != 'utilisateur_dashboard' %}
-                                <a class="btn btn-outline-secondary" href="{{ path('utilisateur_dashboard') }}"> Retour au dashboard </a>
-                            {% endif %}
-                            <a class="btn btn-primary" href="{{ path('logout') }}"> Se deconnecter </a>
-                        {% else %}
-                            <a class="btn btn-outline-secondary" href="{{ path('login') }}">Se Connecter</a>
-                            <a class="btn btn-primary" href="{{ path('utilisateur_new') }}"> Creer un compte</a>
-                        {% endif %}
-                    </div>
+            <div class="container-fluid site-header bg-light fixed-top">
+                <nav class="navbar  navbar-expand-lg  navbar-light bg-light static-top col-md-10  offset-md-2">
+                        <a class="navbar-brand col-md-2" href="{{ path('homepage') }}"><h1>Join US ! </h1></a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse row col-md-10" id="navbarNav">
+                            <ul class="navbar-nav row  col-md-12">
+                                <li class="nav-item col-md-2">
+                                    <a class="nav-link" href="#"> A propos</a>
+                                </li>
+                                <li class="nav-item col-md-1">
+                                    <a class="nav-link" href="#"> Contact</a>
+                                </li>
+                                {% if app.user %}
+                                    {% if app.request.uri != 'utilisateur_dashboard' %}
+                                        <li class="nav-item col-md-2 offset-md-3"><a class="btn btn-outline-secondary" href="{{ path('utilisateur_dashboard') }}"> Dashboard </a></li>
+                                    {% endif %}
+                                    </li class="nav-item col-md-2"><a class="btn btn-primary" href="{{ path('logout') }}"> Se deconnecter </a></li>
+                                {% else %}
+                                    <li class="nav-item col-md-2 offset-md-3"><a class="btn btn-outline-secondary" href="{{ path('login') }}">Se Connecter</a></li>
+                                    <li class="nav-item col-md-2"><a class="btn btn-primary" href="{{ path('utilisateur_new') }}"> Creer un compte</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
                 </nav>
-            </header>
-
-            <main class="site-main site-footer container-fluid">
+            </div>
+  
+            <main class="site_main container-fluid">
                 {% block body %} {% endblock %}
             </main>
             
 
             <!-- Footer -->
-            <footer class=" footer bg-light container-fluid">
+            <footer class="footer bg-light container-fluid">
                 <div class="container-fluid">
                     <div class="row">
                     <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
                         <ul class="list-inline mb-2">
                         <li class="list-inline-item">
-                            <a href="#">About</a>
+                            <a href="#">A propos</a>
                         </li>
                         <li class="list-inline-item">&sdot;</li>
                         <li class="list-inline-item">
@@ -50,11 +61,11 @@
                         </li>
                         <li class="list-inline-item">&sdot;</li>
                         <li class="list-inline-item">
-                            <a href="#">Terms of Use</a>
+                            <a href="#">Conditions d'utilisations</a>
                         </li>
                         <li class="list-inline-item">&sdot;</li>
                         <li class="list-inline-item">
-                            <a href="#">Privacy Policy</a>
+                            <a href="#">Politique de confidentialité</a>
                         </li>
                         </ul>
                         <p class="text-muted small mb-4 mb-lg-0">&copy; Join Us 2018. All Rights Reserved.</p>
@@ -81,7 +92,7 @@
                     </div>
                 </div>
             </footer>
-        </div>
+  
         {% block javascripts %}
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

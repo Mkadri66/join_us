@@ -213,7 +213,6 @@ class UtilisateurController extends Controller
                     $session = new Session();
                     $session = $request->getSession();
                     $session->start();
-                    $session = $request->getSession();
                     $session->getFlashBag()->add('info', 'Votre profil à bien était mis à jour :D ');
                     return $this->redirectToRoute('utilisateur_dashboard');
                 }

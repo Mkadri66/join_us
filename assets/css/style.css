@@ -1,33 +1,57 @@
 @import '../../node_modules/bootstrap/dist/css/bootstrap.css';
-html,
-body {
-    height: 100%
-}
 
-body {
-    margin: 0
+/** 
+* Global Styles
+*/
+body{
+    font-family: 'Open Sans', sans-serif;
+    background: #F1F3FA;
+    padding-top: 85px;
 }
 
 .page {
-    display: table;
     width: 100%;
-    height: 100%;
+}
+
+.container-fluid{
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-weight: bold;
+}
+/**
+ * Header Styles
+ */
+
+.site-header{
+    width: 100%;
+    height: 82px;
+    
+}
+
+.navbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100% !important;
+    left: 0;
+    z-index: 20;;
 
 }
 
-.site-header,
-.site-main,
-.site-footer {
-    display: table-row
-}
+/**
+ * Main Styles
+ */
+.site_main{ 
 
-.site-main{ 
-    min-height: 100vh;
-}
-
-.row {
+    margin-top: 80px;
+    min-height: 100vh; 
     padding-bottom: 50px;
 }
+
+
 
 /**
  * Footer Styles
@@ -40,14 +64,9 @@ body {
     background-color: #efefef;
     text-align: center;
 }
-body {
-    background: #F1F3FA;
-    
-}
 
-.container{
-    width: 1060px;
-}
+
+
 
 .error_message {
     color: red;
@@ -70,66 +89,22 @@ body {
     font-family: 'Open Sans', Arial, sans-serif;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: 'Open Sans' , Arial, sans-serif;
-    font-weight: 700;
-}
 
-header.masthead {
-    position: relative;
-    background-color: #343a40;
+
+/*  --------------- HOME PAGE ---------------------- */
+
+.masthead {
+    padding: 20%;
     background: url('../../web/images/foot.jpg') no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    padding-top: 8rem;
-    padding-bottom: 8rem;
-}
-
-header.masthead .overlay {
-    position: absolute;
-    background-color: #212529;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0.3;
-}
-
-header.masthead h1 {
-    font-size: 2rem;
-}
-
-@media (min-width: 768px) {
-    header.masthead {
-        padding-top: 12rem;
-        padding-bottom: 12rem;
-    }
-    header.masthead h1 {
-        font-size: 3rem;
-    }
 }
 
 
-.showcase .showcase-text {
-    padding: 3rem;
-}
-
-.showcase .showcase-img {
-    min-height: 30rem;
-    background-size: cover;
-}
-
-@media (min-width: 768px) {
-    .showcase .showcase-text {
-        padding: 7rem;
-    }
+.features-icons {
+    padding: 10%;
 }
 
 .features-icons {
@@ -156,18 +131,18 @@ header.masthead h1 {
 .testimonials {
     padding-top: 7rem;
     padding-bottom: 7rem;
-    background-color: #234d62;
+    background-color: #639eda;
     color : white;
     
 }
+.title-testimonials{
+    margin-bottom: 40px;
 
-.testimonials .testimonial-item {
-    max-width: 18rem;
 }
 
 .testimonials .testimonial-item img {
     max-width: 12rem;
-    box-shadow: 0px 3px 3px 0px #adb5bd;
+
 }
 
 .call-to-action {
@@ -196,43 +171,45 @@ footer.footer {
     padding-top: 4rem;
     padding-bottom: 4rem;
 }
+/*  --------------- LOGIN ---------------------- */
 
 
-/*  ------------------- LOGIN --------------------------- */
-
-.bg-login {
-    background-color: #00a8ff;
-    min-height: 100vh;
-}
-.login {
-    background-color: white;
-    border: 1px solid #5a7391;
-    border-radius: 10px;
-    margin-top: 100px;
-    padding : 30px;
-}
-/* --------------------- NEW ---------------------------- */
-
-
-.bg-new {
-    background-color: #00a8ff;
-    min-height: 100vh;
-}
-
-.new {
-    background-color: white;
-    border: 1px solid #5a7391;
-    border-radius: 10px;
-    margin-top: 100px;
-    padding: 30px;
-}
-
-.form_error{
-    color:red;
+.form_login{
+    margin-top: 250px;
 }
 
 
- /*  ------------------- DASHBOARD ---------------------- */
+/*  --------------- NEW COUNT ---------------------- */
+
+
+.form_new_user{
+    margin-top: 140px;
+}
+
+/*  --------------- EDIT COUNT ---------------------- */
+
+
+.edit_user{
+    margin-top: 140px;
+}
+
+/*  --------------- NEW PARTY ---------------------- */
+
+
+.new_party{
+    margin-top: 140px;
+}
+
+/*  --------------- AVATAR ---------------------- */
+.edit_avatar {
+    margin-top: 160px;
+}
+
+/*  --------------- DASHBOARD ---------------------- */
+
+.dashboard{
+    padding-top: 50px;
+}
 
 /* Profile container */
 
@@ -245,12 +222,13 @@ footer.footer {
 
 .profile-sidebar {
     padding: 20px 0 10px 0;
+    margin-bottom: 30px;
     background: #fff;
 }
 
 .profile-userpic img {
     float: none;
-    margin: 0 auto;
+    margin-left: 25%;
     width: 50%;
     height: 50%;
     -webkit-border-radius: 50% !important;
@@ -341,19 +319,33 @@ footer.footer {
 }
 .sports_dashboard{
     min-height: 80px;
-    margin-left: 20px;
-    padding-top: 20px;
     border-radius: 5px;
-    color: white;
-    background-color: lightblue ;
+    color: #007BFF;
+    border: solid 1px #007BFF;
+}
+
+.sports_dashboard:hover{
+    background-color:#007BFF;
+    
+}
+.sports_cat{
+    padding-left:0;
+}
+.sports_cat > li {
+    margin-bottom: 25px;
+    padding-top: 20px;
 }
 
 .sports_libelle {
     font-size: 20px;
+
     font-weight: bold;
     text-align: center;
 }
 
+.sports_cat a:hover{
+    color:white;
+}
 /* Profile Content */
 
 .profile-content {
@@ -362,21 +354,6 @@ footer.footer {
     min-height: 460px;
 }
 
- /*  ------------------- SHOW PARTY ---------------------- */
+/*  ------------ MEDIA QUERIES ------------------ */
 
- .party {
-    text-align: center;
-    background-color: white;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #adb5bd;
- }
 
- .row_parties {
-     margin-bottom: 10px;
- }
-
- .header_party {
-   
- 
- }
