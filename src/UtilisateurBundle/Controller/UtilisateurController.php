@@ -135,9 +135,6 @@ class UtilisateurController extends Controller
             ));
 
         }
-
-
-        
         
     }
 
@@ -154,12 +151,14 @@ class UtilisateurController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
             // Si l'utilisateur est connecté on peut le recuperer
             $user = $this->getUser();
+            $parties = $user->getParties();
             $em = $this->getDoctrine()->getManager();
             $sports = $em->getRepository('SportBundle:Sport')->findAll();
 
             return $this->render('utilisateur/dashboard.html.twig', array(
                 'user' => $user,
-                'sports' => $sports
+                'sports' => $sports,
+                'parties' => $parties
             ));
         } else {
             return $this->redirectToRoute('login');
@@ -167,21 +166,21 @@ class UtilisateurController extends Controller
 
     }
 
-    /**
-     * Finds and displays a utilisateur entity.
-     *
-     * @Route("/{id}", name="utilisateur_show")
-     * @Method("GET")
-     */
-    public function showAction(Utilisateur $utilisateur)
-    {
-        $deleteForm = $this->createDeleteForm($utilisateur);
+    // /**
+    //  * Finds and displays a utilisateur entity.
+    //  *
+    //  * @Route("/{id}", name="utilisateur_show")
+    //  * @Method("GET")
+    //  */
+    // public function showAction(Utilisateur $utilisateur)
+    // {
+    //     $deleteForm = $this->createDeleteForm($utilisateur);
 
-        return $this->render('utilisateur/show.html.twig', array(
-            'utilisateur' => $utilisateur,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
+    //     return $this->render('utilisateur/show.html.twig', array(
+    //         'utilisateur' => $utilisateur,
+    //         'delete_form' => $deleteForm->createView(),
+    //     ));
+    // }
 
     /**
      * Displays a form to edit an existing utilisateur entity.
@@ -195,8 +194,7 @@ class UtilisateurController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) { 
             $user_connect = $this->getUser();
             if( $user_connect->getId() === $utilisateur->getId() ) {
-                $editForm = $this->createFormBuilder($utilisateur)
-                    
+                $editForm = $this->createFormBuilder($utilisateur)              
                     ->add('nom',        TextType::class)
                     ->add('prenom',     TextType::class)
                     ->add('mail',       TextType::class)
@@ -277,20 +275,35 @@ class UtilisateurController extends Controller
      * Deletes a utilisateur entity.
      *
      * @Route("/{id}", name="utilisateur_delete")
-     * @Method("DELETE")
+     * 
      */
     public function deleteAction(Request $request, Utilisateur $utilisateur)
     {
-        $form = $this->createDeleteForm($utilisateur);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($utilisateur);
-            $em->flush();
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            $delete_form = $this->createDeleteForm($utilisateur);
+            $delete_form->handleRequest($request);
+            $utilisateur = $this->getUser();
+
+            if ($delete_form->isSubmitted() && $delete_form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($utilisateur);
+                $em->flush();
+                $session = new Session();
+                $session = $request->getSession();
+                $session->start();
+                $session->getFlashBag()->add('delete', 'Votre compte à bien été supprimé ! ');
+                return $this->redirectToRoute('homepage');
+
+            }
+
+            return $this->render('utilisateur/delete.html.twig', array(
+                'utilisateur' => $utilisateur,
+                'delete_form' => $delete_form->createView(),
+            ));
+        } else {
+            return $this->redirectToRoute('homepage');
         }
-
-        return $this->redirectToRoute('utilisateur_index');
     }
 
 

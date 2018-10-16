@@ -2,13 +2,8 @@
 {% block body %}
 
 
-  {# S'il y a une erreur, on l'affiche dans un joli cadre #}
 
-  {# {% if error %}
 
-    <div class="alert alert-danger">{{ error.message }}</div>
-
-  {% endif %} #}
 
 
 <div class="form_login row">
@@ -23,8 +18,14 @@
     <br />
     <input type="submit" value="Connexion"  class="btn btn-primary  col-6 offset-3 col-md-2 offset-md-5 "/>
   </form>
+</div>
+<div class="login_error">
+  {% if error %}
 
-  </div>
+    <div class="alert alert-danger col-md-2 offset-md-5">Mauvais combinaison Pseudo/Mot de passe </div>
+
+  {% endif %}
+</div>
 
 
 {% endblock %}

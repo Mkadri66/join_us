@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        
+
+
+        <div class="col-lg-6 offset-lg-4">
+
+         <h1> Supprimez votre compte </h1>
+
+
+        <h3> Voulez-vous supprimer votre compte ? </h3>
+        {{ form_start(delete_form) }}
+            <button type="submit" class="btn btn-danger"> Oui </button>
+        {{ form_end(delete_form) }}
+
+        <button class="btn btn-primary"> Non, je veux revenir au Dashboard</button>
+    </div>
+            
+{% endblock %}

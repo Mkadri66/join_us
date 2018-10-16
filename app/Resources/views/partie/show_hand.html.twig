@@ -2,27 +2,23 @@
 
 
 {% block body %}
-
-
-
-
-    <h1 class="text-center"> Parties de handball </h1>
+    <h1 class="text-center"> Parties de handball</h1>
     <br><br>
     {% if parties %}
     <div class="container">
-        <div class="row">
+        <div class="row ">
             {% for partie in parties %}
-            <div class="col-sm-3 offset-sm-1 party">
-                <div class="row">
-                    <div class="col-sm-12 header_party">
-                        <p>Organisateur de la partie : {{ partie.organisateur.username }} </p>
-                    </div>
+
+            <div class="card col-md-4"  >
+                <img class="card-img-top img-fluid" src="{{ asset('images/' ~ partie.sport.libelle ~ '.jpg' ) }}" alt="Card image cap">
+                <div class="card-body">
+                    <p>Organisateur de la partie : {{ partie.organisateur.username }} </p>
+                    <p>Adresse : {{ partie.adresse }} </p>
+                    <p>Ville :  {{ partie.ville }} </p>
+                    <p>Date : {{ partie.date.date|date("d/m/Y") }} </p>
+                    <p>Horaire : {{ partie.horaire.date|date("H:i") }} </p>
+                    <a href="{{ path('partie_show', { 'id': partie.id }) }}"> Voir la partie </a>
                 </div>
-                <p>Adresse : {{ partie.adresse }} </p>
-                <p>Ville :  {{ partie.ville }} </p>
-                <p>Date : {{ partie.date.date|date("d/m/Y") }} </p>
-                <p>Horaire : {{ partie.horaire.date|date("H:i") }} </p>
-                <a href="{{ path('partie_show', { 'id': partie.id }) }}"> Voir la partie </a>
             </div>
             {% endfor %}
         </div>
@@ -31,7 +27,9 @@
             <h3 class="text-center"> Aucune partie n'a été encore créée pour ce sport ! </h3>
             <p class="text-center"> <a href="{{ path('partie_new') }}"> Voulez-vous créer une partie ? </a> </p>
         {% endif %}
-       
+      
+    </div>
+        
     </div>
 
 {% endblock %}

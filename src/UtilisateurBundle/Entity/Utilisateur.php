@@ -36,7 +36,9 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *      message = "Ce champ est obligatoire"
+     * )
      */
     private $nom;
 
@@ -44,7 +46,9 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *      message = "Ce champ est obligatoire"
+     * )
      */
     private $prenom;
 
@@ -52,6 +56,9 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255, unique=true)
+     * @Assert\NotBlank(
+     *      message = "Ce champ est obligatoire"
+     * )    
      */
     private $username;
 
@@ -70,11 +77,25 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\Length( min=4, minMessage="Votre mot de passe doit avoir au minimum 4 caractères.")
      * 
+     * @Assert\NotBlank(
+     *      message = "Ce champ est obligatoire"
+     * )
      * 
      */
     private $password;
+
+    /**
+     * @var string
+     *
+     * 
+     *
+     * @Assert\EqualTo( propertyPath="password", message = "Vous n'avez pas tapé le même mot de passe" )
+     * 
+     */
+
+    private $confirm_password;
 
     /**
      * @ORM\Column(name="is_active", type="boolean")
@@ -302,7 +323,6 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
 
         return $this;
     }
-
     /**
      * Get mdp
      *
@@ -312,6 +332,32 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
     {
         return $this->password;
     }
+
+
+
+    /**
+     * Get  $confirm_password
+     *
+     * @return string
+     */
+    public function getConfirmPassword()
+    {
+        return $this->confirm_password;
+    }
+    /**
+     * Set confirm_password
+     *
+     * @param string $confirm_password
+     *
+     * @return Utilisateur
+     */
+    public function setConfirmPassword($confirm_password)
+    {
+        $this->confirm_password = $confirm_password;
+
+        return $this;
+    }
+
 
     /**
      * Set ville
@@ -440,5 +486,19 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
     public function isEqualTo(UserInterface $user)
     {
         return $this->id === $user->getId();
+    }
+
+    /**
+     * Set salt.
+     *
+     * @param string $salt
+     *
+     * @return Utilisateur
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
     }
 }

@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+  	{% for message in app.session.flashbag.get('delete') %}
+ 
+			<div class="alert alert-success col-lg-6 offset-lg-4">
+ 
+    			<p> {{ message }} </p>
+     
+			</div>
+		{% endfor %}
 
     <!-- Masthead -->
     <header class="masthead text-white text-center container-fluid">

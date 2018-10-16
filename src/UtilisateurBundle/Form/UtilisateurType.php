@@ -45,6 +45,8 @@ class UtilisateurType extends AbstractType
 
             ->add('password',        PasswordType::class)
 
+            ->add('confirm_password', PasswordType::class)
+
             ->add('ville',      EntityType::class, array('label' => 'ville','class'=> Ville::class, 'choice_label'=> 'libelle'))
 
             ->add('avatar',     ImageType::class)

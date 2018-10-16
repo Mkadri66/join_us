@@ -5,10 +5,11 @@ namespace UtilisateurBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Utilisateur
@@ -20,7 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *  message = "L'email que vous avez entré est deja utilisé !"
  * )
  */
-class Utilisateur implements UserInterface, \Serializable
+class Utilisateur implements UserInterface, \Serializable,EquatableInterface
 {
     /**
      * @var int
@@ -35,7 +36,9 @@ class Utilisateur implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *      message = "Ce champ est obligatoire"
+     * )
      */
     private $nom;
 
@@ -43,7 +46,9 @@ class Utilisateur implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *      message = "Ce champ est obligatoire"
+     * )
      */
     private $prenom;
 
@@ -51,6 +56,9 @@ class Utilisateur implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255, unique=true)
+     * @Assert\NotBlank(
+     *      message = "Ce champ est obligatoire"
+     * )    
      */
     private $username;
 
@@ -69,15 +77,40 @@ class Utilisateur implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\Length( min=4, minMessage="Votre mot de passe doit avoir au minimum 4 caractères.")
+     * @Assert\EqualTo( propertyPath="confirm_password" )
+     * @Assert\NotBlank(
+     *      message = "Ce champ est obligatoire"
+     * )
      * 
      */
     private $password;
 
     /**
+     * @var string
+     *
+     * 
+     * @Assert\Length( min=4 , minMessage="Votre mot de passe doit avoir au minimum 4 caractères.")
+     * @Assert\EqualTo( propertyPath="password", message = "Vous n'avez pas tapé le même mot de passe" )
+     * @Assert\NotBlank(
+     *      message = "Ce champ est obligatoire"
+     * )
+     * 
+     */
+
+    private $confirm_password;
+
+    /**
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
+
+    /**
+    * @ORM\Column(name="salt", type="string", length=255)
+    */
+
+    private $salt;
+
     /**
     * @ORM\ManyToOne(targetEntity="VilleBundle\Entity\Ville")
     * @ORM\JoinColumn(nullable=false)
@@ -95,12 +128,8 @@ class Utilisateur implements UserInterface, \Serializable
 
 
     /**
-    * @ORM\ManyToOne(targetEntity="RoleBundle\Entity\Role")
-    * @ORM\JoinColumn(nullable=false)
-    * @Assert\Valid()
     */
-    private $role;
-
+    private $roles = array();
 
 
     /**
@@ -117,7 +146,9 @@ class Utilisateur implements UserInterface, \Serializable
 
         $this->parties = new ArrayCollection();
         $this->isActive = true;
-;
+        $this->salt = md5(uniqid(null, true));
+        $this->roles = array('ROLE_USER', 'ROLE_ADMIN');
+
     }
 
 
@@ -148,9 +179,16 @@ class Utilisateur implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return ['ROLE_USER'];
     }
 
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+
+        // allows for chaining
+        return $this;
+    }
     public function eraseCredentials()
     {
     }
@@ -161,7 +199,7 @@ class Utilisateur implements UserInterface, \Serializable
         return serialize(array(
             $this->id,
             $this->username,
-            $this->mdp,
+            $this->password,
             // see section on salt below
             // $this->salt,
         ));
@@ -173,7 +211,7 @@ class Utilisateur implements UserInterface, \Serializable
         list (
             $this->id,
             $this->username,
-            $this->mdp,
+            $this->password,
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized);
@@ -324,29 +362,8 @@ class Utilisateur implements UserInterface, \Serializable
     }
 
 
-    /**
-     * Set role
-     *
-     * @param \RoleBundle\Entity\Role $role
-     *
-     * @return Utilisateur
-     */
-    public function setRole(\RoleBundle\Entity\Role $role)
-    {
-        $this->role = $role;
 
-        return $this;
-    }
 
-    /**
-     * Get role
-     *
-     * @return \RoleBundle\Entity\Role
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
 
     /**
      * Set avatar
@@ -418,5 +435,48 @@ class Utilisateur implements UserInterface, \Serializable
     public function removeAvatar(\ImageBundle\Entity\Image $avatar)
     {
         $this->avatar->removeElement($avatar);
+    }
+
+    /**
+     * Set isActive.
+     *
+     * @param bool $isActive
+     *
+     * @return Utilisateur
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive.
+     *
+     * @return bool
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    public function isEqualTo(UserInterface $user)
+    {
+        return $this->id === $user->getId();
+    }
+
+    /**
+     * Set salt.
+     *
+     * @param string $salt
+     *
+     * @return Utilisateur
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
     }
 }
