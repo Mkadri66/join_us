@@ -1,5 +1,7 @@
 @import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 
+@import 'home';
+
 /** 
 * Global Styles
 */
@@ -23,6 +25,9 @@ h1 {
     
 }
 
+.row{
+    margin: 0;
+}
 
 
 a:link 
@@ -43,8 +48,9 @@ a:link
  */
 
 #nav-full-width{
-  
-    height: 82px !important;   
+    width: 100%;
+    height: 82px; 
+    background: white;  
 }
 
 .navbar {
@@ -59,19 +65,13 @@ a:link
 
 .navbar-light{
     background-color: white;
-    -moz-box-shadow: 0px 2px 3px 0px #656565;
-    -webkit-box-shadow: 0px 2px 3px 0px #656565;
-    -o-box-shadow: 0px 2px 3px 0px #656565;
-    box-shadow: 0px 2px 3px 0px #656565;
-    filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=3);
+
 }
 
 /**
  * Main Styles
  */
 .site_main{ 
-
-    margin-top: 80px;
     min-height: 100vh; 
 }
 
@@ -82,10 +82,13 @@ a:link
  */
 
 .footer {
-    width: 100%;
     padding: 1rem;
-
     background-color: #efefef;
+    text-align: center;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
     text-align: center;
 }
 
@@ -119,91 +122,12 @@ body {
 
 
 
-/*  --------------- HOME PAGE ---------------------- */
 
-.masthead {
-    padding: 20%;
-    background: url('../../web/images/foot.jpg') no-repeat center center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-
-
-.features-icons {
-    padding: 10%;
-}
-
-.features-icons {
-    padding-top: 7rem;
-    padding-bottom: 7rem;
-}
-
-.features-icons .features-icons-item {
-    max-width: 20rem;
-}
-
-.features-icons .features-icons-item .features-icons-icon {
-    height: 7rem;
-}
-
-.features-icons .features-icons-item .features-icons-icon i {
-    font-size: 4.5rem;
-}
-
-.features-icons .features-icons-item:hover .features-icons-icon i {
-    font-size: 5rem;
-}
-
-.testimonials {
-    padding-top: 7rem;
-    padding-bottom: 7rem;
-    background-color: #639eda;
-    color : white;
-    
-}
-.title-testimonials{
-    margin-bottom: 40px;
-
-}
-
-.testimonials .testimonial-item img {
-    max-width: 12rem;
-
-}
-
-.call-to-action {
-    position: relative;
-    background-color: #343a40;
-    background: url('../../web/images/foot.jpg') no-repeat center center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    padding-top: 7rem;
-    padding-bottom: 7rem;
-}
-
-.call-to-action .overlay {
-    position: absolute;
-    background-color: #212529;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0.3;
-}
-
-footer.footer {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-}
 /*  --------------- LOGIN ---------------------- */
 
 
 .form_login{
-    margin-top: 250px;
+    margin: 80px;
 }
 
 

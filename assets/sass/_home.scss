@@ -1,0 +1,100 @@
+/*  --------------- HOME PAGE ---------------------- */
+
+
+// Header
+.masthead {
+    padding: 300px !important;
+    background: url('../images/football.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    
+    
+    @media (max-width: 768px){
+        padding: 90px !important;
+
+        h1{
+            font-size: 32px;
+        }
+    }
+    
+
+    h1{
+        font-weight: bold;
+    }
+}
+
+// Features
+
+.features-icons {
+    padding: 10% !important;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+
+    .features-icons-item {
+        max-width: 20rem;
+        h3 {
+            font-weight: bold;
+        }
+
+        .features-icons-icon {
+            height: 7rem;
+
+
+            i {
+                font-size: 4.5rem;
+
+                &:hover{
+                    font-size: 5rem;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+// Testimonials
+
+.testimonials {
+    padding: 95px !important;
+    padding-bottom: 7rem;
+    background-color: #639eda;
+    color : white;
+    .title-testimonials {
+        margin-bottom: 40px;
+    }  
+    .testimonial-item img {
+        max-width: 12rem;
+    }
+
+}
+
+// Call to action 
+.call-to-action {
+    position: relative;
+    background-color: #343a40;
+    background: url('../../web/images/foot.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 95px !important;
+}
+
+.call-to-action .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+}
+
+footer.footer {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
