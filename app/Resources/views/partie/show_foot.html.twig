@@ -11,19 +11,6 @@
     <div class="container">
         <div class="row ">
             {% for partie in parties %}
-            {# <div class="col-sm-3 offset-sm-1 party">
-                <div class="row">
-                    <div class="col-sm-12 header_party">
-                        <p>Organisateur de la partie : {{ partie.organisateur.username }} </p>
-                    </div>
-                </div>
-                <p>Adresse : {{ partie.adresse }} </p>
-                <p>Ville :  {{ partie.ville }} </p>
-                <p>Date : {{ partie.date.date|date("d/m/Y") }} </p>
-                <p>Horaire : {{ partie.horaire.date|date("H:i") }} </p>
-                <a href="{{ path('partie_show', { 'id': partie.id }) }}"> Voir la partie </a>
-            </div> #}
-
             <div class="card col-md-4"  >
                 <img class="card-img-top img-fluid" src="{{ asset('images/' ~ partie.sport.libelle ~ '.jpg' ) }}" alt="Card image cap">
                 <div class="card-body">

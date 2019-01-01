@@ -3,70 +3,55 @@
 {% block body %}
 
     <div class='container '>
-        <h1 class="text-center"> Informations sur la partie </h1> 
-        <div class="card party {{ partie.sport.libelle }} col-lg-6 offset-lg-3">             
-                <div class="card-body">
-                    <h2 class="text-center">  {{ partie.sport.libelle  | capitalize }} </h2>
-                    <p class="font-weight-bold">Organisateur de la partie : </p>
-                    <p> {{ partie.organisateur.username | capitalize }} </p>
-                    <p class="font-weight-bold">Adresse : </p>
-                    <p> {{ partie.adresse }} </p>
-                    <p class="font-weight-bold">Ville : </p> 
-                    <p> {{ partie.ville }} </p>
-                    <p class="font-weight-bold">Date : </p> 
-                    <p> {{ partie.date.date|date("d/m/Y") }} </p>
-                    <p class="font-weight-bold">Horaire : </p> 
-                    <p> {{ partie.horaire.date|date("H:i") }} </p>
-                    <div class="user">
-                        <p class="font-weight-bold"> Participants : </p>
-                        <ul class="users">
-                            {% for user in partie.utilisateurs %}
-                                    <li class="user">
-                                        <img class="avatar_partie" src="{{ asset('uploads/img/' ~ user.avatar.id  ~ '.' ~ user.avatar.url ) }}" class="mx-auto d-block" alt="">
-                                        {{ user.username | capitalize }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+       
+        <div class="card party {{ partie.sport.libelle }} col-lg-6 offset-lg-3">  
+            <h1 class="text-center"> Informations sur la partie </h1>            
+            <div class="card-body">
+                <h2 class="text-center">  {{ partie.sport.libelle  | capitalize }} </h2>
+                <p class="font-weight-bold">Organisateur de la partie : </p>
+                <p> {{ partie.organisateur.username | capitalize }} </p>
+                <p class="font-weight-bold">Adresse : </p>
+                <p> {{ partie.adresse }} </p>
+                <p class="font-weight-bold">Ville : </p> 
+                <p> {{ partie.ville }} </p>
+                <p class="font-weight-bold">Date : </p> 
+                <p> {{ partie.date.date|date("d/m/Y") }} </p>
+                <p class="font-weight-bold">Horaire : </p> 
+                <p> {{ partie.horaire.date|date("H:i") }} </p>
+                <div class="user">
+                    <p class="font-weight-bold"> Participants : </p>
+                    <ul class="users">
+                        {% for user in partie.utilisateurs %}
+                                <li class="user">
+                                    <img class="avatar_partie" src="{{ asset('uploads/img/' ~ user.avatar.id  ~ '.' ~ user.avatar.url ) }}" class="mx-auto d-block" alt="">
+                                    {{ user.username | capitalize }}
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
+        </div>
 
 
 
-
-
-               
-
-        {% if  organisateur %}
-                {{ form_start(deleteForm) }}
-                    <input type="submit" value="Supprimer la partie" class="btn btn-danger">
-                {{ form_end(deleteForm) }}
-        {% else %}
-              {% if  isOnParty %}
-                {{ form_start(formJoinParty , {'attr': {'id': 'joinParty'}}) }}
-                    {{ form_widget(formJoinParty.join, {'attr': {'class': 'join btn btn-primary offset-lg-5' }}) }} 
-                {{ form_end(formJoinParty) }}
+        
+        
+        <div class="col-lg-4 offset-lg-5 button-party">
+            {% if  organisateur %}
+                    {{ form_start(deleteForm) }}
+                        <input type="submit" value="Supprimer la partie" class="btn btn-danger">
+                    {{ form_end(deleteForm) }}
             {% else %}
-                {{ form_start(formQuitParty, {'attr': {'id': 'quitParty'}}) }}
-                    {{ form_widget(formQuitParty.quit, {'attr': {'class': 'quit btn btn-danger'}}) }}        
-                {{ form_end(formQuitParty) }}
+                {% if  isOnParty %}
+                    {{ form_start(formJoinParty , {'attr': {'id': 'joinParty'}}) }}
+                        {{ form_widget(formJoinParty.join, {'attr': {'class': 'join btn btn-primary offset-lg-5' }}) }} 
+                    {{ form_end(formJoinParty) }}
+                {% else %}
+                    {{ form_start(formQuitParty, {'attr': {'id': 'quitParty'}}) }}
+                        {{ form_widget(formQuitParty.quit, {'attr': {'class': 'quit btn btn-danger'}}) }}        
+                    {{ form_end(formQuitParty) }}
+                {% endif %}
             {% endif %}
-        {% endif %}
-
-
-        {# <ul>
-            <li>
-                <a href="{{ path('partie_index') }}">Back to the list</a>
-            </li>
-            <li>
-                <a href="{{ path('partie_edit', { 'id': partie.id }) }}">Edit</a>
-            </li>
-            <li>
-                {{ form_start(delete_form) }}
-                    <input type="submit" value="Delete">
-                {{ form_end(delete_form) }}
-            </li>
-        </ul> #}
-
+        </div>
     </div>
 {% endblock %}
