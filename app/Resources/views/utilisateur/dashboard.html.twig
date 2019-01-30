@@ -3,7 +3,7 @@
 
 {% block body %}
 
-
+{# {{ dump(user) }} #}
 <div class="container dashboard">
 
     <div class="row profile">
@@ -15,11 +15,13 @@
      
 			</div>
 		{% endfor %}
+
+		
 		<div class="col-12 col-md-3">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
-					<img src="{{ asset('uploads/img/' ~ app.user.avatar.id  ~ '.' ~ app.user.avatar.url ) }}" class="img-fluid profile_pic" alt="">
+					<img src="{{ asset('uploads/avatars/' ~ app.user.url ) }}" class="img-fluid profile_pic" alt="">
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->

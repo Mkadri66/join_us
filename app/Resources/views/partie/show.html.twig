@@ -23,7 +23,7 @@
                     <ul class="users">
                         {% for user in partie.utilisateurs %}
                                 <li class="user">
-                                    <img class="avatar_partie" src="{{ asset('uploads/img/' ~ user.avatar.id  ~ '.' ~ user.avatar.url ) }}" class="mx-auto d-block" alt="">
+                                    <img class="avatar_partie" src="{{ asset('uploads/avatars/' ~ app.user.url ) }}" class="mx-auto d-block" alt="">
                                     {{ user.username | capitalize }}
                             </li>
                         {% endfor %}

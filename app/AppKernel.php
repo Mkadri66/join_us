@@ -21,7 +21,6 @@ class AppKernel extends Kernel
             new MessageBundle\MessageBundle(),
             new SportBundle\SportBundle(),
             new VilleBundle\VilleBundle(),
-            new ImageBundle\ImageBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

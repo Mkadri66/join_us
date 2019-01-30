@@ -21,8 +21,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use VilleBundle\Entity\Ville;
 
 
-
-use ImageBundle\Form\ImageType;
 use VilleBundle\Form\VilleType;
 
 class UtilisateurType extends AbstractType
@@ -49,7 +47,7 @@ class UtilisateurType extends AbstractType
 
             ->add('ville',      EntityType::class, array('label' => 'ville','class'=> Ville::class, 'choice_label'=> 'libelle'))
 
-            ->add('avatar',     ImageType::class)
+            ->add('avatar',     FileType::class , array( 'label' => 'Avatar'))
 
             ->add('valider',    SubmitType::class);
     }

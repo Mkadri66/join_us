@@ -124,6 +124,15 @@ class UtilisateurController extends Controller
                 // $utilisateur->setRoles(array('ROLE_USER'));
                 $password = $passwordEncoder->encodePassword($utilisateur, $utilisateur->getPassword());
                 $utilisateur->setPassword($password);
+
+                $file = $utilisateur->getAvatar();
+                // On nomme le fichier avec le nom d'utilisateur et l'extension du fichier uploader
+                $fileName = $utilisateur->getUsername() . '.' . $file->guessExtension();
+                $utilisateur->setUrl($fileName);
+          
+                // On déplace l'image dans le dossiers "avatars" 
+                $file->move( $this->getParameter('avatar_directory'), $fileName);
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($utilisateur);
                 $em->flush();
@@ -241,7 +250,7 @@ class UtilisateurController extends Controller
             $user_connect = $this->getUser();
             if( $user_connect->getId() === $utilisateur->getId() ) {
                 $editAvatar = $this->createFormBuilder($utilisateur)
-                    ->add('avatar',     ImageType::class)
+                    ->add('avatar',     FileType::class)
                     ->add('valider',    SubmitType::class)
                     ->getForm();
 
@@ -249,11 +258,23 @@ class UtilisateurController extends Controller
 
                 if ($editAvatar->isSubmitted() && $editAvatar->isValid()) {
 
+
+                    $file = $utilisateur->getAvatar();
+                    $fileName = $utilisateur->getUsername() . '.' . $file->guessExtension();    
+                    $utilisateur->setUrl($fileName);
+                    
+                    // On déplace l'image dans le dossiers "avatars" 
+                    $file->move( $this->getParameter('avatar_directory'), $fileName);
+
+
+
                     $this->getDoctrine()->getManager()->flush();
                     $session = new Session();
                     $session = $request->getSession();
                     $session->start();
                     $session = $request->getSession();
+
+
                     $session->getFlashBag()->add('info', 'Votre profil à bien était mis à jour :D ');
                     return $this->redirectToRoute('utilisateur_dashboard');
                 }

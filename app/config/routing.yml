@@ -2,11 +2,6 @@ app:
     resource: '@AppBundle/Controller/'
     type: annotation
 
-image:
-    resource: "@ImageBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 ville_ville:
     resource: "@VilleBundle/Controller/VilleController.php"
     type:     annotation

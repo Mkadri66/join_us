@@ -5,20 +5,22 @@ namespace UtilisateurBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use Gedmo\Mapping\Annotation as Gedmo;
+
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
 /**
  * Utilisateur
  *
  * @ORM\Table(name="utilisateur")
  * @ORM\Entity(repositoryClass="UtilisateurBundle\Repository\UtilisateurRepository")
  * @UniqueEntity(
- *  fields = {"mail"},
- *  message = "L'email que vous avez entré est deja utilisé !"
+ *  fields = {"username"},
+ *  message = "Ce pseudo est deja utilisé !"
  * )
  */
 class Utilisateur implements UserInterface, \Serializable,EquatableInterface
@@ -73,6 +75,34 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
     
     private $mail;
 
+    
+    /** 
+    * 
+    * Avatar for user
+    *
+    * @var UploadedFile
+    * 
+    *
+    * @Assert\File(mimeTypes={"image/gif", "image/jpeg", "image/png"})
+    * 
+    *
+    */
+    protected $avatar;
+     
+    
+    /**
+     * Link in database
+     *
+     * @var string
+     * 
+     * @ORM\Column(name="link", type="string", length=255) 
+     */
+    private $url;
+
+
+
+
+
     /**
      * @var string
      *
@@ -116,12 +146,6 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
     private $ville;
 
 
-     /**
-     * @ORM\OneToOne(targetEntity="ImageBundle\Entity\Image", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     * @Assert\Valid()
-     */
-    private $avatar;
 
 
     /**
@@ -137,6 +161,10 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
     */
     private $parties;
 
+    // On ajoute cet attribut pour y stocker le nom du fichier temporairement
+
+    private $tempFilename;
+
 
     public function __construct()
     {
@@ -148,7 +176,7 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
 
     }
 
-
+    // Getters ans setters
 
     public function getParties()
     {
@@ -310,6 +338,32 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
         return $this->mail;
     }
 
+
+
+    /**
+     * Set avatar
+     *
+     * @param UploadedFile $file
+     *
+     *
+     */
+    public function setAvatar(UploadedFile $file = null)
+    {
+        $this->avatar = $file;
+    }
+    
+    /**
+     * Get avatar
+     * 
+     * @return string
+     *
+     */
+    public function getavatar()
+    {
+        return $this->avatar;
+    }
+
+
     /**
      * Set mdp
      *
@@ -384,33 +438,6 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
     }
 
 
-
-
-
-    /**
-     * Set avatar
-     *
-     * @param \ImageBundle\Entity\Image $avatar
-     *
-     * @return Utilisateur
-     */
-    public function setAvatar(\ImageBundle\Entity\Image $avatar)
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    /**
-     * Get avatar
-     *
-     * @return \ImageBundle\Entity\Image
-     */
-    public function getAvatar()
-    {
-        return $this->avatar;
-    }
-
     /**
      * Add party
      *
@@ -435,29 +462,7 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
         $this->parties->removeElement($party);
     }
 
-    /**
-     * Add avatar
-     *
-     * @param \ImageBundle\Entity\Image $avatar
-     *
-     * @return Utilisateur
-     */
-    public function addAvatar(\ImageBundle\Entity\Image $avatar)
-    {
-        $this->avatar[] = $avatar;
 
-        return $this;
-    }
-
-    /**
-     * Remove avatar
-     *
-     * @param \ImageBundle\Entity\Image $avatar
-     */
-    public function removeAvatar(\ImageBundle\Entity\Image $avatar)
-    {
-        $this->avatar->removeElement($avatar);
-    }
 
     /**
      * Set isActive.
@@ -498,6 +503,32 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
     public function setSalt($salt)
     {
         $this->salt = $salt;
+
+        return $this;
+    }
+
+
+
+    /**
+     * Get link in database
+     *
+     * @return  string
+     */ 
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Set link in database
+     *
+     * @param  string  $url  Link in database
+     *
+     * @return  self
+     */ 
+    public function setUrl(string $url)
+    {
+        $this->url = $url;
 
         return $this;
     }

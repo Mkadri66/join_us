@@ -5,12 +5,13 @@ namespace UtilisateurBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use Gedmo\Mapping\Annotation as Gedmo;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use Symfony\Component\HttpFoundation\File\File;
 /**
  * Utilisateur
  *
@@ -73,12 +74,22 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
     
     private $mail;
 
+    
+    /** 
+    * @var string
+    *
+    *@ORM\Column(name="avatar", type="string", length=255) 
+    *Avatar for user
+    */
+    protected $avatar;
+
+
     /**
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
      * @Assert\Length( min=4, minMessage="Votre mot de passe doit avoir au minimum 4 caractères.")
-     * @Assert\EqualTo( propertyPath="confirm_password" )
+     * 
      * @Assert\NotBlank(
      *      message = "Ce champ est obligatoire"
      * )
@@ -90,11 +101,8 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
      * @var string
      *
      * 
-     * @Assert\Length( min=4 , minMessage="Votre mot de passe doit avoir au minimum 4 caractères.")
+     *
      * @Assert\EqualTo( propertyPath="password", message = "Vous n'avez pas tapé le même mot de passe" )
-     * @Assert\NotBlank(
-     *      message = "Ce champ est obligatoire"
-     * )
      * 
      */
 
@@ -119,12 +127,6 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
     private $ville;
 
 
-     /**
-     * @ORM\OneToOne(targetEntity="ImageBundle\Entity\Image", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     * @Assert\Valid()
-     */
-    private $avatar;
 
 
     /**
@@ -151,7 +153,7 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
 
     }
 
-
+    // Getters ans setters
 
     public function getParties()
     {
@@ -313,6 +315,32 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
         return $this->mail;
     }
 
+
+
+    /**
+     * Set avatar
+     *
+     * @param string $file
+     *
+     *
+     */
+    public function setAvatar(File $file = null)
+    {
+        $this->avatar = $file;
+    }
+    
+    /**
+     * Get avatar
+     * 
+     * @return string
+     *
+     */
+    public function getavatar()
+    {
+        return $this->avatar;
+    }
+
+
     /**
      * Set mdp
      *
@@ -326,7 +354,6 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
 
         return $this;
     }
-
     /**
      * Get mdp
      *
@@ -336,6 +363,32 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
     {
         return $this->password;
     }
+
+
+
+    /**
+     * Get  $confirm_password
+     *
+     * @return string
+     */
+    public function getConfirmPassword()
+    {
+        return $this->confirm_password;
+    }
+    /**
+     * Set confirm_password
+     *
+     * @param string $confirm_password
+     *
+     * @return Utilisateur
+     */
+    public function setConfirmPassword($confirm_password)
+    {
+        $this->confirm_password = $confirm_password;
+
+        return $this;
+    }
+
 
     /**
      * Set ville
@@ -362,33 +415,6 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
     }
 
 
-
-
-
-    /**
-     * Set avatar
-     *
-     * @param \ImageBundle\Entity\Image $avatar
-     *
-     * @return Utilisateur
-     */
-    public function setAvatar(\ImageBundle\Entity\Image $avatar)
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    /**
-     * Get avatar
-     *
-     * @return \ImageBundle\Entity\Image
-     */
-    public function getAvatar()
-    {
-        return $this->avatar;
-    }
-
     /**
      * Add party
      *
@@ -413,29 +439,7 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
         $this->parties->removeElement($party);
     }
 
-    /**
-     * Add avatar
-     *
-     * @param \ImageBundle\Entity\Image $avatar
-     *
-     * @return Utilisateur
-     */
-    public function addAvatar(\ImageBundle\Entity\Image $avatar)
-    {
-        $this->avatar[] = $avatar;
 
-        return $this;
-    }
-
-    /**
-     * Remove avatar
-     *
-     * @param \ImageBundle\Entity\Image $avatar
-     */
-    public function removeAvatar(\ImageBundle\Entity\Image $avatar)
-    {
-        $this->avatar->removeElement($avatar);
-    }
 
     /**
      * Set isActive.
@@ -479,4 +483,6 @@ class Utilisateur implements UserInterface, \Serializable,EquatableInterface
 
         return $this;
     }
+
+
 }
