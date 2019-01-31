@@ -2,6 +2,8 @@
 
 {% block body %}
 
+{{ dump(utilisateurs)}}
+
     <div class='container '>
        
         <div class="card party {{ partie.sport.libelle }} col-lg-6 offset-lg-3">  
@@ -18,13 +20,13 @@
                 <p> {{ partie.date.date|date("d/m/Y") }} </p>
                 <p class="font-weight-bold">Horaire : </p> 
                 <p> {{ partie.horaire.date|date("H:i") }} </p>
-                <div class="user">
+                <div class="user_in_party">
                     <p class="font-weight-bold"> Participants : </p>
                     <ul class="users">
                         {% for user in partie.utilisateurs %}
-                                <li class="user">
-                                    <img class="avatar_partie" src="{{ asset('uploads/avatars/' ~ app.user.url ) }}" class="mx-auto d-block" alt="">
-                                    {{ user.username | capitalize }}
+                            <li class="user">
+                                <img class="avatar_partie" src="{{ asset('uploads/avatars/' ~ user.url ) }}" class="mx-auto d-block" alt="">
+                                {{ user.username | capitalize }}
                             </li>
                         {% endfor %}
                     </ul>

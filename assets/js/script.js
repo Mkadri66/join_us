@@ -16,7 +16,9 @@ $(document).ready(function () {
 
             success: function (data) {
 
-                $(".user").remove().hide().fadeOut(1000);
+                // $(".user").remove().hide().fadeOut(500);
+
+                $(".users").html('');
 
                 console.log(data);
 
@@ -25,15 +27,13 @@ $(document).ready(function () {
                     console.log(data[i]["id"] + " " + data[i]["username"]);
                     id = data[i]["id"];
                     username = data[i]["username"];
-                    $(".users").css({ 'display': "block" });
-                    $(`<li> <img class="avatar_partie" src="../../../../uploads/img/${id}.png"  class="mx-auto d-block"> ${username} </li>`)
+                    url = data[i]["url"];
+  
+                    $(`<li> <img class="avatar_partie" src="../../../../uploads/avatars/${url}"  class="mx-auto d-block"> ${username} </li>`)
                     .appendTo(".users")
                     .hide()
                     .fadeIn(2000)
                 }
-
-
-
             },
 
             error: function () {
@@ -52,11 +52,40 @@ $(document).ready(function () {
     $("#form_quit").submit(function (event) {
         $.ajax({
 
-            url: "{{ path('partie_show') }}",  // La ressource ciblée
+            url: page, // La ressource ciblée
 
-            type: 'POST', // Le type de la requête HTTP.
+            type: 'POST', // Le type de la requête HTTP. 
+            
+            dataType: 'json',            
 
-            data: 'utilisateurs'
+            data:'data',
+
+            success: function (data) {
+
+                // $(".user").remove().hide().fadeOut(500);
+
+                $(".users").html('');
+
+                console.log(data);
+
+                // var data_length = data.length;
+                // for (var i = 0; i < data_length; i++) {
+                //     console.log(data[i]["id"] + " " + data[i]["username"]);
+                //     id = data[i]["id"];
+                //     username = data[i]["username"];
+                //     url = data[i]["url"];
+  
+                //     $(`<li> <img class="avatar_partie" src="../../../../uploads/avatars/${url}"  class="mx-auto d-block"> ${username} </li>`)
+                //     .appendTo(".users")
+                //     .hide()
+                //     .fadeIn(2000)
+                // }
+            },
+
+            error: function () {
+
+                console.log('la requete a echouée');
+            }
 
         });
 
