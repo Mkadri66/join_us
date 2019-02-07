@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1> Contact </h1>
+
+    <p> Si vous souhaitez nous contacter, veuillez remplir le formulaire ci-dessous </p>
+    <div class="col-lg-6 offset-lg-3">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
