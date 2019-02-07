@@ -211,23 +211,85 @@ class PartieController extends Controller
      */
     public function showAction(Partie $partie, Request $request)
     {
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {        
-            if( $request->isXmlHttpRequest()) {
-                $utilisateur = $this->getUser();
-                $formJoinParty = $this->createFormBuilder()
-                        ->add('join', SubmitType::class,array('label' => 'Rejoindre la partie'))
-                        ->getForm();
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) { 
 
-                $formJoinParty->handleRequest($request);
+            // Creation du formulaire pour rejoindre la partie
+            $formParty = $this->createFormBuilder()
+                                  ->add('submit', SubmitType::class)
+                                  ->getForm();
+
+            $formParty->handleRequest($request);
+            
+            // // Creation du formulaire pour quitter la partie
+            // $formQuitParty = $this->createFormBuilder()
+            //                       ->add('quit', SubmitType::class,array('label' => 'Quitter la partie'))
+            //                       ->getForm();
+            // $formQuitParty->handleRequest($request);
+
+            // On va le cherche en base de données
+            $utilisateur = $this->getUser();
+
+            // Creation du formulaire pour supprimer la partie si on l'organisateur
+            $deleteForm = $this->createDeleteForm($partie);
+            
+            $isOnParty = false ;
+            $isOrganisateur = false;
+
+            // Joueurs inscrits dans la partie
+            $joueurs = $partie->getUtilisateurs()->toArray();
+
+    
+            $em = $this->getDoctrine()->getManager();
+            
+
+
+
+            $organisateur = $partie->getOrganisateur();
+
+            if( $utilisateur === $organisateur ) {
+                $isOrganisateur = true;
+            }
+
+            foreach ( $joueurs as $joueur ) {
+                if( $joueur->getId() === $utilisateur->getId() ){
+                    $isOnParty = true;
+                } 
+            }
+        
+
+            // Partie Ajax 
+
+            if( $request->isXmlHttpRequest()) {
+                if($isOnParty) {
+                    $partie->removeUtilisateur($utilisateur);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($partie);
+                    $em->flush();
+                    $isOnParty = false;
+                } else {
                     $partie->addUtilisateur($utilisateur);
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($partie);
                     $em->flush();
+                    $isOnParty = true;
+                }
+                // $formJoinParty = $this->createFormBuilder()
+                //         ->add('join', SubmitType::class,array('label' => 'Rejoindre la partie'))
+                //         ->getForm();
+
+                // $formJoinParty->handleRequest($request);
+                //     $partie->addUtilisateur($utilisateur);
+                //     $em = $this->getDoctrine()->getManager();
+                //     $em->persist($partie);
+                //     $em->flush();
 
 
                 $id = $request->get('id');
                 $partie = $this->getDoctrine()->getRepository(Partie::class)->find($id);
-                $utilisateurs = $partie->getUtilisateurs();
+                $utilisateurs = array_merge($partie->getUtilisateurs()->toArray());
+
+                // On ajoute la variable isOnParty dans le retour json pour pouvoir l'exploiter en javascript
+                $utilisateurs['isOnParty'] = $isOnParty;
 
                 $encoder = new JsonEncoder();
                 $normalizer = new ObjectNormalizer();
@@ -237,84 +299,29 @@ class PartieController extends Controller
                 });
 
                 $serializer = new Serializer(array($normalizer), array($encoder));
-
-
+                
                 $data =  $serializer->serialize($utilisateurs, 'json');
-
-
                 $response = new Response($data);
-
                 $response->headers->set('Content-Type', 'application/json');
 
-
                 return $response;
+
             }
-
-            // On va le cherche en base de données
-            $utilisateur = $this->getUser();
-            $deleteForm = $this->createDeleteForm($partie);
-    
-            // Creation du formulaire pour rejoindre la partie
-            $formJoinParty = $this->createFormBuilder()
-                        ->add('join', SubmitType::class,array('label' => 'Rejoindre la partie'))
-                        ->getForm();
-
-            $formJoinParty->handleRequest($request);
-            
-            // Creation du formulaire pour quitter la partie
-            $formQuitParty = $this->createFormBuilder()
-                        ->add('quit', SubmitType::class,array('label' => 'Quitter la partie'))
-                        ->getForm();
-            $formQuitParty->handleRequest($request);
-
-
-            
-            $isOnParty = true ;
-            $isOrganisateur = false;
-
-            // Utilisateur inscrits dans la partie
-            $utilisateurs = $partie->getUtilisateurs()->toArray();
-
-            $organisateur = $partie->getOrganisateur();
-
-            if( $utilisateur === $organisateur ) {
-                $isOrganisateur = true;
-            }
-
-            foreach ( $utilisateurs as $joueur ) {
-                if( $joueur->getId() === $utilisateur->getId() ){
-                    $isOnParty = false;
-                } 
-            }
-
-
-
-
-            if ($formQuitParty->isSubmitted() && $formQuitParty->isValid()) {
-                $partie->removeUtilisateur($utilisateur);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($partie);
-                $em->flush();
-            }
-
 
             return $this->render('partie/show.html.twig', array(
                 'partie' => $partie,
                 'utilisateur' => $utilisateur,
                 'deleteForm' => $deleteForm->createView(),
-                'formJoinParty' => $formJoinParty->createView(),
-                'formQuitParty' => $formQuitParty->createView(),
+                'formParty' => $formParty->createView(),
+                // 'formQuitParty' => $formQuitParty->createView(),
                 'isOnParty' => $isOnParty, 
-                'utilisateurs' => $utilisateurs,
+                'joueurs' => $joueurs,
                 'organisateur' => $isOrganisateur
             
             )); 
         } else {
             return $this->redirectToRoute('login');
         }
-
-
-
     }
 
     /**
