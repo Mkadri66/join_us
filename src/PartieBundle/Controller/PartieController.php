@@ -219,12 +219,6 @@ class PartieController extends Controller
                                   ->getForm();
 
             $formParty->handleRequest($request);
-            
-            // // Creation du formulaire pour quitter la partie
-            // $formQuitParty = $this->createFormBuilder()
-            //                       ->add('quit', SubmitType::class,array('label' => 'Quitter la partie'))
-            //                       ->getForm();
-            // $formQuitParty->handleRequest($request);
 
             // On va le cherche en base de données
             $utilisateur = $this->getUser();
@@ -238,11 +232,7 @@ class PartieController extends Controller
             // Joueurs inscrits dans la partie
             $joueurs = $partie->getUtilisateurs()->toArray();
 
-    
             $em = $this->getDoctrine()->getManager();
-            
-
-
 
             $organisateur = $partie->getOrganisateur();
 
@@ -273,16 +263,6 @@ class PartieController extends Controller
                     $em->flush();
                     $isOnParty = true;
                 }
-                // $formJoinParty = $this->createFormBuilder()
-                //         ->add('join', SubmitType::class,array('label' => 'Rejoindre la partie'))
-                //         ->getForm();
-
-                // $formJoinParty->handleRequest($request);
-                //     $partie->addUtilisateur($utilisateur);
-                //     $em = $this->getDoctrine()->getManager();
-                //     $em->persist($partie);
-                //     $em->flush();
-
 
                 $id = $request->get('id');
                 $partie = $this->getDoctrine()->getRepository(Partie::class)->find($id);
@@ -313,7 +293,6 @@ class PartieController extends Controller
                 'utilisateur' => $utilisateur,
                 'deleteForm' => $deleteForm->createView(),
                 'formParty' => $formParty->createView(),
-                // 'formQuitParty' => $formQuitParty->createView(),
                 'isOnParty' => $isOnParty, 
                 'joueurs' => $joueurs,
                 'organisateur' => $isOrganisateur

@@ -3,7 +3,7 @@
 namespace ContactBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Contact
  *
@@ -25,6 +25,9 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\Notblank(
+     *      message = "Votre nom est obligatoire pour envoyer un message"
+     * )
      */
     private $name;
 
@@ -32,6 +35,12 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="mail", type="string", length=255)
+     * @Assert\Notblank(
+     *      message = "Votre mail est obligatoire pour envoyer un message"
+     * )
+     * @Assert\Email(
+     *     message = "L'email '{{ value }}' n'est pas au bon format ."
+     * )
      */
     private $mail;
 
@@ -39,6 +48,9 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="message", type="string", length=255)
+     * @Assert\Notblank(
+     *      message = "Le message ne peut être vide ! "
+     * )
      */
     private $message;
 
