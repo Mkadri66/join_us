@@ -1,3 +1,8 @@
+about:
+    resource: "@AboutBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 contact:
     resource: "@ContactBundle/Controller/"
     type:     annotation

@@ -8,6 +8,7 @@ imports:
     - { resource: "@SportBundle/Resources/config/services.yml" }
     - { resource: "@VilleBundle/Resources/config/services.yml" }
     - { resource: "@ContactBundle/Resources/config/services.yml" }
+    - { resource: "@AboutBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration

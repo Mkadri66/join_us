@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1> {{ about.title}}</h1>
+
+    <div class="col-lg-6 offset-lg-3">
+        {{ about.content }}
+    </div>
+
+    {# {{dump(app.user) }} #}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="col-lg-10 offset-lg-1">
+            {{ form_start(form) }}
+
+                    <div class="form-group">
+
+                        {{ form_label(form.title, "Titre", {'label_attr': {'class': 'col-md-7 offset-md-2 control-label'}}) }}                 
+                        <div class="col-md-8 offset-md-2">
+                            {{ form_widget(form.title, {'attr': {'class': 'form-control col-md-12'}}) }}
+                            {{ form_errors(form.title, {'attr': {'class': 'form_error col-md-12'}}) }}
+                        </div>
+
+                        {{ form_label(form.content, "Contenu", {'label_attr': {'class': 'col-md-7 offset-md-2 control-label'}}) }}   
+                        <div class="col-md-8 offset-md-2">        
+                            {{ form_widget(form.content, {'attr': {'class': 'form-control  col-md-12'}}) }}
+                            {{ form_errors(form.content, {'attr': {'class': 'form_error col-md-12'}}) }}
+                        </div>
+                    </div>
+
+                    {{ form_widget(form.modifier, {'attr': {'class': 'btn btn-primary col-md-3 offset-md-5'}}) }}
+
+            {{ form_end(form) }}
+        </div>
+    {% endif %}
+
+
+
+{% endblock %}
+
+

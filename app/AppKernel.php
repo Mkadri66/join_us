@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new SportBundle\SportBundle(),
             new VilleBundle\VilleBundle(),
             new ContactBundle\ContactBundle(),
+            new AboutBundle\AboutBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
