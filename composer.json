@@ -24,8 +24,10 @@
         "components/jquery": "1.9.*",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
+        "friendsofsymfony/user-bundle": "~2.0",
         "incenteev/composer-parameter-handler": "^2.0",
         "leafo/scssphp": "~0.6",
+        "paragonie/random_compat": "2.*",
         "patchwork/jsqueeze": "~1.0",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^3.0.2",
@@ -42,6 +44,7 @@
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0"
+
     },
     "scripts": {
         "symfony-scripts": [

@@ -1,39 +1,56 @@
 security:
     encoders:
-        Symfony\Component\Security\Core\Utilisateur\Utilisateur: plaintext
-        UtilisateurBundle\Entity\Utilisateur:
+        # Symfony\Component\Security\Core\Utilisateur\Utilisateur: plaintext
+        AppBundle\Entity\User:
             algorithm: bcrypt
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
-    
-
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
-        main:
-            entity:
-                class:    UtilisateurBundle\Entity\Utilisateur
-                property: username
-
+        fos_userbundle:
+            id: fos_user.user_provider.username
 
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main_login:
-            pattern:   ^/login$
-            anonymous: true 
         main:
-            pattern:   ^/
-            anonymous: true
-            provider:  main 
+            pattern: ^/
+            user_checker: security.user_checker
             form_login:
-                login_path:    login
-                check_path:    login_check
-                default_target_path: utilisateur_dashboard
-            logout:
-                path:          logout
-                target:        homepage
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+
+            logout:       true
+            anonymous:    true
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }
+
+
+
+
+
+    # firewalls:
+    #     dev:
+    #         pattern: ^/(_(profiler|wdt)|css|images|js)/
+    #         security: false
+    #     main_login:
+    #         pattern:   ^/login$
+    #         anonymous: true 
+    #     main:
+    #         pattern:   ^/
+    #         anonymous: true
+    #         provider:  main 
+    #         form_login:
+    #             login_path:    login
+    #             check_path:    login_check
+    #             default_target_path: utilisateur_dashboard
+    #         logout:
+    #             path:          logout
+    #             target:        homepage
 
 
 

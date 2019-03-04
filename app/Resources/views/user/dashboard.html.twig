@@ -1,0 +1,99 @@
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+
+{{ dump(user) }}
+<div class="container dashboard">
+
+    <div class="row profile">
+		{% for message in app.session.flashbag.get('info') %}
+			<div class="alert alert-success alert-dismissible fade show col-lg-6 offset-lg-4" role="alert" >
+					<p> {{ message }} </p>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
+
+		
+		<div class="col-12 col-md-3">
+			<div class="profile-sidebar">
+				<!-- SIDEBAR USERPIC -->
+				<div class="profile-userpic">
+					<img src="{{ asset('uploads/avatars/' ~ app.user.url ) }}" class="img-fluid profile_pic" alt="">
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						<p> Bienvenue {{ app.user.username | capitalize }}  !</p>
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				{# Lien vers la liste des utilisateurs seulement pour les admins #}
+				<div class="profile-userbuttons">
+					{# {% if  role  == 1  %}
+    					<a href="{{ path('utilisateur_index') }}"> Liste des utilisateurs  </a> <br>
+					{% endif %} #}
+					{% if is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('user_index') }}"> Liste des utilisateurs  </a> </br>
+					{% endif %}	
+
+					<a href="{{ path('party_new') }}"> Creer une partie </a> </br>
+					{# <a href="{{ path('user_edit', { 'id':app.user.id } ) }}" > Editer mon compte</a> <br>
+					<a href="{{ path('edit_avatar', { 'id':app.user.id } ) }}" > Changer d'avatar </a> <br>
+					<a href="{{ path('user_delete', { 'id': app.user.id } ) }}" style="color:red"> Supprimer mon compte </a>  #}
+					
+				</div>
+				<!-- END SIDEBAR BUTTONS -->
+			</div>
+		</div>
+		<div class="col-md-9 col-12">
+			<div class="sports">
+				<h2 class="text-center font-weight-bold"> Sports </h2>
+				<p class="font-weight-bold"> Choisissez un sport pour voir les parties disponibles :  </p>
+					<ul class="row sports_cat col-md-12">							
+						{% for sport in sports %}
+							<li class="col-11 offset-1 col-md-2 text-center">
+								<a href="{{ path('party_' ~ sport.name ~ '')}}" class="sports_libelle sports_dashboard {{sport.name }}">  {{ sport.name|capitalize}}</a>
+							</li>
+						{% endfor %}
+					</ul>
+            </div>
+			<hr>
+            <div class="profile-content">
+				<div class="row">
+					<div class='col-md-12 text-center'> 
+						<h2 class="font-weight-bold"> Mes parties </h2>
+					</div> 
+				</div>
+				{# {% if app.user.parties is empty %}
+					<h3 class="text-center"> Aucune partie n'a été encore créée pour ce sport ! </h3>
+					<p class="text-center"> <a href="{{ path('partie_new') }}"> Voulez-vous créer une partie ? </a> </p>
+				{% else %}
+					{% for party in app.user.parties %}
+						<hr>
+						<div class="party {{ party.sport.name }}">
+							<h4>  Partie de :  {{ party.sport.name }} </h4>
+							<p> Organisateur : {{ party.organiser.username }} </p>
+							<p> Adresse : {{ party.address }} </p>
+							<p> Date de la partie : {{ party.date.date|date("d/m/Y") }} </p>
+							<p> Horaire de la partie : {{ party.horaire.date|date("H:i") }} </p>
+							<p> Ville : {{ party.city }} </p>
+							<p> <a href="{{ path('partie_show', { 'id': party.id }) }}"> Cliquez pour voir la partie </a>
+						</div>			
+					{% endfor %}
+
+        {% endif %} #}
+
+
+				
+            </div>
+		</div>
+	</div> 
+</div>
+{% endblock %}
+
+

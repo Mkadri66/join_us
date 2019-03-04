@@ -1,0 +1,4 @@
+services:
+#    city.example:
+#        class: CityBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

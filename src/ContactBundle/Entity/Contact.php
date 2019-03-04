@@ -25,7 +25,7 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
-     * @Assert\Notblank(
+     * @Assert\NotBlank(
      *      message = "Votre nom est obligatoire pour envoyer un message"
      * )
      */
@@ -35,7 +35,7 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="mail", type="string", length=255)
-     * @Assert\Notblank(
+     * @Assert\NotBlank(
      *      message = "Votre mail est obligatoire pour envoyer un message"
      * )
      * @Assert\Email(
@@ -48,7 +48,7 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="message", type="string", length=255)
-     * @Assert\Notblank(
+     * @Assert\NotBlank(
      *      message = "Le message ne peut être vide ! "
      * )
      */

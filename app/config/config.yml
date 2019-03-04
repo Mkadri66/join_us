@@ -2,13 +2,12 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@UtilisateurBundle/Resources/config/services.yml" }
-    - { resource: "@PartieBundle/Resources/config/services.yml" }
-    - { resource: "@MessageBundle/Resources/config/services.yml" }
     - { resource: "@SportBundle/Resources/config/services.yml" }
-    - { resource: "@VilleBundle/Resources/config/services.yml" }
     - { resource: "@ContactBundle/Resources/config/services.yml" }
     - { resource: "@AboutBundle/Resources/config/services.yml" }
+    - { resource: "@AppBundle/Resources/config/services.yml" }
+    - { resource: "@CityBundle/Resources/config/services.yml" }
+    - { resource: "@PartyBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -18,7 +17,7 @@ parameters:
 
 framework:
     #esi: ~
-    #translator: { fallbacks: ['%locale%'] }
+    translator: { fallbacks: ['%locale%'] }
     secret: '%secret%'
     router:
         resource: '%kernel.project_dir%/app/config/routing.yml'
@@ -78,3 +77,13 @@ swiftmailer:
     spool: { type: memory }
 
 
+fos_user:
+    db_driver:     orm
+    firewall_name: main                    
+    user_class:    AppBundle\Entity\User
+    from_email:
+        address: "join_us@test.com"
+        sender_name: "Join Us"
+    registration:
+            form:
+                type: AppBundle\Form\UserType

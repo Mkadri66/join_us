@@ -1,6 +1,0 @@
-# services:
-#    utilisateur:
-#       class: UtilisateurBundle\Utilisateur
-#       arguments: []
-
-

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{{ dump(party.players) }}
+{# Booléen pour savoir si le joueur est dans la party #}
+<input type="hidden" id="isOnParty" value="{{isOnParty}}"/>
+
+    <div class='container '>
+       
+        <div class="card party {{ party.sport.name }} col-lg-6 offset-lg-3">  
+            <h1 class="text-center"> Informations sur la partie </h1>            
+            <div class="card-body">
+                <h2 class="text-center">  {{ party.sport.name  | capitalize }} </h2>
+                <p class="font-weight-bold">Organisateur : </p>
+                <p> {{ party.organiser.username | capitalize }} </p>
+                <p class="font-weight-bold"> Adresse : </p>
+                <p> {{ party.address }} </p>
+                <p class="font-weight-bold"> Ville : </p> 
+                <p> {{ party.city }} </p>
+                <p class="font-weight-bold">Date : </p> 
+                <p> {{ party.date.date|date("d/m/Y") }} </p>
+                <p class="font-weight-bold"> Horaire : </p> 
+                <p> {{ party.schedule.date|date("H:i") }} </p>
+                <div class="user_in_party">
+                    <p class="font-weight-bold"> Participants : </p>
+                    <ul class="users">
+                        {% for player in party.players %}
+                            <li class="user">
+                                <img class="avatar_party" src="{{ asset('uploads/avatars/' ~ player.url ) }}" class="mx-auto d-block" alt="">
+                                {{ player.username | capitalize }}
+
+                         
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-lg-10 offset-lg-3 button-party">
+            <div class="row">
+                {% if  organiser %}
+                    {{ form_start(deleteForm  , {'attr': {'class': 'offset-lg-2'}}) }}
+                        <input type="submit" value="Supprimer la partie" class="btn btn-danger">
+                    {{ form_end(deleteForm) }}
+                {% else %}            
+                    {{ form_start(formParty , {'attr': {'id': 'joinParty', 'class': 'offset-lg-2'}}) }}               
+                        {% if  isOnParty %}
+                            {{ form_widget(formParty.submit, {'attr': {'class': 'join btn btn-danger', 'value': 'Quitter la partie'}}) }} 
+                        {% else %}
+                            {{ form_widget(formParty.submit, {'attr': {'class': 'join btn btn-primary'}}) }} 
+                        {% endif %}
+                    {{ form_end(formParty) }}
+                {% endif %}
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}

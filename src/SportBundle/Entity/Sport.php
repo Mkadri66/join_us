@@ -24,9 +24,9 @@ class Sport
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    private $libelle;
+    private $name;
 
 
 
@@ -41,28 +41,31 @@ class Sport
         return $this->id;
     }
 
-    /**
-     * Set libelle
-     *
-     * @param string $libelle
-     *
-     * @return Sport
-     */
-    public function setLibelle($libelle)
-    {
-        $this->libelle = $libelle;
 
-        return $this;
+    
+
+    /**
+     * Get the value of name
+     *
+     * @return  string
+     */ 
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
-     * Get libelle
+     * Set the value of name
      *
-     * @return string
-     */
-    public function getLibelle()
+     * @param  string  $name
+     *
+     * @return  self
+     */ 
+    public function setName(string $name)
     {
-        return $this->libelle;
+        $this->name = $name;
+
+        return $this;
     }
 }
 

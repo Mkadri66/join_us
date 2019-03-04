@@ -29,12 +29,12 @@
                                 </li>
                                 {% if app.user %}
                                     {% if app.request.uri != 'utilisateur_dashboard' %}
-                                        <li class="nav-item col-md-2 offset-md-3"><a class="btn btn-outline-secondary" href="{{ path('utilisateur_dashboard') }}"> Dashboard </a></li>
+                                        <li class="nav-item col-md-2 offset-md-3"><a class="btn btn-outline-secondary" href="{{ path('user_dashboard') }}"> Dashboard </a></li>
                                     {% endif %}
-                                    </li class="nav-item col-md-2"><a class="btn btn-primary" href="{{ path('logout') }}"> Se deconnecter </a></li>
+                                        </li class="nav-item col-md-2"><a class="btn btn-primary" href="{{ path('logout') }}"> Se deconnecter </a></li>
                                 {% else %}
-                                    <li class="nav-item col-md-2 offset-md-3"><a class="btn btn-outline-secondary" href="{{ path('login') }}">Se Connecter</a></li>
-                                    <li class="nav-item col-md-2"><a class="btn btn-primary" href="{{ path('utilisateur_new') }}"> Creer un compte</a></li>
+                                    <li class="nav-item col-md-2 offset-md-3"><a class="btn btn-outline-secondary" href="{{ path('fos_user_security_login') }}">Se Connecter</a></li>
+                                    <li class="nav-item col-md-2"><a class="btn btn-primary" href="{{ path('fos_user_registration_register') }}"> Creer un compte</a></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -42,10 +42,10 @@
             </div>
   
             <main class="site_main container-fluid">
-                {% block body %} {% endblock %}
+                {% block body %}      
+                {% endblock %}
             </main>
             
-
             <!-- Footer -->
             <footer class="footer bg-dark container-fluid">
                 <div class="container-fluid">
@@ -100,6 +100,9 @@
             <script src ="{{ asset( 'build/build.js' ) }}"></script>
             
         {% endblock %}
+
+        {% block fos_user_content %}
+        {% endblock %} 
     </body>
 </html>
 
