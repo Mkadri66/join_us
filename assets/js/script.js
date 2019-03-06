@@ -40,7 +40,7 @@ $(document).ready(function () {
                 for (let i = 0; i < count; i++) {     
                     username = data[i]["username"]
                     url = data[i]["url"]
-                    $(`<li> <img class="avatar_partie" src="../../../../uploads/avatars/${url}" class="mx-auto d-block"> ${username} </li>`)
+                    $(`<li> <img class="avatar_party" src="../../../../uploads/avatars/${url}" class="mx-auto d-block"> ${username} </li>`)
                     .appendTo(".users")
                     .hide()
                     .fadeIn(1000)

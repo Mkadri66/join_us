@@ -10,27 +10,6 @@
         <div class="form-group">
 
             {# Génération du label. #}
-            {{ form_label(edit_form.nom, "Nom", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-            {# Génération de l'erreur  #}
-            
-            <div class="col-sm-12">
-                {# Génération de l'input. #}
-                {{ form_widget(edit_form.nom, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.nom, {'attr': {'class': 'form_error'}}) }}
-            </div>
-
-            {# Génération du label. #}
-            {{ form_label(edit_form.prenom, "Prenom", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-            {# Génération de l'erreur  #}
-            
-            <div class="col-sm-12">
-                {# Génération de l'input. #}
-                {{ form_widget(edit_form.prenom, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.prenom, {'attr': {'class': 'form_error'}}) }}
-            </div>
-
-
-            {# Génération du label. #}
             {{ form_label(edit_form.mail, "Mail", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
             {# Génération de l'erreur  #}
             
@@ -52,13 +31,13 @@
 
 
             {# Génération du label. #}
-            {{ form_label(edit_form.ville, "Ville", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {{ form_label(edit_form.city, "Ville", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
             {# Génération de l'erreur  #}
             
             <div class="col-sm-12">
                 {# Génération de l'input. #}
-                {{ form_widget(edit_form.ville, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.ville, {'attr': {'class': 'form_error'}}) }}
+                {{ form_widget(edit_form.city, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.city, {'attr': {'class': 'form_error'}}) }}
             </div>
 
 

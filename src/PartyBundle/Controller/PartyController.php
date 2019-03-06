@@ -37,13 +37,20 @@ class PartyController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $em = $this->getDoctrine()->getManager();
 
-        $parties = $em->getRepository('PartyBundle:Party')->findAll();
+            $parties = $em->getRepository('PartyBundle:Party')->findAll();
 
-        return $this->render('party/index.html.twig', array(
-            'parties' => $parties,
-        ));
+            return $this->render('party/index.html.twig', array(
+                'parties' => $parties,
+            )); 
+
+        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('user_dashboard');
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
     }
     
     /**
@@ -64,7 +71,7 @@ class PartyController extends Controller
                 'parties' => $partiesFoot,
             ));
         } else {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('fos_user_security_login');
         }
 
     }
@@ -87,7 +94,7 @@ class PartyController extends Controller
                 'parties' => $partiesBasket,
             ));
         } else {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('fos_user_security_login');
         }
     }
 
@@ -109,7 +116,7 @@ class PartyController extends Controller
                 'parties' => $partiesTennis,
             ));
         } else {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('fos_user_security_login');
         }
     }
 
@@ -131,7 +138,7 @@ class PartyController extends Controller
                 'parties' => $partiesPadel,
             ));
         } else {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('fos_user_security_login');
         }
     }
 
@@ -153,7 +160,7 @@ class PartyController extends Controller
                 'parties' => $partiesHand,
             ));
         } else {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('fos_user_security_login');
         }
     }
 
@@ -196,7 +203,7 @@ class PartyController extends Controller
                 'user' => $user
             ));
         } else {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('fos_user_security_login');
         }
         
 
@@ -306,33 +313,37 @@ class PartyController extends Controller
             
             )); 
         } else {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('fos_user_security_login');
         }
     }
 
     /**
      * Displays a form to edit an existing partie entity.
      *
-     * @Route("/{id}/edit", name="partie_edit")
+     * @Route("/{id}/edit", name="party_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Party $party)
     {
-        $deleteForm = $this->createDeleteForm($party);
-        $editForm = $this->createForm('PartyBundle\Form\PartyType', $party);
-        $editForm->handleRequest($request);
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) { 
+            $deleteForm = $this->createDeleteForm($party);
+            $editForm = $this->createForm('PartyBundle\Form\PartyType', $party);
+            $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('party_edit', array('id' => $party->getId()));
+                return $this->redirectToRoute('party_edit', array('id' => $party->getId()));
+            }
+
+            return $this->render('party/edit.html.twig', array(
+                'party' => $party,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
         }
-
-        return $this->render('party/edit.html.twig', array(
-            'party' => $party,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
     /**
@@ -343,16 +354,20 @@ class PartyController extends Controller
      */
     public function deleteAction(Request $request, Party $party)
     {
-        $form = $this->createDeleteForm($party);
-        $form->handleRequest($request);
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) { 
+            $form = $this->createDeleteForm($party);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($party);
-            $em->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($party);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute('user_dashboard');
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
         }
-
-        return $this->redirectToRoute('user_dashboard');
     }
 
     /**
