@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="about">
+        <h1> {{ about.title}}</h1>
 
-    <h1> {{ about.title}}</h1>
-
-    <div class="col-lg-6 offset-lg-3">
-        {{ about.content }}
+        <div class="col-lg-6 offset-lg-3">
+            {{ about.content }}
+        </div>
     </div>
 
-    {# {{dump(app.user) }} #}
 
     {% if is_granted('ROLE_ADMIN') %}
         <div class="col-lg-10 offset-lg-1">

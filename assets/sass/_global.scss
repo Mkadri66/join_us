@@ -110,28 +110,40 @@ body{
     }
 }
 
+/*  --------------- LOGIN ---------------------- */
+.form_login {
+    margin-top: 100px !important;
+    
+    h1{
+        margin: 30px 0;
+    }
 
 
+    #_submit {
+        margin-top: 45px;
+    }
+}
 
 
-/*  --------------- NEW COUNT ---------------------- */
+/*  --------------- NEW COUNT - REGISTRATION  ---------------------- */
 
 
-.form_new_user{
-    margin-top: 140px;
+.fos_user_registration_register{
+    margin-top: 100px;
 }
 
 /*  --------------- EDIT COUNT ---------------------- */
 
 
 .edit_user{
-    margin-top: 140px;
+    margin-top: 100px;
 }
+
 
 /*  --------------- NEW PARTY ---------------------- */
 
 .new_party{
-    margin-top: 140px;
+    margin-top: 40px;
 }
 
 /*  --------------- SHOW PARTY ---------------------- */
@@ -154,3 +166,11 @@ body{
     margin-top: 160px;
 }
 
+/*  --------------- ABOUT ---------------------- */
+.about {
+    margin-top: 100px;
+
+    h1{
+        margin: 30px 0;
+    }
+}

@@ -1,6 +1,5 @@
 security:
     encoders:
-        # Symfony\Component\Security\Core\Utilisateur\Utilisateur: plaintext
         AppBundle\Entity\User:
             algorithm: bcrypt
 
