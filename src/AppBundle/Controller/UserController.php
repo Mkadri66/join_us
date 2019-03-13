@@ -96,7 +96,7 @@ class UserController extends Controller
     {
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
-            // Si l'utilisateur est connecté on peut le recuperer
+            // Si l'user est connecté on peut le recuperer
             $user = $this->getUser();
             $parties = $user->getParties();
             $em = $this->getDoctrine()->getManager();
@@ -125,7 +125,6 @@ class UserController extends Controller
 
             $user = $this->getUser();
 
-            
             $editUrlId =  $request->attributes->get('id');
 
             if($user->getId() == $editUrlId) {
@@ -161,63 +160,69 @@ class UserController extends Controller
 
     }
 
-    // /**
-    //  * 
-    //  *
-    //  * @Route("/{id}/edit_avatar", name="edit_avatar")
-    //  * @Method({"GET", "POST"})
-    //  */
-    // public function editAvatarAction(Request $request, Utilisateur $utilisateur)
-    // {
+    /**
+     * 
+     *
+     * @Route("/{id}/edit_avatar", name="edit_avatar")
+     * @Method({"GET", "POST"})
+     */
+    public function editAvatarAction(Request $request, User $user)
+    {
 
-    //     if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) { 
-    //         $user_connect = $this->getUser();
-    //         if( $user_connect->getId() === $utilisateur->getId() ) {
-    //             $editAvatar = $this->createFormBuilder($utilisateur)
-    //                 ->add('avatar',     FileType::class)
-    //                 ->add('valider',    SubmitType::class)
-    //                 ->getForm();
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) { 
+            
+            $user = $this->getUser();
 
-    //             $editAvatar->handleRequest($request);
-
-    //             if ($editAvatar->isSubmitted() && $editAvatar->isValid()) {
+            $editUrlAvatarId =  $request->attributes->get('id');
 
 
-    //                 $file = $utilisateur->getAvatar();
-    //                 $fileName = $utilisateur->getUsername() . '.' . $file->guessExtension();    
-    //                 $utilisateur->setUrl($fileName);
+            if( $user->getId() == $editUrlAvatarId ) {
+
+                $editAvatar = $this->createFormBuilder($user)
+                    ->add('avatar',     FileType::class)
+                    ->add('valider',    SubmitType::class)
+                    ->getForm();
+
+                $editAvatar->handleRequest($request);
+
+                if ($editAvatar->isSubmitted() && $editAvatar->isValid()) {
+
+
+                    $file = $user->getAvatar();
+                    $fileName = $user->getUsername() . '.' . $file->guessExtension();    
+                    $user->setUrl($fileName);
                     
-    //                 // On déplace l'image dans le dossiers "avatars" 
-    //                 $file->move( $this->getParameter('avatar_directory'), $fileName);
+                    // On déplace l'image dans le dossiers "avatars" 
+                    $file->move( $this->getParameter('avatar_directory'), $fileName);
 
 
 
-    //                 $this->getDoctrine()->getManager()->flush();
-    //                 $session = new Session();
-    //                 $session = $request->getSession();
-    //                 $session->start();
-    //                 $session = $request->getSession();
+                    $this->getDoctrine()->getManager()->flush();
+                    $session = new Session();
+                    $session = $request->getSession();
+                    $session->start();
+                    $session = $request->getSession();
 
 
-    //                 $session->getFlashBag()->add('info', 'Votre profil à bien était mis à jour :D ');
-    //                 return $this->redirectToRoute('utilisateur_dashboard');
-    //             }
+                    $session->getFlashBag()->add('info', 'Votre profil à bien était mis à jour :D ');
+                    return $this->redirectToRoute('user_dashboard');
+                }
 
-    //             return $this->render('utilisateur/edit_avatar.html.twig', array(
-    //                 'utilisateur' => $utilisateur,
-    //                 'edit_avatar' => $editAvatar->createView(),
-    //             ));
-    //         } else {
-    //             return $this->redirectToRoute('utilisateur_dashboard');
-    //         } 
+                return $this->render('user/edit_avatar.html.twig', array(
+                    'user' => $user,
+                    'edit_avatar' => $editAvatar->createView(),
+                ));
+            } else {
+                return $this->redirectToRoute('user_dashboard');
+            } 
 
-    //     } else {
-    //         return $this->redirectToRoute('login');
-    //     }
-    // }
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+    }
 
     /**
-     * Deletes a utilisateur entity.
+     * Deletes a user entity.
      *
      * @Route("/{id}", name="user_delete")
      * 
