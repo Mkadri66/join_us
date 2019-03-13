@@ -48,7 +48,7 @@ class User extends BaseUser
     private $city;
 
     /**
-    * @ORM\ManyToMany(targetEntity="PartyBundle\Entity\Party", inversedBy="players")
+    * @ORM\ManyToMany(targetEntity="PartyBundle\Entity\Party", inversedBy="players", cascade={"remove"})
     * @ORM\JoinColumn(nullable=false)
     * @ORM\JoinTable(name="party_player")
     * @Assert\Valid()

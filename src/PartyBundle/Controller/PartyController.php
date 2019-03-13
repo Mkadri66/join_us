@@ -252,14 +252,7 @@ class PartyController extends Controller
                     $isOnParty = true;
                 } 
             }
-        
-            // if($formParty->isSubmitted()){
-            //     $party->addUtilisateur($user);
-            //     $em = $this->getDoctrine()->getManager();
-            //     $em->persist($party);
-            //     $em->flush();
-            //     $isOnParty = true;
-            // }
+    
 
             // Partie Ajax 
 
@@ -326,21 +319,36 @@ class PartyController extends Controller
     public function editAction(Request $request, Party $party)
     {
         if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) { 
-            $deleteForm = $this->createDeleteForm($party);
+            $user = $this->getUser();
             $editForm = $this->createForm('PartyBundle\Form\PartyType', $party);
             $editForm->handleRequest($request);
 
+            $isOrganiser = false;
+
+            $organiser = $party->getOrganiser();
+
+            if( $user === $organiser ) {
+                $isOrganiser = true;
+            }
+
             if ($editForm->isSubmitted() && $editForm->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
-
+                // Ajout d'un message de succes
+                $session = new Session();
+                $session->getFlashBag()->add('edit_party_success', 'Votre partie a bien été modifiée ! :D ');
                 return $this->redirectToRoute('party_edit', array('id' => $party->getId()));
             }
 
-            return $this->render('party/edit.html.twig', array(
-                'party' => $party,
-                'edit_form' => $editForm->createView(),
-                'delete_form' => $deleteForm->createView(),
-            ));
+            if($isOrganiser) {
+                return $this->render('party/edit.html.twig', array(
+                    'user' => $user,
+                    'party' => $party,
+                    'edit_form' => $editForm->createView(),
+                ));
+            } else {
+                return $this->redirectToRoute('user_dashboard');
+            }
+
         } else {
             return $this->redirectToRoute('fos_user_security_login');
         }
@@ -355,6 +363,7 @@ class PartyController extends Controller
     public function deleteAction(Request $request, Party $party)
     {
         if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) { 
+            
             $form = $this->createDeleteForm($party);
             $form->handleRequest($request);
 

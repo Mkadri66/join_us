@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use PartyBundle\Entity\Party;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -49,7 +48,7 @@ class User extends BaseUser
     private $city;
 
     /**
-    * @ORM\ManyToMany(targetEntity="PartyBundle\Entity\Party", inversedBy="players")
+    * @ORM\ManyToMany(targetEntity="PartyBundle\Entity\Party", inversedBy="players", cascade={"remove"})
     * @ORM\JoinColumn(nullable=false)
     * @ORM\JoinTable(name="party_player")
     * @Assert\Valid()

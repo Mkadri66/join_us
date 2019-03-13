@@ -61,8 +61,8 @@ class Party
     private $totalPlayers;
 
     /**
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-    * @ORM\JoinColumn(nullable=false)
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User" )
+    * 
     */
     private $organiser;
 

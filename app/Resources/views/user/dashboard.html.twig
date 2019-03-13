@@ -43,8 +43,10 @@
 
 					<a href="{{ path('party_new') }}"> Creer une partie </a> </br>
 					<a href="{{ path('fos_user_profile_edit') }}" > Editer mon compte</a> <br>
-					{# <a href="{{ path('edit_avatar', { 'id':app.user.id } ) }}" > Changer d'avatar </a> <br>
-					<a href="{{ path('user_delete', { 'id': app.user.id } ) }}" style="color:red"> Supprimer mon compte </a>  #}
+					 {# <a href="{{ path('edit_avatar', { 'id':app.user.id } ) }}" > Changer d'avatar </a> <br> #}
+					{% if user.roles[0] == 'ROLE_USER'%}
+						<a href="{{ path('user_delete', { 'id': app.user.id } ) }}" style="color:red"> Supprimer mon compte </a>
+					{% endif %}
 					
 				</div>
 				<!-- END SIDEBAR BUTTONS -->

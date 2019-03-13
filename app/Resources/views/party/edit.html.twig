@@ -1,21 +1,96 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Partie edit</h1>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('partie_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+<div class="container"> 
+    <div class="well col-md-6 offset-md-4 edit_user">
+        {{ form_start(edit_form ,{'attr': {'class': 'form-horizontal col-lg-10'}}) }}
+        <h1 class="text-center">Editez votre partie</h1>
+
+        <div class="form-group">
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.address, "Adresse", {'label_attr': {'class': 'col-sm-6 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            
+            <div class="col-sm-12">        
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.address, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.address, {'attr': {'class': 'form_error'}}) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.date, "Date", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.date, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.date, {'attr': {'class': 'form_error'}}) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.schedule, "Horaire", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.schedule, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.schedule, {'attr': {'class': 'form_error'}}) }}
+            </div>
+
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.totalPlayers, "Nombre de joueurs", {'label_attr': {'class': 'col-sm-12 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.totalPlayers, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.totalPlayers, {'attr': {'class': 'form_error'}}) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.sport, "Sport", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.sport, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.sport, {'attr': {'class': 'form_error'}}) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.city, "Ville", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {# Génération de l'erreur  #}
+            
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.city, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.city, {'attr': {'class': 'form_error'}}) }}
+            </div>
+
+           {# {{ form_rest(form) }} #}
+        </div>
+        <div class="text-center">
+            {{ form_widget(edit_form.valider, {'attr': {'class': 'btn btn-primary'}}) }}             
+         </div>
+        {{ form_end(edit_form) }}
+
+        <div class="row edit_party_success">
+            {% for message in app.session.flashbag.get('edit_party_success') %}
+                <div class="alert alert-success alert-dismissible fade show col-lg-8 offset-lg-1" role="alert" >
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+
+        <a href="{{ path('party_show', { 'id': party.id }) }}" class="btn btn-info col-lg-4 offset-lg-3 link_party"> Lien vers la partie </a>
+    </div>
+</div>
+
 {% endblock %}

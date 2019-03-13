@@ -57,14 +57,17 @@ class UserController extends Controller
     }
 
     /**
-     * Login check .
-     * @Route("/login_check", name="login_check")
+     * Login redirect
+     * @Route("/login", name="fos_user_security_login")
      * 
      * @Method({"GET", "POST"})
      * 
      */
-    public function logincheckAction(Request $request)
+    public function loginAction(Request $request)
     {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('user_dashboard');
+        } 
       
     }
 
@@ -235,57 +238,70 @@ class UserController extends Controller
     //     }
     // }
 
-    // /**
-    //  * Deletes a utilisateur entity.
-    //  *
-    //  * @Route("/{id}", name="utilisateur_delete")
-    //  * 
-    //  */
-    // public function deleteAction(Request $request, Utilisateur $utilisateur)
-    // {
+    /**
+     * Deletes a utilisateur entity.
+     *
+     * @Route("/{id}", name="user_delete")
+     * 
+     */
+    public function deleteAction(Request $request, User $user)
+    {
 
-    //     if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
-    //         $delete_form = $this->createDeleteForm($utilisateur);
-    //         $delete_form->handleRequest($request);
-    //         $utilisateur = $this->getUser();
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            $delete_form = $this->createDeleteForm($user);
+            $delete_form->handleRequest($request);
+            $user = $this->getUser();
+        
+            $deleteUrlId =  $request->attributes->get('id');
+            
+ 
+            if($user->getId() == $deleteUrlId ) {
 
-    //         if ($delete_form->isSubmitted() && $delete_form->isValid()) {
-    //             $em = $this->getDoctrine()->getManager();
-    //             $em->remove($utilisateur);
-    //             $em->flush();
-    //             $session = new Session();
-    //             $session = $request->getSession();
-    //             $session->start();
-    //             $session->getFlashBag()->add('delete', 'Votre compte à bien été supprimé ! ');
-    //             return $this->redirectToRoute('homepage');
+                if ($delete_form->isSubmitted() && $delete_form->isValid()) {
+                    // $em = $this->getDoctrine()->getManager();
+                    // $em->remove($user);
+                    // $em->flush();
+    
+                    $userManager = $this->get('fos_user.user_manager');
+                    $userManager->deleteUser($user);
+                    $session = new Session();
+                    $session = $request->getSession();
+                    $session->start();
+                    $session->getFlashBag()->add('delete', 'Votre compte à bien été supprimé ! ');
+                    return $this->redirectToRoute('homepage');
+    
+                }
+    
+                return $this->render('user/delete.html.twig', array(
+                    'user' => $user,
+                    'delete_form' => $delete_form->createView(),
+                ));
 
-    //         }
-
-    //         return $this->render('utilisateur/delete.html.twig', array(
-    //             'utilisateur' => $utilisateur,
-    //             'delete_form' => $delete_form->createView(),
-    //         ));
-    //     } else {
-    //         return $this->redirectToRoute('homepage');
-    //     }
-    // }
+            } else {
+                return $this->redirectToRoute('user_dashboard');
+            }
+        
+        } else {
+            return $this->redirectToRoute('homepage');
+        }
+    }
 
 
-    // /**
-    //  * Creates a form to delete a utilisateur entity.
-    //  *
-    //  * @param Utilisateur $utilisateur The utilisateur entity
-    //  *
-    //  * @return \Symfony\Component\Form\Form The form
-    //  */
-    // private function createDeleteForm(Utilisateur $utilisateur)
-    // {
-    //     return $this->createFormBuilder()
-    //         ->setAction($this->generateUrl('utilisateur_delete', array('id' => $utilisateur->getId())))
-    //         ->setMethod('DELETE')
-    //         ->getForm()
-    //     ;
-    // }
+    /**
+     * Creates a form to delete a user entity.
+     *
+     * @param User $user The user entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(User $user)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('user_delete', array('id' => $user->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
+    }
 
 
 

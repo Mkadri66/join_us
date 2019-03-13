@@ -61,8 +61,8 @@ class Party
     private $totalPlayers;
 
     /**
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-    * @ORM\JoinColumn(nullable=false)
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User" , cascade={"remove"}  )
+    * 
     */
     private $organiser;
 
@@ -252,6 +252,8 @@ class Party
     {
         $this->players[] = $player;
 
+        $player->addParty($this);
+        
         return $this;
     }
 
@@ -264,7 +266,10 @@ class Party
      */
     public function removePlayer(\AppBundle\Entity\User $player)
     {
-        return $this->players->removeElement($player);
+        $this->players->removeElement($player);
+
+
+        $player->removeParty($this);
     }
 
     /**
