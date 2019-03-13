@@ -3,15 +3,16 @@
 namespace AppBundle\Form;
 
 
-use Symfony\Component\Form\AbstractType;
+use CityBundle\Entity\City;
 
+use CityBundle\Form\CityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-use CityBundle\Entity\City;
-use CityBundle\Form\CityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UserType extends AbstractType
 {
@@ -21,11 +22,11 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         
-        $builder
+        // $builder
 
-            ->add('city',      EntityType::class, array('label' => 'ville','class'=> City::class, 'choice_label'=> 'name'))
-
-            ->add('avatar',     FileType::class , array( 'label' => 'Avatar'));
+        //     ->add('city',       EntityType::class, array('label' => 'ville','class'=> City::class, 'choice_label'=> 'name'))
+        //     ->add('avatar',     FileType::class , array( 'label' => 'Avatar'))
+        //     ->add('modifier',    SubmitType::class);
 
     }
     

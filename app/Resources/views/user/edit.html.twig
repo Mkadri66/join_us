@@ -3,24 +3,27 @@
 {% block body %}
 
 <div class="container"> 
-    <div class="well col-md-6 offset-md-4 edit_user">
+    <div class="well col-md-6 offset-md-3 edit_user">
+        <h1> Editez votre compte </h1>
         {{ form_start(edit_form ,{'attr': {'class': 'form-horizontal col-lg-10'}}) }}
-        <h1 class="text-center">Editez votre compte</h1>
-
-        <div class="form-group">
+            {# {{ form_widget(edit_form)}} #}
+            {# <div>
+                <input type="submit" value="Modifier" class="btn btn-primary form-group" />
+            </div> #}
+         <div class="form-group">
 
             {# Génération du label. #}
-            {{ form_label(edit_form.mail, "Mail", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {{ form_label(edit_form.email, "Email", {'label_attr': {'class': 'col-sm-6 control-label'}}) }}
             {# Génération de l'erreur  #}
             
             <div class="col-sm-12">        
                 {# Génération de l'input. #}
-                {{ form_widget(edit_form.mail, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.mail, {'attr': {'class': 'form_error'}}) }}
+                {{ form_widget(edit_form.email, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(edit_form.email, {'attr': {'class': 'form_error'}}) }}
             </div>
 
             {# Génération du label. #}
-            {{ form_label(edit_form.username, "Pseudo", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            {{ form_label(edit_form.username, "Nom d'utilisateur", {'label_attr': {'class': 'col-sm-8 control-label'}}) }}
             {# Génération de l'erreur  #}
             
             <div class="col-sm-12">
@@ -28,7 +31,6 @@
                 {{ form_widget(edit_form.username, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(edit_form.username, {'attr': {'class': 'form_error'}}) }}
             </div>
-
 
             {# Génération du label. #}
             {{ form_label(edit_form.city, "Ville", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
@@ -40,11 +42,11 @@
                 {{ form_errors(edit_form.city, {'attr': {'class': 'form_error'}}) }}
             </div>
 
-           {# {{ form_rest(form) }} #}
         </div>
         <div class="text-center">
             {{ form_widget(edit_form.valider, {'attr': {'class': 'btn btn-primary'}}) }}             
          </div>
+
 
 
         {{ form_end(edit_form) }}

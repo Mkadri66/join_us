@@ -2,12 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use CityBundle\Entity\City;
+use AppBundle\Form\UserType;
 use SportBundle\Entity\Sport;
 use ImageBundle\Form\ImageType;
-use AppBundle\Entity\User;
-use AppBundle\Form\UserType;
+use FOS\UserBundle\FOSUserEvents;
 use Symfony\Component\HttpFoundation\Request;
+use FOS\UserBundle\Event\GetResponseUserEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -114,73 +116,49 @@ class UserController extends Controller
     /**
      * Displays a form to edit an existing user entity.
      *
-     * @Route("/{id}/edit", name="fos_user_profile_edit")
+     * @Route("/{id}/edit", name="user_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, User $user)
     {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) { 
 
-        // if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) { 
-        //     $user_connect = $this->getUser();
-        //     if( $user_connect->getId() === $user->getId() ) {
-        //         $editForm = $this->createFormBuilder($user)              
-        //             ->add('mail',       TextType::class)
-        //             ->add('username',     TextType::class)
-        //             ->add('city',      EntityType::class, array('label' => 'ville','class'=> City::class, 'choice_label'=> 'name'))
-        //             ->add('valider',    SubmitType::class)
-        //             ->getForm();
+            $user = $this->getUser();
 
-        //         $editForm->handleRequest($request);
+            
+            $editUrlId =  $request->attributes->get('id');
 
-        //         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            if($user->getId() == $editUrlId) {
+                $editForm = $this->createFormBuilder($user)              
+                ->add('email',          TextType::class)
+                ->add('username',       TextType::class)
+                ->add('city',           EntityType::class, array('label' => 'Ville','class'=> City::class, 'choice_label'=> 'name'))
+                ->add('valider',        SubmitType::class)
+                ->getForm();
 
-        //             $this->getDoctrine()->getManager()->flush();
-        //             $session = new Session();
-        //             $session = $request->getSession();
-        //             $session->start();
-        //             $session->getFlashBag()->add('info', 'Votre profil a bien été mis à jour :D ');
-        //             return $this->redirectToRoute('user_dashboard');
-        //         }
+                $editForm->handleRequest($request);
+            
+                if ($editForm->isSubmitted() && $editForm->isValid()) {
+                    $this->getDoctrine()->getManager()->flush();
+                    $session = new Session();
+                    $session = $request->getSession();
+                    $session->start();
+                    $session->getFlashBag()->add('info', 'Votre profil a bien été mis à jour :D ');
+                    return $this->redirectToRoute('user_dashboard');
+                }
 
-        //         return $this->render('user/edit.html.twig', array(
-        //             'user' => $user,
-        //             'edit_form' => $editForm->createView(),
-        //         ));
-        //     } else {
-        //         return $this->redirectToRoute('user_dashboard');
-        //     } 
+                return $this->render('user/edit.html.twig', array(
+                    'user' => $user,
+                    'edit_form' => $editForm->createView(),
+                ));
+            } else {
+                return $this->redirectToRoute('user_dashboard');
+            }
 
-        // } else {
-        //     return $this->redirectToRoute('login');
-        // }
-
-        /** @var $formFactory FactoryInterface */
-        $formFactory = $this->get('fos_user.registration.form.factory');
-        /** @var $userManager UserManagerInterface */
-        $userManager = $this->get('fos_user.user_manager');
-        /** @var $dispatcher EventDispatcherInterface */
-        $dispatcher = $this->get('event_dispatcher');
-
-        // $user = $userManager->createUser();
-        $user->setEnabled(true);
-
-        $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
-
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
         }
 
-        $form = $formFactory->createForm();
-        $form->setData($user);
-
-        $form->handleRequest($request);
-
-        
-
-        return $this->render('@FOSUser/Profile/edit_content.html.twig', array(
-            'form' => $form->createView(),
-        ));
     }
 
     // /**
