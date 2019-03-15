@@ -40,7 +40,7 @@
                 
                 <div class="col-sm-12">        
                     {# Génération de l'input. #}
-                    {{ form_widget(form.date, {'attr': {'class': 'form-control col-md-7 offset-md-4 '}}) }}
+                    {{ form_widget(form.date, {'attr': {'class': 'form-control col-md-7 offset-md-4 datetimepicker-input'}}) }}
                     {{ form_errors(form.date, {'attr': {'class': 'form_error'}}) }}
                 </div>
 
@@ -90,11 +90,11 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css">
+    {# <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css"> #}
 
-        <script>
-            jQuery(document).ready(function() {
-                $('.js-datepicker').datepicker();
+      <script type="text/javascript">
+            $(document).ready(function () {
+                $('#partybundle_party_id').datetimepicker();
             });
-        </script>   
+    </script> 
 {% endblock %}

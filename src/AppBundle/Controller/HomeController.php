@@ -25,21 +25,33 @@ class HomeController extends Controller
         return $this->render('home/homepage.html.twig');
     }
 
-    // /**
-    //  * Homepage for admin
-    //  *
-    //  * @Route("/", name="user_index")
-    //  * @Security("has_role('ROLE_ADMIN')")
-    //  * @Method("GET")
-    //  */
-    // public function HomeAction(Request $request)
-    // {
-        
-    //     $em = $this->getDoctrine()->getManager();
-    //     $users = $em->getRepository('AppBundle:User')->findAll();     
-    //     return $this->render('user/index.html.twig', array(
-    //         'users' => $users
-    //     ));
+    /**
+    * Homepage for admin
+    *
+    * @Route("/admin", name="admin")
+    * 
+    */
+    public function AdminAction(Request $request)
+    {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $em = $this->getDoctrine()->getManager();
+            $users = $em->getRepository('AppBundle:User')->findAll(); 
+            $parties = $em->getRepository('PartyBundle:Party')->findAll();  
 
-    // }
+
+            $numberOfUsers = count($users);
+            $numberOfParties = count($parties);   
+
+            return $this->render('user/admin.html.twig', array(
+                'number_of_users' => $numberOfUsers,
+                'number_of_parties' => $numberOfParties
+            ));
+            
+        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('user_dashboard');
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+
+    }
 }

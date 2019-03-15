@@ -1,8 +1,9 @@
 $(document).ready(function () {
+    
     // Personnalisation du bouton
     var onParty = $('#isOnParty').val();
 
-    console.log(onParty);
+    $(document).off('.datepicker.data-api');
 
     if(onParty == true){
         $('#form_submit').removeClass('btn-primary').addClass('btn-danger').html('Quitter la partie');
@@ -56,4 +57,9 @@ $(document).ready(function () {
 
         event.preventDefault()
     });
+
+
+    // $( "#partybundle_party_date" ).datetimepicker({
+    //     minDate: +2
+    // });
 }); 

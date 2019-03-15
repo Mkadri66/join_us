@@ -37,26 +37,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class UserController extends Controller
 {
-    /**
-     * Lists all users entities for the admin.
-     *
-     * @Route("/", name="user_index")
-     * 
-     * @Method("GET")
-     */
-    public function indexAction(Request $request)
-    {
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $em = $this->getDoctrine()->getManager();
-            $users = $em->getRepository('AppBundle:User')->findAll();     
-            return $this->render('user/index.html.twig', array(
-                'users' => $users
-            ));
-        } else {
-            return $this->redirectToRoute('user_dashboard');
-        }
-
-    }
 
     /**
      * Login redirect
