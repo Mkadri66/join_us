@@ -8,10 +8,9 @@
         <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet"> 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">  
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset( 'build/app.css' ) }}"/>
-
-        
+        <link rel="stylesheet" href="{{ asset( 'build/app.css' ) }}"/>       
     </head>
+    {# {{ dump(app.token.roles[0])}} #}
     <body class="container-fluid">
             <!-- Navigation -->
             <div id="nav-full-width" class="navbar-fixed-top">
@@ -29,8 +28,13 @@
                                     <a class="nav-link" href="/contact"> Contact</a>
                                 </li>
                                 {% if app.user %}
+                                    {% if app.token.roles[0].role == "ROLE_ADMIN"%}
+                                        <li class="nav-item col-md-2 offset-md-2"><a class="btn btn-info" href="{{ path('admin') }}"> Admin </a></li>
+                                    {% else %}
+                                        <li class="nav-item col-md-2 offset-md-2"></li>  
+                                    {% endif %}                                 
                                     {% if app.request.uri != 'utilisateur_dashboard' %}
-                                        <li class="nav-item col-md-2 offset-md-3"><a class="btn btn-outline-secondary" href="{{ path('user_dashboard') }}"> Dashboard </a></li>
+                                        <li class="nav-item col-md-2"><a class="btn btn-outline-secondary" href="{{ path('user_dashboard') }}"> Dashboard </a></li>
                                     {% endif %}
                                         </li class="nav-item col-md-2"><a class="btn btn-primary" href="{{ path('logout') }}"> Se deconnecter </a></li>
                                 {% else %}
