@@ -7,15 +7,20 @@
             <div class="col-md-10 offset-md-1" style="height:70vh ; background-color:white; padding-top: 30px;">
                 <h2 class="text-center"> Messages reçus </h2>
                 <hr>
-                <ul>
-                    {% for contact in contacts %}
-                        <li>
-                            <p> Contact : <a href="mailto:{{ contact.mail}}">{{ contact.mail}}</a></p>
-                            <p> Message : {{ contact.message}} </p>
-                        </li>     
-                        <hr>
-                    {% endfor %}   
-                </ul>
+                 {% if contacts %}
+                    <ul>
+                    
+                        {% for contact in contacts %}
+                            <li>
+                                <p> Contact : <a href="mailto:{{ contact.mail}}">{{ contact.mail}}</a></p>
+                                <p> Message : {{ contact.message}} (envoyé le {{ contact.sendAt|date('d/m/Y')}})</p>
+                            </li>     
+                            <hr>
+                        {% endfor %}   
+                    </ul>
+                {% else %}
+                    <p> Vous n'avez reçu aucun message.
+                {% endif %}
             </div>
         </div>
     </div>
