@@ -36,15 +36,41 @@ class HomeController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('AppBundle:User')->findAll(); 
-            $parties = $em->getRepository('PartyBundle:Party')->findAll();  
-
+            $parties = $em->getRepository('PartyBundle:Party')->findAll(); 
+            $contacts = $em->getRepository('ContactBundle:Contact')->findAll(); 
 
             $numberOfUsers = count($users);
             $numberOfParties = count($parties);   
 
             return $this->render('user/admin.html.twig', array(
                 'number_of_users' => $numberOfUsers,
-                'number_of_parties' => $numberOfParties
+                'number_of_parties' => $numberOfParties, 
+                'contacts' => $contacts
+            ));
+            
+        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('user_dashboard');
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+
+    }
+
+    /**
+    * Message received from contact form
+    *
+    * @Route("/admin/message", name="admin_message")
+    * 
+    */
+    public function MessageAction(Request $request)
+    {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $em = $this->getDoctrine()->getManager();
+            $users = $em->getRepository('AppBundle:User')->findAll(); 
+            $contacts = $em->getRepository('ContactBundle:Contact')->findAll(); 
+            return $this->render('user/admin_message.html.twig', array(
+                'users' => $users,
+                'contacts' => $contacts
             ));
             
         } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {

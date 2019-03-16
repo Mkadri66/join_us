@@ -5,7 +5,7 @@
     <div class="container admin">
 
 
-        <h1 class="text-center"> Partie administration </h1>
+  
 
         {# <div class="col-lg-6 text-center" style="height: 300px">
             <table class="table table-striped">
@@ -30,7 +30,7 @@
             </table>
         </div> #}
 
-        <div class="row">
+        {# <div class="row">
             <h2 class="text-center col-lg-12"> Chiffres clés </h2>
             <div class="col-lg-3 key_infos text-center">
                 <p> Nombre de joueurs inscrits :</p>
@@ -43,7 +43,44 @@
             <div class="col-lg-3 offset-lg-1"></div>
         </div>
 
+        {% for contact in contacts %}
+            <a href="mailto:{{ contact.mail}}">{{ contact.mail}}</a>
+            {{ contact.message}}
+        {% endfor %} #}
 
+        <div class="row">
+            <div class="col-lg-3 text-center admin_link" style="height:70vh ; background-color:white;">
+                <h3> Liens utiles </h3>
+                <hr>
+                <ul>
+                    <li><a href="{{ path('admin_message') }}"> Messages reçus </a></li>
+                    <li><a href=""> Liste des utilisateurs </a></li>
+                </ul>       
+            </div>
+            <div class="col-lg-8 offset-lg-1" style="height:70vh ; background-color:white;">
+                <div class="row admin_tab">
+                    <h2 class="text-center col-lg-12"> Bienvenue dans la partie administration </h2>
+                    <hr class="col-lg-12">
+                    <p class="text-center col-lg-12 key_infos_heading" > Chiffres clés </p>
+                    <hr>
+                    <div class="col-lg-3 key_infos text-center">
+                        <p> Nombre de joueurs inscrits :</p>
+                        <p>  {{ number_of_users }} </p>
+                    </div>
+                    <div class="col-lg-3 offset-lg-1 key_infos text-center">
+                        <p> Nombre de parties créées : </p>
+                        <p>  {{ number_of_parties }} </p>
+                    </div> 
+                    <div class="col-lg-3 offset-lg-1 key_infos text-center">
+                        <p> Nombre de messages reçus : </p>
+                        <p>  {{ contacts| length }} </p>
+                    </div>               
+                </div>
+            <div class="col-lg-3 offset-lg-1"></div>
+        </div>
+            </div>
+           
+        </div>
 
     </div>
 {% endblock %}

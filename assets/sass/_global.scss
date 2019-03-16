@@ -112,15 +112,32 @@ body{
 
 /*  --------------- ADMIN ---------------------- */
 .admin {
-    h2{
-        color: #009688;
+
+    padding-top: 40px;
+    .admin_tab {
+        padding-top: 40px;  
+        h2 {
+            color: #009688;
+            font-weight: bold;
+        }    
+        .key_infos_heading {
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .key_infos{
+            font-size : 18px;
+            background-color: white;
+        }
     }
-    .key_infos{
-        font-size : 24px;
-        background-color: white;
-       
+    .admin_link {
+        padding-top: 25px;
     }
 }
+
+.received_message {
+    margin-top: 40px;
+}
+
 
 
 /*  --------------- LOGIN ---------------------- */
@@ -189,7 +206,6 @@ body{
 
 /*  --------------- ABOUT ---------------------- */
 .about {
-    margin-top: 100px;
 
     h1{
         margin: 30px 0;

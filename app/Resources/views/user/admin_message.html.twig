@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container received_message"> 
+        <div class="row">
+            <div class="col-md-10 offset-md-1" style="height:70vh ; background-color:white; padding-top: 30px;">
+                <h2 class="text-center"> Messages reçus </h2>
+                <hr>
+                <ul>
+                    {% for contact in contacts %}
+                        <li>
+                            <p> Contact : <a href="mailto:{{ contact.mail}}">{{ contact.mail}}</a></p>
+                            <p> Message : {{ contact.message}} </p>
+                        </li>     
+                        <hr>
+                    {% endfor %}   
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
