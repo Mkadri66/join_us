@@ -3,58 +3,13 @@
 {% block body %}
 
     <div class="container admin">
-
-
-  
-
-        {# <div class="col-lg-6 text-center" style="height: 300px">
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Avatar</th>
-                        <th>Nom d'utilisateur</th>
-                        <th>Mail</th>
-                        <th>Ville</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for user in users %}
-                    <tr>
-                        <td><img class="avatar_party" src="{{ asset('uploads/avatars/' ~ user.url ) }}" class="mx-auto d-block" alt=""></td>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.city.name }}</td>                     
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div> #}
-
-        {# <div class="row">
-            <h2 class="text-center col-lg-12"> Chiffres clés </h2>
-            <div class="col-lg-3 key_infos text-center">
-                <p> Nombre de joueurs inscrits :</p>
-                <p>  {{ number_of_users }} </p>
-            </div>
-            <div class="col-lg-3 offset-lg-1 key_infos text-center">
-                <p> Nombre de parties créées : </p>
-                <p>  {{ number_of_parties }} </p>
-            </div>
-            <div class="col-lg-3 offset-lg-1"></div>
-        </div>
-
-        {% for contact in contacts %}
-            <a href="mailto:{{ contact.mail}}">{{ contact.mail}}</a>
-            {{ contact.message}}
-        {% endfor %} #}
-
         <div class="row">
             <div class="col-lg-3 text-center admin_link" style="height:70vh ; background-color:white;">
                 <h3> Liens utiles </h3>
                 <hr>
                 <ul>
                     <li><a href="{{ path('admin_message') }}"> Messages reçus </a></li>
-                    <li><a href=""> Liste des utilisateurs </a></li>
+                    <li><a href="{{ path('admin_users')}}"> Liste des utilisateurs </a></li>
                 </ul>       
             </div>
             <div class="col-lg-8 offset-lg-1" style="height:70vh ; background-color:white;">
@@ -74,13 +29,11 @@
                     <div class="col-lg-3 offset-lg-1 key_infos text-center">
                         <p> Nombre de messages reçus : </p>
                         <p>  {{ contacts| length }} </p>
-                    </div>               
-                </div>
-            <div class="col-lg-3 offset-lg-1"></div>
-        </div>
+                    </div>
+                </div>               
             </div>
-           
-        </div>
-
+        </div>            
     </div>
+
+
 {% endblock %}

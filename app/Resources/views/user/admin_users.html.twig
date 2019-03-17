@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container admin">
+        <h2 class="text-center"> Utilisateurs de l'application </h2>
+        <div class="col-lg-12 text-center">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Avatar</th>
+                        <th>Nom d'utilisateur</th>
+                        <th>Mail</th>
+                        <th>Ville</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td><img class="avatar_party" src="{{ asset('uploads/avatars/' ~ user.url ) }}" class="mx-auto d-block" alt=""></td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.city.name }}</td>                     
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

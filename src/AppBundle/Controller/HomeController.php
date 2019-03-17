@@ -80,4 +80,28 @@ class HomeController extends Controller
         }
 
     }
+
+    
+    /**
+    * All users of application
+    *
+    * @Route("/admin/users", name="admin_users")
+    * 
+    */
+    public function UsersAction(Request $request)
+    {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $em = $this->getDoctrine()->getManager();
+            $users = $em->getRepository('AppBundle:User')->findAll(); 
+            return $this->render('user/admin_users.html.twig', array(
+                'users' => $users,
+            ));
+            
+        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('user_dashboard');
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+
+    }
 }

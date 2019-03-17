@@ -38,10 +38,11 @@
 					{# {% if  role  == 1  %}
     					<a href="{{ path('utilisateur_index') }}"> Liste des utilisateurs  </a> <br>
 					{% endif %} #}
+					<h4> Mon compte </h4>
 					{% if is_granted('ROLE_ADMIN') %}
 						<a href="{{ path('admin') }}"> Partie administration  </a> </br>
 					{% endif %}	
-
+					
 					<a href="{{ path('party_new') }}"> Creer une partie </a> </br>
 					<a href="{{ path('user_edit', { 'id': app.user.id }) }}" > Editer mon compte</a> <br>
 					 <a href="{{ path('edit_avatar', { 'id':app.user.id } ) }}" > Changer d'avatar </a> <br>
