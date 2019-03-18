@@ -14,68 +14,66 @@
             <div class="form-group">
 
                 {# Génération du label. #}
-                {{ form_label(form.address, "Adresse de la partie", {'label_attr': {'class': 'col-md-7 offset-md-4 control-label'}}) }}
-                {# Génération de l'erreur  #}
+                {{ form_label(form.sport, "Sport", {'label_attr': {'class': 'col-md-7 offset-md-4 control-label'}}) }}
                 
                 <div class="col-sm-12">
                     {# Génération de l'input. #}
-                    {{ form_widget(form.address, {'attr': {'class': 'form-control col-md-7 offset-md-4 '}}) }}
-                    {{ form_errors(form.address, {'attr': {'class': 'form_error'}}) }}
+                    {{ form_widget(form.sport, {'attr': {'class': 'form-control col-md-7 offset-md-4 '}}) }}
+                    {# Génération de l'erreur  #}
+                    {{ form_errors(form.sport, {'attr': {'class': 'form_error'}}) }}
                 </div>
-
+                
                 {# Génération du label. #}
                 {{ form_label(form.city, "Ville", {'label_attr': {'class': 'col-md-7 offset-md-4 control-label'}}) }}
-                {# Génération de l'erreur  #}
+
                 
                 <div class="col-sm-12">
                     {# Génération de l'input. #}
                     {{ form_widget(form.city, {'attr': {'class': 'form-control col-md-7 offset-md-4 '}}) }}
+                    {# Génération de l'erreur  #}
                     {{ form_errors(form.city, {'attr': {'class': 'form_error'}}) }}
+                </div>
+                {# Génération du label. #}
+                {{ form_label(form.address, "Adresse de la partie", {'label_attr': {'class': 'col-md-7 offset-md-4 control-label'}}) }}             
+                
+                <div class="col-sm-12">
+                    {# Génération de l'input. #}
+                    {{ form_widget(form.address, {'attr': {'class': 'form-control col-md-7 offset-md-4 '}}) }}
+                    {# Génération de l'erreur  #}
+                    {{ form_errors(form.address, {'attr': {'class': 'form_error'}}) }}
                 </div>
 
 
                 {# Génération du label. #}
                 {{ form_label(form.date, "Date", {'label_attr': {'class': 'col-md-7 offset-md-4 control-label'}}) }}
-                {# Génération de l'erreur  #}
                 
                 <div class="col-sm-12">        
                     {# Génération de l'input. #}
-                    {{ form_widget(form.date, {'attr': {'class': 'form-control col-md-7 offset-md-4 datetimepicker-input'}}) }}
+                    {{ form_widget(form.date, {'attr': {'class': 'form-control col-md-7 offset-md-4 datetimepicker-input', 'min':"now"|date("Y-m-d")}}) }}
+                    {# Génération de l'erreur  #}
                     {{ form_errors(form.date, {'attr': {'class': 'form_error'}}) }}
                 </div>
 
                 {# Génération du label. #}
                 {{ form_label(form.schedule, "Horaire", {'label_attr': {'class': 'col-md-7 offset-md-4 control-label'}}) }}
-                {# Génération de l'erreur  #}
                 
                 <div class="col-sm-12">        
                     {# Génération de l'input. #}
                     {{ form_widget(form.schedule, {'attr': {'class': 'form-control col-md-7 offset-md-4 '}}) }}
+                    {# Génération de l'erreur  #}
                     {{ form_errors(form.schedule, {'attr': {'class': 'form_error'}}) }}
                 </div>
 
 
                 {# Génération du label. #}
                 {{ form_label(form.totalPlayers, "Total joueurs", {'label_attr': {'class': 'col-md-7 offset-md-4  control-label'}}) }}
-                {# Génération de l'erreur  #}
             
                 <div class="col-sm-12">
                     {# Génération de l'input. #}
                     {{ form_widget(form.totalPlayers, {'attr': {'class': 'form-control col-md-7 offset-md-4 ', 'min': 2}}) }}
+                    {# Génération de l'erreur  #}
                     {{ form_errors(form.totalPlayers, {'attr': {'class': 'form_error'}}) }}
                 </div>
-
-                {# Génération du label. #}
-                {{ form_label(form.sport, "Sport", {'label_attr': {'class': 'col-md-7 offset-md-4 control-label'}}) }}
-                {# Génération de l'erreur  #}
-                
-                <div class="col-sm-12">
-                    {# Génération de l'input. #}
-                    {{ form_widget(form.sport, {'attr': {'class': 'form-control col-md-7 offset-md-4 '}}) }}
-                    {{ form_errors(form.sport, {'attr': {'class': 'form_error'}}) }}
-                </div>
-
-            {# {{ form_rest(form) }} #}
             </div>
             {{ form_widget(form.valider, {'attr': {'class': 'col-md-4 offset-md-5  btn btn-primary'}}) }}
 
@@ -92,9 +90,9 @@
     {{ parent() }}
     {# <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css"> #}
 
-      <script type="text/javascript">
+      {# <script type="text/javascript">
             $(document).ready(function () {
                 $('#partybundle_party_id').datetimepicker();
             });
-    </script> 
+    </script>  #}
 {% endblock %}

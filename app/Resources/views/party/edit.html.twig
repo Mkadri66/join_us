@@ -9,14 +9,33 @@
         <h1 class="text-center">Editez votre partie</h1>
 
         <div class="form-group">
+            {# Génération du label. #}
+            {{ form_label(edit_form.sport, "Sport", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.sport, {'attr': {'class': 'form-control'}}) }}
+                {# Génération de l'erreur  #}
+                {{ form_errors(edit_form.sport, {'attr': {'class': 'form_error'}}) }}
+            </div>
+
+            {# Génération du label. #}
+            {{ form_label(edit_form.city, "Ville", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+           
+            <div class="col-sm-12">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.city, {'attr': {'class': 'form-control'}}) }}
+                 {# Génération de l'erreur  #}
+                {{ form_errors(edit_form.city, {'attr': {'class': 'form_error'}}) }}
+            </div>
 
             {# Génération du label. #}
             {{ form_label(edit_form.address, "Adresse", {'label_attr': {'class': 'col-sm-6 control-label'}}) }}
-            {# Génération de l'erreur  #}
-            
-            <div class="col-sm-12">        
+
+           <div class="col-sm-12">        
                 {# Génération de l'input. #}
                 {{ form_widget(edit_form.address, {'attr': {'class': 'form-control'}}) }}
+                {# Génération de l'erreur  #}
                 {{ form_errors(edit_form.address, {'attr': {'class': 'form_error'}}) }}
             </div>
 
@@ -50,28 +69,6 @@
                 {{ form_widget(edit_form.totalPlayers, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(edit_form.totalPlayers, {'attr': {'class': 'form_error'}}) }}
             </div>
-
-            {# Génération du label. #}
-            {{ form_label(edit_form.sport, "Sport", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-            {# Génération de l'erreur  #}
-            
-            <div class="col-sm-12">
-                {# Génération de l'input. #}
-                {{ form_widget(edit_form.sport, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.sport, {'attr': {'class': 'form_error'}}) }}
-            </div>
-
-            {# Génération du label. #}
-            {{ form_label(edit_form.city, "Ville", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-            {# Génération de l'erreur  #}
-            
-            <div class="col-sm-12">
-                {# Génération de l'input. #}
-                {{ form_widget(edit_form.city, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(edit_form.city, {'attr': {'class': 'form_error'}}) }}
-            </div>
-
-           {# {{ form_rest(form) }} #}
         </div>
         <div class="text-center">
             {{ form_widget(edit_form.valider, {'attr': {'class': 'btn btn-primary'}}) }}             
