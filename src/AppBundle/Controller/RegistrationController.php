@@ -44,6 +44,8 @@ class RegistrationController extends BaseController
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
 
                 $file = $user->getAvatar();
+                // var_dump($user);
+                // die();
                 // On nomme le fichier avec le nom d'user et l'extension du fichier uploader
                 $fileName = $user->getUsername() . '.' . $file->guessExtension();
                 $user->setUrl($fileName);

@@ -22,10 +22,10 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         
-        // $builder
+        $builder
 
-        //     ->add('city',       EntityType::class, array('label' => 'ville','class'=> City::class, 'choice_label'=> 'name'))
-        //     ->add('avatar',     FileType::class , array( 'label' => 'Avatar'))
+            ->add('city',       EntityType::class, array('label' => 'ville','class'=> City::class, 'choice_label'=> 'name'))
+            ->add('avatar',     FileType::class , array( 'label' => 'Avatar'));
         //     ->add('modifier',    SubmitType::class);
 
     }
