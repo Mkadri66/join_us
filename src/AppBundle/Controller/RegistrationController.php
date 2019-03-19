@@ -3,14 +3,15 @@
 
 namespace AppBundle\Controller;
 
+use FOS\UserBundle\FOSUserEvents;
+use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Event\UserEvent;
+use Symfony\Component\HttpFoundation\Request;
+use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
-use FOS\UserBundle\Event\GetResponseUserEvent;
-use Symfony\Component\HttpFoundation\Request;
-use FOS\UserBundle\FOSUserEvents;
-use FOS\UserBundle\Event\UserEvent;
-use FOS\UserBundle\Event\FormEvent;
-use FOS\UserBundle\Event\FilterUserResponseEvent;
 
 class RegistrationController extends BaseController
 {
@@ -65,7 +66,12 @@ class RegistrationController extends BaseController
 
                 // return $response;
 
-                return $this->redirectToRoute('user_dashboard');
+                $session = new Session();
+                $session = $request->getSession();
+                $session->start();
+                $session->getFlashBag()->add('registration_success', 'Votre profil a bien été créé vous pouvez maintenant vous connecter.');
+
+                return $this->redirectToRoute('fos_user_security_login');
             }
 
             $event = new FormEvent($form, $request);

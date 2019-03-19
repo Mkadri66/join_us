@@ -249,7 +249,6 @@ class UserController extends Controller
         }
     }
 
-
     /**
      * Creates a form to delete a user entity.
      *
