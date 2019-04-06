@@ -62,7 +62,7 @@
 				<p class="font-weight-bold"> Choisissez un sport pour voir les parties disponibles :  </p>
 					<ul class="row sports_cat col-md-12">							
 						{% for sport in sports %}
-							<li class="col-11 offset-1 col-md-2 text-center">
+							<li class="col-md-3">
 								<a href="{{ path('party_' ~ sport.name ~ '')}}" class="sports_libelle sports_dashboard {{sport.name }}">  {{ sport.name|capitalize}}</a>
 							</li>
 						{% endfor %}

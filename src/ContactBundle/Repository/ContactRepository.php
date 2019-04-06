@@ -10,4 +10,28 @@ namespace ContactBundle\Repository;
  */
 class ContactRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllMessages()
+    {
+    //     $conn = $this->getEntityManager()->getConnection();
+
+    //     $sql = '
+    //             SELECT * FROM contact c
+    //             ORDER BY send_at DESC
+    //             ';
+    //     $stmt = $conn->prepare($sql);
+    //     $stmt->execute();
+    //     // returns an array of Product objects
+    //    return $stmt->fetchAll();
+
+    $entityManager = $this->getEntityManager();
+
+    $query = $entityManager->createQuery(
+        'SELECT c
+        FROM ContactBundle\Entity\Contact c
+        ORDER BY c.sendAt DESC'
+    );
+
+    // returns an array of Product objects
+    return $query->execute();
+    }
 }

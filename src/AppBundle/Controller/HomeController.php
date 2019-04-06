@@ -67,7 +67,7 @@ class HomeController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('AppBundle:User')->findAll(); 
-            $contacts = $em->getRepository('ContactBundle:Contact')->findAll(); 
+            $contacts = $em->getRepository('ContactBundle:Contact')->findAllMessages(); 
             return $this->render('user/admin_message.html.twig', array(
                 'users' => $users,
                 'contacts' => $contacts
