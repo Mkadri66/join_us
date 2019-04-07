@@ -46,8 +46,7 @@ class HomeController extends Controller
                 'number_of_users' => $numberOfUsers,
                 'number_of_parties' => $numberOfParties, 
                 'contacts' => $contacts
-            ));
-            
+            ));   
         } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('user_dashboard');
         } else {
@@ -67,18 +66,18 @@ class HomeController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('AppBundle:User')->findAll(); 
-            $contacts = $em->getRepository('ContactBundle:Contact')->findAllMessages(); 
+            $contacts = $em->getRepository('ContactBundle:Contact')->findLastFivesMessages(); 
+
             return $this->render('user/admin_message.html.twig', array(
                 'users' => $users,
                 'contacts' => $contacts
-            ));
-            
+            ));           
         } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('user_dashboard');
         } else {
             return $this->redirectToRoute('fos_user_security_login');
         }
-
+        // TODO - Pagination (fixtures - create many message)
     }
 
     

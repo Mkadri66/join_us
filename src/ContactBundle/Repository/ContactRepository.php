@@ -10,7 +10,7 @@ namespace ContactBundle\Repository;
  */
 class ContactRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllMessages()
+    public function findLastFivesMessages()
     {
     //     $conn = $this->getEntityManager()->getConnection();
 
@@ -29,7 +29,7 @@ class ContactRepository extends \Doctrine\ORM\EntityRepository
         'SELECT c
         FROM ContactBundle\Entity\Contact c
         ORDER BY c.sendAt DESC'
-    );
+    )->setMaxResults(5);
 
     // returns an array of Product objects
     return $query->execute();
