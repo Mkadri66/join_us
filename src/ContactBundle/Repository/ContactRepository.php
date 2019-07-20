@@ -12,7 +12,6 @@ class ContactRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findLastFivesMessages()
     {
-
     $entityManager = $this->getEntityManager();
 
     $query = $entityManager->createQuery(
@@ -21,7 +20,6 @@ class ContactRepository extends \Doctrine\ORM\EntityRepository
         ORDER BY c.sendAt DESC'
     )->setMaxResults(5);
 
-    // returns an array of Product objects
     return $query->execute();
     }
 }
