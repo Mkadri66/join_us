@@ -4,7 +4,7 @@
 
     <div class="container received_message"> 
         <div class="row">
-            <div class="col-md-10 offset-md-1" style="height:70vh ; background-color:white; padding-top: 30px;">
+            <div class="col-md-10 offset-md-1" style="background-color:white; padding-top: 30px;">
                 <h2 class="text-center"> Messages reçus </h2>
                 <hr>
                  {% if contacts %}
@@ -12,10 +12,11 @@
                     
                         {% for contact in contacts %}
                             <li>
-                                <p> Contact : <a href="mailto:{{ contact.mail}}">{{ contact.mail}}</a></p>
-                                <p> Message : {{ contact.message}} (envoyé le {{ contact.sendAt|date('d/m/Y')}})</p>
+                                <p> <strong>Contact</strong> : <a href="mailto:{{ contact.mail}}">{{ contact.mail}}</a></p>
+                                <p> <strong>Message</strong> : {{ contact.message}} (envoyé le {{ contact.sendAt|date('d/m/Y')}})</p>
+                                <hr>
                             </li>     
-                            <hr>
+                          
                         {% endfor %}   
                     </ul>
                 {% else %}

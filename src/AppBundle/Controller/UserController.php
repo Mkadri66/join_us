@@ -109,11 +109,11 @@ class UserController extends Controller
 
             if($user->getId() == $editUrlId) {
                 $editForm = $this->createFormBuilder($user)              
-                ->add('email',          TextType::class)
-                ->add('username',       TextType::class)
-                ->add('city',           EntityType::class, array('label' => 'Ville','class'=> City::class, 'choice_label'=> 'name'))
-                ->add('valider',        SubmitType::class)
-                ->getForm();
+                                 ->add('email',          TextType::class)
+                                 ->add('username',       TextType::class)
+                                 ->add('city',           EntityType::class, array('label' => 'Ville','class'=> City::class, 'choice_label'=> 'name'))
+                                 ->add('valider',        SubmitType::class)
+                                 ->getForm();
 
                 $editForm->handleRequest($request);
             

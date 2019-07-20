@@ -1,6 +1,6 @@
-city_city:
-    resource: "@CityBundle/Controller/CityController.php"
-    type:     annotation
+# city_city:
+#     resource: "@CityBundle/Controller/CityController.php"
+#     type:     annotation
 
 app:
     resource: '@AppBundle/Controller/'

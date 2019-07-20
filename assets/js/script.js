@@ -58,8 +58,4 @@ $(document).ready(function () {
         event.preventDefault()
     });
 
-    $('.alert').alert()
-    // $( "#partybundle_party_date" ).datetimepicker({
-    //     minDate: +2
-    // });
 }); 
